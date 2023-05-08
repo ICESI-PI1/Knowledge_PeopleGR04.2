@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\PC\OneDrive - Universidad Icesi (@icesi.edu.co)\Semestre 5\proyecto Int\Knowledge-People2\venv
+set VIRTUAL_ENV=C:\Users\Windows 10\ProyectoIntegrador\Knowledge_PeopleGR04.2\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
