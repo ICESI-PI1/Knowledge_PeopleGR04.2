@@ -1,0 +1,26 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Log In{% endblock %}
+
+{% block content %}
+<link href="{% static 'login.css' %}" rel="stylesheet">
+<link href="{% static '_base.css' %}" rel="stylesheet">
+<section class="container-fluid " id="rowb">
+  <div class="row w-100 mx-auto" id="rowb">
+    <div class="col-lg-6 d-none d-lg-block bgimage" id="colimg">
+      <img src="../../media/icons/stud.png"  class="img-fluid d-none d-md-block" id="imgex">
+    </div>
+    <div class ="col-lg-6 px-5 ">
+
+      <h3 class="text-center py-5 mt-5">Inicio de Sesion</h3>
+
+          <form class=" form-control-sm mt-5" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn" id="registerbtn">Login</a></button>
+        </form>
+      </div>
+  </div>
+</section>
+
+{% endblock %}
