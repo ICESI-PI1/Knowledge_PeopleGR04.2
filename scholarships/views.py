@@ -55,3 +55,10 @@ def sigin(request):
             login(request,user)
             return redirect('menu')
             """
+from django.views import View
+from django.shortcuts import render
+
+class ShowMenu(View):
+    def get(self,request):
+        return render(request,'menu.html')
+

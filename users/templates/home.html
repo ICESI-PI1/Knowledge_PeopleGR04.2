@@ -8,6 +8,10 @@
 <link href="{% static 'home.css' %}" rel="stylesheet">
 {% if user.is_authenticated %}
   Welcome, {{ user.email }}!
+  <script>
+    window.location.href = "{% url 'scholarships:showmenu' %}";
+  </script>
+
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
 <section class="container-fluid " id="rowb">

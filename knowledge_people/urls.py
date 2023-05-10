@@ -18,15 +18,6 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
 
-"""urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('home/', views.home, name='home'),
-    path('signup/', views.signup, name='signup'),
-    path('menu/', views.menu, name='menu'),
-    path('logout/', views.signout, name='logout'),
-    path('sigin/', views.sigin, name='sigin'),
-]"""
-
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -35,6 +26,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("users/", include("users.urls")),
     path("users/", include("django.contrib.auth.urls")),
+    path('scholarships/',include('scholarships.urls',namespace="scholarships")),
 ]
 
 if settings.DEBUG:
