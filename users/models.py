@@ -58,3 +58,50 @@ class User(AbstractBaseUser, PermissionsMixin):
        return self.is_superuser
     def has_perm(self, perm, obj=None):
        return self.is_superuser
+    
+
+class NaturalDonor(User):
+    # specific fields natural donor
+    pass
+
+    def __str__(self):
+        return self.first_name+ " " + self.last_name 
+    
+    class Meta:
+        verbose_name = 'NaturalDonor'
+
+class LegalDonor(User):
+    # specific fields legal donor
+    name_company = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name_company 
+    
+    class Meta:
+        verbose_name = 'LegalDonor'
+
+class Beneficiary(User):
+    # beneficiary specific fields
+    birth_date = models.DateField()
+    optionsGender = (('F','Femenino'),
+                     ('M','Masculino'),
+                     ('O','Otro'))
+    gender = models.CharField(max_length=15,choices=optionsGender,null=False) 
+
+    def __str__(self):
+        return self.first_name+ " " + self.last_name    
+    
+    class Meta:
+        verbose_name = 'Beneficiary'
+        verbose_name_plural = 'Beneficiaries'
+
+
+class Institution(User):
+    optionsInstitution = (('Tecnicas','Tecnicas'),
+                              ('Tecnologas','Tecnologas'),
+                                   ('Universitaria','Universitaria'))
+     
+    type_institution = models.CharField(max_length=200,choices=optionsInstitution,null=False)
+    name_institution = models.CharField(max_length=80,null=False)
+    location = models.CharField(max_length=70)
+    money_donation = models.IntegerField(default=0)
