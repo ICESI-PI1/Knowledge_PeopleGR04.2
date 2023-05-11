@@ -97,7 +97,7 @@ class InsertScholarship(View):
             ben = Beneficiary.objects.get(user_ptr_id=id_ben)
             scolarship = Scholarship(stratum=levels,photocopy_id=picturedoc, motivational_letter=letter,
                                     certificate=picturecer,value_period=valuesem,icfes_score=icfes,period_current=timeA,
-                                    program_adm=program,application_type=optionnew,state='En Revision',
+                                    program_adm=program,application_type=optionnew,state='P',
                                     total_periods=totalP,active='Activo',date_application=now,id_user=ben)
             scolarship.save()
         
