@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import Beneficiary, Institution
+from users.models import Beneficiary, Institution, Donor
 # Create your models here.
 
 # Create your models here.
@@ -16,7 +16,7 @@ class Scholarship(models.Model):
     optionsapplication = (('NI','Nuevo Ingreso'),
               ('A','Antiguo'))
     application_type = models.CharField(max_length=40,choices=optionsapplication,null=False)
-    optionsstate = (('R','En Revision'),
+    optionsstate = (('P','Pendiente'),
                      ('A','Aceptada'),
                      ('R','Rechazada'))
     state = models.CharField(max_length=30,choices=optionsstate,null=False)
@@ -39,8 +39,14 @@ class Transaction(models.Model):
                               ('Cards','Card'),
                                    ('PayPal','PayPal'))
      
-    type_pay = models.CharField(max_length=200,choices=optionspay,null=False)       
-    scolarship_don = models.ForeignKey(Scholarship, on_delete=models.CASCADE, null=True, blank=True, related_name='donations')
+    type_pay = models.CharField(max_length=200,choices=optionspay,null=False) 
 
-    # relación opcional con Institucion
-    institution_don = models.ForeignKey(Institution, on_delete=models.CASCADE, null=True, blank=True, related_name='donations')
+    # relation with Donor or Insitution
+    donor_institution = models.ForeignKey(Institution, on_delete=models.CASCADE,null=True, blank=True, related_name="donator")
+    donor_user = models.ForeignKey(Donor, on_delete=models.CASCADE,null=True, blank=True, related_name="donator")
+
+    # optional relation with Transaction  
+    scolarship_donation = models.ForeignKey(Scholarship, on_delete=models.CASCADE, null=True, blank=True, related_name='donations')
+
+    # optional relation with Institution
+    institution_donation = models.ForeignKey(Institution, on_delete=models.CASCADE, null=True, blank=True, related_name='donations')
