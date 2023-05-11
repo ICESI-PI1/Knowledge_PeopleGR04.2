@@ -60,25 +60,14 @@ class User(AbstractBaseUser, PermissionsMixin):
        return self.is_superuser
     
 
-class NaturalDonor(User):
-    # specific fields natural donor
+class Donor(User):
     pass
 
     def __str__(self):
         return self.first_name+ " " + self.last_name 
     
     class Meta:
-        verbose_name = 'NaturalDonor'
-
-class LegalDonor(User):
-    # specific fields legal donor
-    name_company = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name_company 
-    
-    class Meta:
-        verbose_name = 'LegalDonor'
+        verbose_name = 'Donor'
 
 class Beneficiary(User):
     # beneficiary specific fields
@@ -102,6 +91,5 @@ class Institution(User):
                                    ('Universitaria','Universitaria'))
      
     type_institution = models.CharField(max_length=200,choices=optionsInstitution,null=False)
-    name_institution = models.CharField(max_length=80,null=False)
     location = models.CharField(max_length=70)
     money_donation = models.IntegerField(default=0)
