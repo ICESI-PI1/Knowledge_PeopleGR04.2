@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import Beneficiary, Institution, Donor
+from users.models import Beneficiary, Institution, NaturalDonor, User
 # Create your models here.
 
 # Create your models here.
@@ -41,9 +41,9 @@ class Transaction(models.Model):
      
     type_pay = models.CharField(max_length=200,choices=optionspay,null=False) 
 
-    # relation with Donor or Insitution
-    donor_institution = models.ForeignKey(Institution, on_delete=models.CASCADE,null=True, blank=True, related_name="donator")
-    donor_user = models.ForeignKey(Donor, on_delete=models.CASCADE,null=True, blank=True, related_name="donator")
+    # relation with User donor
+   
+    donor_user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True, related_name="donator")
 
     # optional relation with Transaction  
     scolarship_donation = models.ForeignKey(Scholarship, on_delete=models.CASCADE, null=True, blank=True, related_name='donations')

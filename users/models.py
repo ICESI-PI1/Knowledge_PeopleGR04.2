@@ -37,6 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_login= models.DateTimeField(auto_now_add=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now_add=True)
+    contact = models.CharField(max_length=15)
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -60,14 +61,23 @@ class User(AbstractBaseUser, PermissionsMixin):
        return self.is_superuser
     
 
-class Donor(User):
+class NaturalDonor(User):
     pass
 
     def __str__(self):
         return self.name
     
     class Meta:
-        verbose_name = 'Donor'
+        verbose_name = '    NaturalDonor'
+
+class LegalDonor(User):
+    description = models.TextField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name = 'LegalDonor'
 
 class Beneficiary(User):
     # beneficiary specific fields
@@ -78,7 +88,7 @@ class Beneficiary(User):
     gender = models.CharField(max_length=15,choices=optionsGender,null=False) 
 
     def __str__(self):
-        return self.name + " " + self.email    
+        return self.name + " email: " + self.email    
     
     class Meta:
         verbose_name = 'Beneficiary'
@@ -86,10 +96,18 @@ class Beneficiary(User):
 
 
 class Institution(User):
-    optionsInstitution = (('Tecnicas','Tecnicas'),
-                              ('Tecnologas','Tecnologas'),
-                                   ('Universitaria','Universitaria'))
-     
-    type_institution = models.CharField(max_length=200,choices=optionsInstitution,null=False)
-    location = models.CharField(max_length=70)
+
+    description = models.TextField(max_length=255)
+    TYPE_CHOICES = (
+        ('Tecnica', 'Tecnica'),
+        ('Tecnologica', 'Tecnologica'),
+        ('Pregrado', 'Pregrado'),
+        ('Posgrado','Posgrado')
+    )
+    type_institution = models.CharField(
+        max_length=255,
+        blank = False,
+    )
+    address = models.CharField(max_length=100)
+    city = models.CharField(max_length=70)
     money_donation = models.IntegerField(default=0)

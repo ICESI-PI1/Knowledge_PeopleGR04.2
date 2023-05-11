@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 
-from .models import Donor, Beneficiary, User
+from .models import NaturalDonor, Beneficiary, User
 
 
 
@@ -61,7 +61,7 @@ class CustomUserCreationForm(UserCreationForm):
     }))
 
     class Meta:
-        model = Donor
+        model = NaturalDonor
         fields = ("email","name","idType", 'numID', 'role','profilePicture')
         labels = {
             "email": "Correo electrónico",
