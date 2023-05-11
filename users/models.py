@@ -64,7 +64,7 @@ class Donor(User):
     pass
 
     def __str__(self):
-        return self.first_name+ " " + self.last_name 
+        return self.name
     
     class Meta:
         verbose_name = 'Donor'
@@ -78,7 +78,7 @@ class Beneficiary(User):
     gender = models.CharField(max_length=15,choices=optionsGender,null=False) 
 
     def __str__(self):
-        return self.first_name+ " " + self.last_name    
+        return self.name + " " + self.email    
     
     class Meta:
         verbose_name = 'Beneficiary'
