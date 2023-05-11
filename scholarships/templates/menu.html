@@ -3,5 +3,8 @@
 <h1>menu</h1>
 {% if user.is_authenticated %}
 <h2> hola guapito</h2>
+<p><a href="{% url 'logout' %}">Log Out</a></p>
+
+<a href="../newapplication/">Nueva Solicitud</a>
 {% endif %}
 {% endblock %}
