@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 
-from .models import User
+from .models import Donor, Beneficiary, User
 
 
 
@@ -61,7 +61,7 @@ class CustomUserCreationForm(UserCreationForm):
     }))
 
     class Meta:
-        model = User
+        model = Donor
         fields = ("email","name","idType", 'numID', 'role','profilePicture')
         labels = {
             "email": "Correo electrónico",
@@ -72,6 +72,28 @@ class CustomUserCreationForm(UserCreationForm):
             "profilePicture": "Foto de perfíl"
         }
 
+
+class CustomUserCreationBenForm(CustomUserCreationForm):
+    birth_date = forms.DateField(label='Fecha de Nacimiento', widget=forms.DateInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Ingrese su fecha de nacimiento',
+        'type': 'date',
+    }))
+    optionsGender = (('F','Femenino'),
+                     ('M','Masculino'),
+                     ('O','Otro'))
+
+    gender = forms.ChoiceField(label='Genero', widget=forms.Select(attrs={
+        'class': 'form-control'
+    }), choices=optionsGender)
+
+    class Meta:
+        model = Beneficiary
+        fields = ("email","name","password1","password2","idType", 'numID', 'role','profilePicture','gender',
+                  'birth_date')
+         
+
+    
 
 class CustomUserChangeForm(UserChangeForm):
 
