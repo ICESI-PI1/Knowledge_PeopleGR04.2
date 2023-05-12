@@ -6,6 +6,7 @@ app_name = 'users'
 urlpatterns = [path("signupBen/", views.SignUpBen.as_view(), name="signupb"), 
                path("signupDon/", views.SignUpDon.as_view(), name="signupd"), 
                path("sigin/", views.SigIn.as_view(),name="sigin"), 
+               path("menu/", views.SigIn.as_view(),name="menu"), 
                 path('beneficiaries/<int:pk>/update/', views.BeneficiaryUpdateView.as_view(), name='beneficiary_update'),
                 path('naturaldonors/<int:pk>/update/', views.NaturalDonorUpdateView.as_view(), name='natural_donor_update'),
                 path('legaldonors/<int:pk>/update/', views.LegalDonorUpdateView.as_view(), name='legal_donor_update'),
