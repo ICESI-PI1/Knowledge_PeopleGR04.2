@@ -20,6 +20,16 @@ class LookApplication(View):
         data = {"scholarships":scholarship}
         return render(request,'historyapps.html',data)
     
+class ActiveSolicitud(View):
+    def get(self,request):
+        id_ben = request.user.id
+        datos_solicitud = Scholarship.objects.filter(id_user = id_ben, active = "AC")
+        
+        contexto = {
+            'solicitud_activa': datos_solicitud,
+        }
+        return render(request, 'ActiveSolicitud.html', contexto)
+    
 class InsertScholarship(View):
     def post(self,request):
         if request.method == 'POST':
@@ -49,7 +59,7 @@ class InsertScholarship(View):
             scolarship = Scholarship(stratum=levels,photocopy_id=picturedoc, motivational_letter=letter,
                                     certificate=picturecer,value_period=valuesem,icfes_score=icfes,period_current=timeA,
                                     program_adm=program,application_type=optionnew,state='P',
-                                    total_periods=totalP,active='Activo',date_application=now,id_user=ben)
+                                    total_periods=totalP,active='AC',date_application=now,id_user=ben)
             scolarship.save()
         
             return render(request,'menu.html')
