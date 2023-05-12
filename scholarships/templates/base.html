@@ -208,14 +208,14 @@
                         <div class="row">
                             <div class="col-md-12" id="profiles">
                                 <div class="row">
-                                    <div class="col-md-4" id="profile_picture">
-                                        <img src="../../media/images/Allura Avatar.png" alt="No Encontrada" />
+                                    <div class="col-md-4" >
+                                        <img src="/media/{{ user.profilePicture }}" class="img-fluid" alt="noimage" style="max-width:4rem; max-height:3rem; margin-top:0.7rem; margin-left:0.7rem; border-radius:10px;">
                                     </div>
                                     <div class="col-md-6" id="profile_names">
                                         <label for="name" id="notification">
-                                                            <p>
-                                                                Danna E.
-                                                            </p>
+                                            <p style="font-weight: bold;">
+                                                {{ user.name }}
+                                            </p>
                                                         </label>
                                     </div>
                                     <div class="col-md-2" id="perfil_dropdown">
@@ -228,7 +228,7 @@
                                             <li>
                                                 <hr class="dropdown-divider">
                                             </li>
-                                            <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                                            <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
                                         </ul>
                                     </div>
                                 </div>
