@@ -8,12 +8,14 @@ from .managers import UserManager
 class User(AbstractBaseUser, PermissionsMixin):
     username=None
     BENEFICIARY=1
-    DONOR=2
-    INSTITUTION=3
+    NATURALDONOR=2
+    LEGALDONOR=3
+    INSTITUTION=4
 
     ROLE_CHOICE=(
           (BENEFICIARY, 'Beneficiario'),
-          (DONOR,'Donante'),
+          (NATURALDONOR,'Donante natural'),
+          (LEGALDONOR,'Donante juridico'),
           (INSTITUTION,'Institución'),
     )
 

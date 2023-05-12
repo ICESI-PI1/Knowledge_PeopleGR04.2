@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Beneficiary Details</h1>
+  <p><strong>Name:</strong> {{ beneficiary.name }}</p>
+  <p><strong>Email:</strong> {{ beneficiary.email }}</p>
+  <p><strong>Birth Date:</strong> {{ beneficiary.birth_date }}</p>
+  <!-- Mostrar el resto de los campos relevantes -->
+{% endblock %}

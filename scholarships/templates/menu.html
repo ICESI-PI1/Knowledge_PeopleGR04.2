@@ -3,8 +3,20 @@
 <h1>menu</h1>
 {% if user.is_authenticated %}
 <h2> hola guapito</h2>
+{{ user.get_role_display }}
 <p><a href="{% url 'logout' %}">Log Out</a></p>
+<!-- Otros elementos del menú -->
+{% endif %}
 
+{% if user.role == user.BENEFICIARY %}
+<a  href="{% url 'scholarships:beneficiary_profile_update' pk=user.id %}">Update Beneficiary</a>
+<!-- Otros elementos del menú -->
 <a href="../newapplication/">Nueva Solicitud</a>
+{% elif user.role == user.NATURALDONOR %}
+<a  href="{% url 'scholarships:natural_donor_profile_update' pk=user.id %}">Update Beneficiary</a>
+{% elif user.role == user.LEGALDONOR %}
+<a  href="{% url 'scholarships:legal_donor_profile_update' pk=user.id %}">Update Beneficiary</a>
+{% elif user.role == user.INSTITUTION %}
+<a  href="{% url 'scholarships:institution_profile_update' pk=user.id %}">Update Beneficiary</a>
 {% endif %}
 {% endblock %}
