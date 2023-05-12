@@ -34,10 +34,12 @@ class CustomUserCreationForm(UserCreationForm):
     }))
 
     BENEFICIARY=1
-    DONOR=2
-    INSTITUTION=3
+    NATURALDONOR=2
+    LEGALDONOR=3
+    INSTITUTION=4
     role_choices =[(BENEFICIARY, 'Beneficiario'),
-            (DONOR,'Donante'),
+            (NATURALDONOR,'Donante natural'),
+            (LEGALDONOR,'Donante jurídico'),
             (INSTITUTION,'Institución')]
 
     role = forms.ChoiceField(label='Registrarse como', widget=forms.Select(attrs={
