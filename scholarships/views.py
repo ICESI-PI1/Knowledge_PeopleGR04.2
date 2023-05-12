@@ -13,6 +13,13 @@ class NewApplication(View):
     def get(self,request):
         return render(request,'newscholarship.html')
     
+class LookApplication(View):
+    def get(self,request):
+        id_ben = request.user.id
+        scholarship = Scholarship.objects.filter(id_user=id_ben)
+        data = {"scholarships":scholarship}
+        return render(request,'historyapps.html',data)
+    
 class InsertScholarship(View):
     def post(self,request):
         if request.method == 'POST':

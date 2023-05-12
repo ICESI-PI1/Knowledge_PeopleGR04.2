@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>menu</h1>
+
+{%block title%}{%endblock%}
+
+
+<a href="../newapplication/">Nueva SolicitudA</a>
 {% if user.is_authenticated %}
 <h2> hola guapito</h2>
 {{ user.get_role_display }}
@@ -8,6 +12,7 @@
 <!-- Otros elementos del menú -->
 {% endif %}
 
+<a href="../lookapplications/">Historial de Solicitudes</a>
 {% if user.role == user.BENEFICIARY %}
 <a  href="{% url 'scholarships:beneficiary_profile_update' pk=user.id %}">Update Beneficiary</a>
 <!-- Otros elementos del menú -->
