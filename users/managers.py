@@ -35,6 +35,7 @@ class UserManager(BaseUserManager):
         is_superuser=True,
         **kwargs
         )
+        user.is_staff= True
         user.is_admin = True
         user.save(using=self._db)
         return user
