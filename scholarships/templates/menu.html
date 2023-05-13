@@ -1,15 +1,112 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
+<link href="{% static 'menu.css' %}" rel="stylesheet">
 {%block title%}{%endblock%}
 
-
-<a href="../newapplication/">Nueva SolicitudA</a>
 {% if user.is_authenticated %}
-<p>Bienvenido(a), {{ request.user.name }}</p>
+
+
+<div class="center">
+
+    <div class="welcomeframe">
+        <div class="text-container">
+            <p id="text1">
+                Hola de nuevo,
+            </p>
+            <p id="text2">
+                {{ request.user.name }}
+            </p>
+            <p id="text3">
+                Aquí puedes revisar la información sobre tu <br> solicitud de beca
+            </p>
+        </div>
+
+        <div class="welcomeImage">
+            <img src="../../media/images/HigherEducation.png" alt="No Encontrada" width="270" height="190"
+                id="iconSetting" />
+        </div>
+    </div>
+
+    <div class="centerframe">
+        <div>
+            <p id="requestext">
+                Solicitud de beca activa
+            </p>
+        </div>
+
+        <hr id="textbar">
+
+        <div class="act_req">
+            {% if active_scholarships %}
+            <ul>
+              {% for scholarship in active_scholarships %}
+                <li>{{ scholarship }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No tienes solicitudes activas.</p>
+          {% endif %}
+        </div>
+    </div>
+
+    <div class="downframe">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="howreqletter">
+                    <p>
+                        ¿Cómo hacer una solicitud de <br> beca satisfactoria?
+                    </p>
+                </div>
+                <div class="to_do_list">
+                    <div class="list_item">
+                        <p> Sube todos los <br> documentos necesarios </p>
+                        <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" width="34" height="34"
+                            id="icon_check1" />
+                    </div>
+
+                    <div class="list_item">
+                        <p> Describe por qué <br> deseas la beca </p>
+                        <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" width="34" height="34"
+                            id="icon_check2" />
+                    </div>
+
+                    <div class="list_item">
+                        <p> Ingresa los valores <br> correctammente </p>
+                        <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" width="34" height="34"
+                            id="icon_check3" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="rememberletter">
+                    <p>
+                        Recuerda...
+                    </p>
+                </div>
+                <div class="remember_list">
+                    <div class="remlist_item">
+                        <img src="../../media/images/Alert_Orange.png" alt="No Encontrada" width="40" height="40"
+                            id="icon_check4" />
+                        <p> <strong> Admisión </strong> <br> Debes estar previamente <br> admitido en la institución que
+                            <br> deseas estudiar. </p>
+                    </div>
+
+                    <div class="remlist_item">
+                        <img src="../../media/images/Alert_Orange.png" alt="No Encontrada" width="40" height="40"
+                            id="icon_check4" />
+                        <p> <strong> Institución </strong> <br> Debes revisar que la <br> institución en la que estás
+                            <br> admitido sea una de nuestras <br> instituciones aliadas. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endif %}
 
-<a href="../lookapplications/">Historial de Solicitudes</a>
 
 {% endblock %}

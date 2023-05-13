@@ -63,7 +63,14 @@ class InsertScholarship(View):
             scolarship.save()
         
             return render(request,'menu.html')
-        
+
+def active_scholarships(request):
+    user = request.user.id
+    active_scholarships = Scholarship.objects.filter(id_user=user, active='AC')
+    context = {'active_scholarships': active_scholarships}
+    return render(request, 'active_scholarships.html', context)
+
+   
 class BeneficiaryUpdateView(BeneficiaryUpdateView):
     pass 
 

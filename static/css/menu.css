@@ -1,0 +1,277 @@
+body{
+    background-color: #F0F7FF;
+    margin-top: 0px;
+   
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+}
+
+
+.center_right{
+    display: flex;    
+    flex-direction: row;
+    margin-left: 45px;
+    background: #A4D955;
+    
+}
+
+.center{
+    display: flex;    
+    flex-direction: column;
+    
+}
+
+.welcomeframe{     
+    display: flex;    
+    flex-direction: row;
+
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 27px;  
+    
+
+    margin-top: 2%;
+    
+        
+    background: #A4D955;
+    border-radius: 20px 20px 20px 20px;
+
+
+}
+
+.welcomeImage{
+
+    margin-top: -20px;
+    
+
+}
+
+
+
+#text1{
+    color: #FFFFFF;
+    
+    font-family:'Open Sans';
+    font-size: 30px;
+    font-weight: bold;
+    margin-left: 15%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    
+}
+
+#text2{
+    color: #FFFFFF;
+    font-family:'Open Sans';
+    font-size: 30px;
+    margin-left: 15%;
+    font-weight: bold;
+    margin-top: 10px;
+   
+}
+
+#text3{
+    color: #FFFFFF;
+    font-family:'Open Sans';
+    font-size: 20px;
+    font-weight: normal;
+    margin-left: 15%;
+    margin-top: -10px;
+    
+}
+
+.centerframe{
+    width: 676px;
+    height: 321px;
+    margin-top: 2%;
+    
+   
+    background: #ffffff;
+    
+    border-radius: 20px 20px 20px 20px;
+}
+
+#requestext{
+    color: #F29F05;
+    font-family:'Open Sans';
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 7%;
+}
+
+
+#textbar{
+    margin-top: -10px;
+    width:600px;
+    color: #ECECEC;
+}
+
+.act_req{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    width: 676px;
+    height: 225px;
+
+    color: #8A8A8A;
+    font-family:'Open Sans';
+    font-size: 14px;
+    font-weight: bold;
+
+}
+
+.downframe{
+    display: flex;
+    flex-direction: row;
+    width: 676px;
+    height: 321px;
+    margin-top: 4%;
+
+       
+    border-radius: 20px 20px 20px 20px;
+
+}
+
+.down_left{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 338px;
+    height: 330px;
+    background: #ffffff;
+    margin-right: 2%;
+
+
+    border-radius: 20px 20px 20px 20px;
+}
+
+.howreqletter{
+    
+    width: 320px;
+    height: 70px;
+    color: #F29F05;
+    font-family:'Open Sans';
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 8%;
+    
+    
+}
+
+.to_do_list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+ 
+    width: 320px;
+    height: 270px;
+    margin-top: 20px;
+    
+    font-family:'Open Sans';
+    font-size: 20px;
+    font-weight: bold;
+       
+    background: #FFFFFF;
+    border-radius: 30px 30px 30px 30px;
+}
+
+.list_item{    
+    display: flex;
+    flex-direction: row;
+    width: 320px;
+    height: 70px;
+    margin-left: 8%;
+
+    font-family:'Open Sans';
+    font-size: 15px;
+    font-weight: bold;
+    color: #8A8A8A;
+}
+
+#icon_check1{
+    margin-left: 80px;
+    margin-top: 17px;
+}
+
+#icon_check2{
+    margin-left: 130px;
+    margin-top: 17px;
+}
+
+#icon_check3{
+    margin-left: 118px;
+    margin-top: 17px;
+}
+
+
+.down_right{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 338px;
+    height: 330px;
+    background: #ffffff;
+    margin-right: 2%;
+
+
+    border-radius: 20px 20px 20px 20px;
+}
+
+.rememberletter{
+    
+    width: 320px;
+    height: 70px;
+    color: #F29F05;
+    font-family:'Open Sans';
+    font-size: 20px;
+    font-weight: bold;
+
+    margin-left: 7%;
+}
+
+
+.remember_list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+ 
+    width: 320px;
+    height: 270px;
+    margin-top: 10px;
+    
+    font-family:'Open Sans';
+    font-size: 20px;
+    font-weight: bold;
+       
+    background: #FFFFFF;
+    border-radius: 30px 30px 30px 30px;
+}
+
+.remlist_item{    
+    display: flex;
+    flex-direction: row;
+    width: 320px;
+    height: 110px;
+    margin-bottom: 5%;
+    border-radius: 20px 20px 20px 20px;
+    background: #F0F7FF;
+
+    font-family:'Open Sans';
+    font-size: 13px;
+    font-weight: normal;
+    color: #8A8A8A;
+}
+
+#icon_check4{
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+
