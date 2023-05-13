@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.views import LoginView
-from .forms import CustomUserCreationForm,CustomAuthenticationForm, CustomUserCreationBenForm
+from .forms import CustomUserCreationForm,CustomAuthenticationForm, CustomUserCreationBenForm, CustomInstitutionForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Beneficiary, Institution, LegalDonor, NaturalDonor
@@ -18,6 +18,11 @@ class SignUpBen(CreateView):
 
 class SignUpDon(CreateView):
     form_class = CustomUserCreationForm
+    success_url = reverse_lazy("users:sigin")
+    template_name = 'signup.html'
+
+class SignUpIns(CreateView):
+    form_class = CustomInstitutionForm
     success_url = reverse_lazy("users:sigin")
     template_name = 'signup.html'
 
