@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 
-from .models import NaturalDonor, Beneficiary, User
+from .models import NaturalDonor, Beneficiary, User, Institution
 
 
 
@@ -94,6 +94,35 @@ class CustomUserCreationBenForm(CustomUserCreationForm):
         fields = ("email","name","password1","password2","idType", 'numID', 'role','profilePicture','gender',
                   'birth_date')
          
+
+class CustomInstitutionForm(CustomUserCreationForm):
+    
+
+    type_institution = forms.MultipleChoiceField(
+        choices=Institution.TYPE_CHOICES,
+        label='Tipo de Institucion',
+        widget=forms.CheckboxSelectMultiple(),
+        required=False
+    )
+
+    description = forms.CharField(label='Descripcion', widget=forms.Textarea(attrs={
+        'class': 'form-control',
+    }))
+
+    address = forms.CharField(label='Direccion', widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Ingrese su Direccion'
+    }))
+
+    city = forms.CharField(label='Ciudad', widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Ingrese su Ciudad'
+    }))
+
+    class Meta:
+        model = Institution
+        fields = ("email","name","password1","password2","idType", 'numID', 'role','profilePicture',
+                  'city','address','type_institution','description')
 
     
 

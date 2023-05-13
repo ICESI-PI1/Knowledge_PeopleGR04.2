@@ -26,12 +26,12 @@
                     </button>
                     <div class="collapse navbar-collapse " id="navbarSupportedContent">
                         <ul class="navbar-nav flex-column w-100">
-                            <img id="imgLogo" src="../../media/images/logoInicio.png" class="img-fluid" alt="No Encontrada" id="imgLogo" />
+                            <img id="imgLogo" src="../../../../media/images/logoInicio.png" class="img-fluid" alt="No Encontrada" id="imgLogo" />
                             <div class="home">
                                 <!--HOME-->
                                 <li class="nav-item mt-3" id="home-link">
                                     <a class="nav-link" href="#">
-                                        <img src="../../media/images/Home.png" alt="Icono Inicio" class="img-fluid"
+                                        <img src="../../../../media/images/Home.png" alt="Icono Inicio" class="img-fluid"
                                             id="icon">
                                         <span data-feather="home"></span>
                                         &nbsp;Inicio
@@ -43,22 +43,22 @@
                                 <li class="nav-item mt-3" id="new_scolarshipps">
                                     {% if user.role == 1 %}
                                     <!-- El usuario es Beneficiario -->
-                                    <a class="nav-link " href=../newapplication/ ">
-        <img src="../../media/images/IconPlus.png " alt="Icono nueva solicitud "
+                                    <a class="nav-link " href="../newapplication/">
+        <img src="../../../../media/images/IconPlus.png " alt="Icono nueva solicitud "
             class="img-fluid " id="icon ">
         <span data-feather="new_scolarship "></span>
         &nbsp;Nueva solicitud de beca
     </a>
 {% elif user.role == 2 %}
     <!-- El usuario es Donante -->
-    <a class="nav-link " href=../newapplication/">
-                                    <img src="../../media/images/IconPlus.png" alt="Icono nueva solicitud " class="img-fluid" id="icon">
+    <a class="nav-link " href="../newapplication/">
+                                    <img src="../../../../media/images/IconPlus.png" alt="Icono nueva solicitud " class="img-fluid" id="icon">
                                     <span data-feather="new_scolarship"></span> &nbsp; Nueva donación
                                     </a>
         {% elif user.role == 3 %}
             <!-- El usuario es Institución -->
             <a class="nav-link " href=../newapplication/ ">
-        <img src="../../media/images/IconPlus.png " alt="Icono nueva solicitud "
+        <img src="../../../../media/images/IconPlus.png " alt="Icono nueva solicitud "
             class="img-fluid " id="icon ">
         <span data-feather="new_scolarship "></span>
         &nbsp; Nueva donación
@@ -73,7 +73,7 @@
                                     {% if user.role == 1 %}
     <!-- El usuario es Beneficiario -->
     <a class="nav-link " href="# ">
-        <img src="../../media/images/DonorUser.png " alt="Icono historial donantes "
+        <img src="../../../../media/images/DonorUser.png " alt="Icono historial donantes "
             class="img-fluid " id="icon ">
         <span data-feather="donor_history "></span>
         &nbsp;Historial de donantes
@@ -81,7 +81,7 @@
 {% elif user.role == 2 %}
     <!-- El usuario es Donante -->
     <a class="nav-link " href="# ">
-        <img src="../../media/images/DonorUser.png " alt="Icono historial donantes "
+        <img src="../../../../media/images/DonorUser.png " alt="Icono historial donantes "
             class="img-fluid " id="icon ">
         <span data-feather="donor_history "></span>
         &nbsp;Historial de donantes
@@ -89,7 +89,7 @@
 {% elif user.role == 3 %}
     <!-- El usuario es Institución -->
     <a class="nav-link " href="# ">
-        <img src="../../media/images/DonorUser.png " alt="Icono historial donantes "
+        <img src="../../../../media/images/DonorUser.png " alt="Icono historial donantes "
             class="img-fluid " id="icon ">
         <span data-feather="donor_history "></span>
         &nbsp;Historial de donantes
@@ -103,14 +103,14 @@
                                 {% if user.role == 1 %}
                                     <!-- El usuario es Beneficiario -->
                                     <a class="nav-link " href="../lookapplications/"">
-                                        <img src="../../media/images/RequestHistory.png "" alt=" Icono historial
+                                        <img src="../../../../media/images/RequestHistory.png "" alt=" Icono historial
                                             solicitudes " class=" img-fluid" id="icon">
                                     <span data-feather="request_history"></span> &nbsp;Historial de solicitudes
                                     </a>
                                 {% elif user.role == 2 %}
                                     <!-- El usuario es Donante -->
                                     <a class="nav-link " href="# ">
-                                        <img src="../../media/images/RequestHistory.png "" alt=" Icono historial
+                                        <img src="../../../../media/images/RequestHistory.png "" alt=" Icono historial
                                             solicitudes " class=" img-fluid" id="icon">
                                     <span data-feather="request_history"></span> 
                                     &nbsp; Consultar instituciones
@@ -132,7 +132,9 @@
                                     {% if user.role == 1 %}
                                     <!-- El usuario es Beneficiario -->
                                     <a class="nav-link" href="#">
-                                        <img src="../../media/images/IconActive.png" alt="Icono solicitud activa "
+                                        <img src="../../../../media/images/IconActive.png" alt="Icono solicitud activa "
+
+
                                             class="img-fluid" id="icon">
                                         <span data-feather="active_request"></span>
                                         &nbsp;Solicitud activa
@@ -140,14 +142,14 @@
                                     {% elif user.role == 2 %}
                                      <!-- El usuario es Donante -->
                                      <a class="nav-link " href="# ">
-                                        <img src="../../media/images/RequestHistory.png "" alt=" Icono historial
+                                        <img src="../../../../media/images/RequestHistory.png "" alt=" Icono historial
                                             solicitudes " class=" img-fluid" id="icon">
                                     <span data-feather="request_history"></span> &nbsp;Historial de aportes
                                     </a>
                                     {% elif user.role == 3 %}
                                      <!-- El usuario es Institución -->
                                      <a class="nav-link" href="#">
-                                        <img src="../../media/images/setting.png" alt="Icono ajustes " class="img-fluid"
+                                        <img src="../../../../media/images/setting.png" alt="Icono ajustes " class="img-fluid"
                                             id="icon">
                                         <span data-feather="settings"></span>
                                         &nbsp;Ajustes
@@ -162,7 +164,7 @@
                                     {% if user.role == 1 %}
                                     <!-- El usuario es Beneficiario -->
                                     <a class="nav-link" href="#">
-                                        <img src="../../media/images/setting.png" alt="Icono ajustes " class="img-fluid"
+                                        <img src="../../../../media/images/setting.png" alt="Icono ajustes " class="img-fluid"
                                             id="icon">
                                         <span data-feather="settings"></span>
                                         &nbsp;Ajustes
@@ -173,7 +175,7 @@
                                     <!-- El usuario es Institución -->
                                     <!--Institución ya tiene settings-->
                                     <a class="nav-link" href="#">
-                                        <img src="../../media/images/setting.png" alt="Icono ajustes " class="img-fluid"
+                                        <img src="../../../../media/images/setting.png" alt="Icono ajustes " class="img-fluid"
                                             id="icon">
                                         <span data-feather="settings"></span>
                                         &nbsp;Ajustes
@@ -223,8 +225,15 @@
                                                             <span class="visually-hidden">Toggle Dropdown</span>
                                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Ver perfil</a></li>
-                                            <li><a class="dropdown-item" href="#">Editar perfil</a></li>
+                                            {% if user.role == user.BENEFICIARY %}
+                                            <li><a class="dropdown-item" href="{% url 'scholarships:beneficiary_profile_update' pk=user.id %}">Editar perfil</a></li>
+                                            {% elif user.role == user.NATURALDONOR %}
+                                            <li><a class="dropdown-item" href="{% url 'scholarships:natural_donor_profile_update' pk=user.id %}">Editar perfil</a></li>
+                                            {% elif user.role == user.LEGALDONOR %}
+                                            <li><a class="dropdown-item" href="{% url 'scholarships:legal_donor_profile_update' pk=user.id %}">Editar perfil</a></li>
+                                            {% elif user.role == user.INSTITUTION %}
+                                            <li><a class="dropdown-item" href="{% url 'scholarships:institution_profile_update' pk=user.id %}">Editar perfil</a></li>
+                                            {% endif %}
                                             <li>
                                                 <hr class="dropdown-divider">
                                             </li>
@@ -251,7 +260,7 @@
                                 </div>
                                 <div class="row mt-3" id="notif_list">
                                     <div class="col-md-3 mt-1" id="notif_item">
-                                        <img src="../../media/images/Notification_Icon.png" alt="No Encontrada" width="40" height="40" id="icon_check4" />
+                                        <img src="../../../../media/images/Notification_Icon.png" alt="No Encontrada" width="40" height="40" id="icon_check4" />
                                     </div>
                                     <div class="col-md-9" id="notification_text">
                                         <label for="notification" id="notification">
