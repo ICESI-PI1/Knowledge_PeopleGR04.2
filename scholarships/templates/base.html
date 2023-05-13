@@ -30,7 +30,7 @@
                             <div class="home">
                                 <!--HOME-->
                                 <li class="nav-item mt-3" id="home-link">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{% url 'scholarships:showmenu' %}">
                                         <img src="../../../../media/images/Home.png" alt="Icono Inicio" class="img-fluid"
                                             id="icon">
                                         <span data-feather="home"></span>
@@ -43,6 +43,7 @@
                                 <li class="nav-item mt-3" id="new_scolarshipps">
                                     {% if user.role == 1 %}
                                     <!-- El usuario es Beneficiario -->
+                                    
                                     <a class="nav-link " href="../newapplication/">
         <img src="../../../../media/images/IconPlus.png " alt="Icono nueva solicitud "
             class="img-fluid " id="icon ">
@@ -57,7 +58,7 @@
                                     </a>
         {% elif user.role == 3 %}
             <!-- El usuario es Institución -->
-            <a class="nav-link " href=../newapplication/ ">
+            <a class="nav-link " href="{% url 'scholarships:newapplication' %}">
         <img src="../../../../media/images/IconPlus.png " alt="Icono nueva solicitud "
             class="img-fluid " id="icon ">
         <span data-feather="new_scolarship "></span>
@@ -102,15 +103,15 @@
                                 <li class="nav-item mt-3 " id="request_history-link ">
                                 {% if user.role == 1 %}
                                     <!-- El usuario es Beneficiario -->
-                                    <a class="nav-link " href="../lookapplications/"">
-                                        <img src="../../../../media/images/RequestHistory.png "" alt=" Icono historial
+                                    <a class="nav-link " href="{% url 'scholarships:lookapplication' %}">
+                                        <img src="../../../../media/images/RequestHistory.png " alt=" Icono historial
                                             solicitudes " class=" img-fluid" id="icon">
                                     <span data-feather="request_history"></span> &nbsp;Historial de solicitudes
                                     </a>
                                 {% elif user.role == 2 %}
                                     <!-- El usuario es Donante -->
                                     <a class="nav-link " href="# ">
-                                        <img src="../../../../media/images/RequestHistory.png "" alt=" Icono historial
+                                        <img src="../../../../media/images/RequestHistory.png " alt=" Icono historial
                                             solicitudes " class=" img-fluid" id="icon">
                                     <span data-feather="request_history"></span> 
                                     &nbsp; Consultar instituciones
@@ -118,7 +119,7 @@
                                 {% elif user.role == 3 %}
                                     <!-- El usuario es Institución -->
                                     <a class="nav-link " href="# ">
-                                        <img src="../../media/images/campus_u.png "" alt=" Icono historial
+                                        <img src="../../media/images/campus_u.png " alt=" Icono historial
                                             solicitudes " class=" img-fluid" id="icon">
                                     <span data-feather="request_history"></span> 
                                     &nbsp; Historial de aportes
@@ -131,7 +132,7 @@
                                 <li class="nav-item mt-3" id="active_request-link">
                                     {% if user.role == 1 %}
                                     <!-- El usuario es Beneficiario -->
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="{% url 'scholarships:soli_Activa' %}">
                                         <img src="../../../../media/images/IconActive.png" alt="Icono solicitud activa "
 
 
@@ -264,10 +265,19 @@
                                     </div>
                                     <div class="col-md-9" id="notification_text">
                                         <label for="notification" id="notification">
-                                                            <p> <strong> ¡Bienvenida!</strong> <br> Nos complace tenerte
+                                            {% if user.role == 1 %}
+                                                            <p> <strong> ¡Bienvenid@!</strong> <br> Nos complace tenerte
                                                                 en nuestra plataforma. Esperamos que
                                                                 tu ingreso sea beneficioso para tí. Siempre estamos para
                                                                 ayudarte en tu formación académica.</p>
+                                                                {% elif user.role == 2  or user.role == 3 %}
+                                                                <p> <strong> ¡Bienvenid@!</strong> <br> NNos complace tenerte 
+                                                                    en nuestra plataforma.
+                                                                    Esperamos que tu ingreso
+                                                                    sea beneficioso para tí.
+                                                                    Siempre estamos para ayudarte
+                                                                    en tu formación academica</p>
+                                                                {% endif %}
                                                         </label>
                                     </div>
                                 </div>

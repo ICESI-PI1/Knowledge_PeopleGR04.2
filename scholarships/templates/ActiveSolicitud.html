@@ -1,10 +1,11 @@
+{% extends 'base.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>S Editar solicitud</title>
+  <title>Solicitud Activa</title>
   <link href="{% static '/solicitudActiva.css' %}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
   <!-- Bootstrap CSS -->
@@ -14,74 +15,10 @@
 </head>
 
 <body>
-  <div class="container-fluid" id="containerinit">
-    <div class="row">
-       <!-- Menú lateral -->
-       <nav class="navbar navbar-expand-lg col-md-3 sticky-md-top h-100 " id="leftspace" style=" height: 100%;">
-        <div class="container-fluid" id="leftbar">
-          <button class="navbar-toggler  my-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse " id="navbarSupportedContent"  >
-            <ul class="navbar-nav flex-column w-100" >
-              <img id="imgLogo" src="../../media/icons/logoInicio.png" class="img-fluid" alt="No Encontrada" id="imgLogo"/>
-                <div class="home">
-                <li class="nav-item mt-3" id="home-link">
-                    <a class="nav-link" href="#">
-                        <img src="../../media/icons/Home.png" alt="Icono Inicio" class="img-fluid" id="icon">
-                        <span data-feather="home"></span>
-                        &nbsp;Inicio
-                    </a>
-                </li>
-                </div>
-                <div class="new_scolarship">
-                <li class="nav-item mt-3" id="new_scolarshipps">
-                    <a class="nav-link active"  href="#">
-                        <img src="../../media/icons/IconPlus_green.png" alt="Icono nueva solicitud " class="img-fluid" id="icon">
-                        <span data-feather="new_scolarship"></span>
-                        &nbsp;Nueva solicitud de beca
-                    </a>
-                </li>
-                </div>
-                <div class="donor_history">
-                <li class="nav-item mt-3" id="donor_history-link">
-                    <a class="nav-link" href="#">
-                        <img src="../../media/icons/DonorUser.png" alt="Icono historial donantes " class="img-fluid" id="icon">
-                        <span data-feather="donor_history"></span>
-                        &nbsp;Tus donantes
-                    </a>
-                </li>
-                </div>
-                <div class="request_history">
-                <li class="nav-item mt-3" id="request_history-link">
-                    <a class="nav-link" href="#">
-                        <img src="../../media/icons/RequestHistory.png" alt="Icono historial solicitudes " class="img-fluid" id="icon">
-                        <span data-feather="request_history"></span>
-                        &nbsp;Tus solicitudes
-                    </a>
-                </li>
-                </div>
-                
-                <div class="settings">
-                    <li class="nav-item mt-3" id="settings-link">
-                        <a class="nav-link" href="#">
-                            <img src="../../media/icons/setting.png" alt="Icono ajustes " class="img-fluid" id="icon">
-                            <span data-feather="settings"></span>
-                            &nbsp;Ajustes
-                        </a>
-                    </li>
-                </div>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
+  {% block content %}
       <!--<button class="btn btn-primary mb-3 d-block d-md-none float-end w-50" type="button" data-bs-toggle="collapse" data-bs-target="#rightbar">más</button>-->
 
       <!-- Formulario en el centro -->
-      <div class="col-12 col-md-6 col" id="ok">
-        <div class="container  mt-3" id="x2">
-
           <div class="row mb-3 flex-sm-row" id="contTitulo">
             <div class="col-md-8">
               <br>
@@ -252,83 +189,11 @@
                 <button type="submit" class="btn custom btn col-md-5" id="botonEnviar">Editar solicitud</button>
               </div>
             </form>
-            
           </div>
-        </div>
-      </div>
+        
+        
       
-
-      <!-- Barra de notificaciones en la parte derecha -->
-      
-      <div class="col-12 col-md-3  mt-md-0  " id="right">
-       
-        <div class="sticky-md-top d-none d-md-block " id="rightbar">
-          <div class="row mt-3  " id="up_notifications">
-            <div class="row">
-              <div class="col-md-12" id="profiles">
-                <div class="row">
-                  <div class="col-md-4" id="profile_picture">
-                    <img src="../../media/icons/Allura Avatar.png" alt="No Encontrada" />
-                  </div>
-                  <div class="col-md-6" id="profile_names">
-                    <label for="name" id="notification">
-                      <p>
-                        {{ user.first_name|upper }}
-                      </p>
-                    </label>
-                  </div>
-                  <div class="col-md-2" id="perfil_dropdown">
-                    <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split"
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                      <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Ver perfil</a></li>
-                      <li><a class="dropdown-item" href="#">Editar perfil</a></li>
-                      <li>
-                        <hr class="dropdown-divider">
-                      </li>
-                      <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-3 " id="up_notifications2">
-            <div class="row vh-100 ">
-              <div class="col-md-12" id="showed_notifications">
-                <div class="row" id="title_notif">
-                  <div class="col-md-8" id="notif">
-                    <p>
-                      Notificaciones
-                    </p>
-                  </div>
-                  <div class="col-md-4 mt-4" id="see_all">
-                    <a id="linkShowAllNotifications" href="#">Ver todas</a>
-                  </div>
-                </div>
-                <div class="row mt-3" id="notif_list">
-                  <div class="col-md-3 mt-1" id="notif_item">
-                    <img src="../../media/icons/Notification_Icon.png" alt="No Encontrada" width="40" height="40"
-                      id="icon_check4" />
-                  </div>
-                  <div class="col-md-9" id="notification_text">
-                    <label for="notification" id="notification">
-                      <p> <strong> ¡Bienvenida!</strong> <br> Nos complace tenerte en nuestra plataforma. Esperamos que
-                        tu ingreso sea beneficioso para tí. Siempre estamos para ayudarte en tu formación académica.</p>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+  {% endblock %}
   <!-- jQuery y Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
