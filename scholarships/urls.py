@@ -13,4 +13,5 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path('legaldonor/<int:pk>/update/', views.LegalDonorUpdateView.as_view(), name='legal_donor_profile_update'),
                 path('institution/<int:pk>/update/', views.InstitutionUpdateView.as_view(), name='institution_profile_update'),
                 path("soli_Activa/", views.ActiveSolicitud.as_view(), name="soli_Activa"),
+                path("editSolicitudActiva/", views.EditSolicitud.as_view(), name='editSolicitudActiva'),
             ]
