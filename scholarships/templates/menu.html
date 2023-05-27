@@ -1,32 +1,255 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
 
-<link href="{% static 'menu.css' %}" rel="stylesheet">
-{%block title%}{%endblock%}
 
 {% if user.is_authenticated %}
+{% block content %}
+<link href="{% static '/menu.css' %}" rel="stylesheet" />
+
+<div class="container-fluid">
+<div class="row mb-3 flex-sm-row " style="background-color: #A4D955; border-radius: 20px; height: 10.5rem; " >
+    <div class="col-md-8 ">
+        <h1 class="mt-2 text-left" style="color: white">Hola de Nuevo,</h1>
+        <h2 style="color: white;">
+            {{ request.user.name|capfirst }}
+        </h2>
+        {% if user.role == 1 %}
+        <h5 class="mt-2" style="color: white; font-weight: 400; font-size:medium;">
+            Aquí puedes revisar la información sobre tu <br> solicitud de beca
+        </h5>
+        {% elif user.role == 2%}
+        <h5 class="mt-2" style="color: white; font-weight: 400; font-size:medium;">
+            ¡Hoy Puedes Cumplir Muchos Sueños!
+        </h5>
+        {% endif %}
+    </div>
+
+    <div class="col-md-4">
+        <img
+          src="../../media/icons/HigherEducation.png"
+          alt="No Encontrada"
+          class="img-fluid d-none d-md-block"
+          id="graduatedImg"
+        />
+      </div>
+</div>
 
 
-<div class="center">
-    <div class="welcomeframe">
-        <div class="text-container">
-            <p id="text1">
-                Hola de nuevo,
-            </p>
-            <p id="text2">
-                {{ request.user.name }}
-            </p>
-            <p id="text3">
-                Aquí puedes revisar la información sobre tu <br> solicitud de beca
-            </p>
+<div class="row mb-3 flex-sm-row" style=" background-color: white;">
+    {% if user.role == 1 %}
+    <div class="text-center d-flex align-items-center" >
+        <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;" class="m-auto">
+            Solicitud de beca activa
+        </p>
+    </div>
+    <div class="col-md-12 d-flex text-center align-items-center justify-content-center" style="height: 13rem; background-color: white;">
+        {% if active_scholarships %}
+        <ul>
+          {% for scholarship in active_scholarships %}
+            <li>{{ scholarship }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+      <div class=" col-md-6 " >
+        <p style=" font-weight: 600; font-size:medium;" class="m-auto">
+            No tienes solicitudes activas.
+        </p>
+    </div>
+      {% endif %}
+    </div>
+    {% elif user.role == 2%}
+    <div class="text-center d-flex " >
+        <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;" class="m-auto">
+            Mis Aportes
+        </p>
+    </div>
+    <div class="col-md-12 d-flex text-center align-items-center justify-content-center" style="height: 13rem; background-color: white;">
+        {% if active_scholarships %}
+        <ul>
+          {% for scholarship in active_scholarships %}
+            <li>{{ scholarship }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+      <div class=" col-md-6 " >
+        <p style=" font-weight: 600; font-size:medium;" class="m-auto">
+            No has realizado Aportes Aun.
+        </p>
+    </div>
+      {% endif %}
+    </div>
+    {% endif %}
+    <hr style="color: #ECECEC;">
+
+</div>
+
+    {% if user.role == 1 %}
+    <div class="row mb-3 flex-sm-row mt-2">
+        <div class="col-md-6"  style="background-color: white;  border-radius: 1rem;">
+            <div class="howreqletter mt-2">
+                <p>
+                    ¿Cómo hacer una solicitud de <br> beca satisfactoria?
+                </p>
+            </div>
+            <div class="row" style=" margin-top: 2rem;" >
+                <div class="row d-flex my-2" >
+                    <div class="col-lg-9">
+                      <p style="font-weight: 600;">Sube todos los <br> documentos necesarios</p>
+                    </div>
+                    <div class="col-lg-3 align-self-end " >
+                      <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" class="img-fluid" id="icon_check1" />
+                    </div>
+                  </div>
+
+                  <div class="row d-flex my-2" >
+                    <div class="col-lg-9">
+                      <p style="font-weight: 600;">Describe por qué <br> deseas la beca</p>
+                    </div>
+                    <div class="col-lg-3 align-self-end " >
+                      <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" class="img-fluid" id="icon_check1" />
+                    </div>
+                  </div>
+
+                <div class="row d-flex my-2">
+                <div class="col-lg-9">
+                    <p style="font-weight: 600;"> Ingresa los valores <br> correctammente </p>
+                </div>
+                    <div class="col-lg-3 align-self-end ">
+                    <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" class="img-fluid"
+                        id="icon_check3" />
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="welcomeImage">
-            <img src="../../media/images/HigherEducation.png" alt="No Encontrada" width="270" height="190"
-                id="iconSetting" />
+        <div class="col-md-6 mt-3 mb-3"  style="background-color: white;  border-radius: 1rem;">
+            <div class="rememberletter">
+                <p style="color: #F29F05;font-size: 1.2rem;font-weight: bold;">
+                    Recuerda...
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 d-flex " style=" border-radius: 1rem;">
+                    <img src="../../media/images/Alert_Orange.png" alt="No Encontrada" width="40" height="40"
+                        id="icon_check4" />
+                    <p class="mx-3"> <strong> Admisión </strong> <br> Debes estar previamente <br> admitido en la institución que
+                        <br> deseas estudiar. </p>
+                </div>
+
+                <div class="col-lg-12 d-flex mt-2 " style="border-radius: 1rem; ">
+                    <img src="../../media/images/Alert_Orange.png" alt="No Encontrada" width="40" height="40"
+                        id="icon_check4" />
+                    <p class="mx-3"> <strong> Institución </strong> <br> Debes revisar que la <br> institución en la que estás
+                        <br> admitido sea una de nuestras <br> instituciones aliadas. </p>
+                </div>
+            </div>
         </div>
     </div>
+    <!-- Donor -->
+    {% elif user.role == 2%}
+    <div class="row mb-3 flex-sm-row mt-2">
+        <div class="col-md-6"  style="background-color: white;  border-radius: 1rem;">
+            <div class="howreqletter mt-2">
+                <p>
+                    Pasos para Realizar una Donación
+                </p>
+            </div>
+            <div class="row" style=" margin-top: 2rem;" >
+                <div class="row d-flex my-2" >
+                    <div class="col-lg-9">
+                      <p style="font-weight: 600;">Decide que tipo de donación deseas realizar.</p>
+                    </div>
+                    <div class="col-lg-3 align-self-end " >
+                      <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" class="img-fluid" id="icon_check1" />
+                    </div>
+                  </div>
+
+                  <div class="row d-flex my-2" >
+                    <div class="col-lg-9">
+                      <p style="font-weight: 600;">Consulta los posibles beneficiarios y elige uno.</p>
+                    </div>
+                    <div class="col-lg-3 align-self-end " >
+                      <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" class="img-fluid" id="icon_check1" />
+                    </div>
+                  </div>
+
+                <div class="row d-flex my-2">
+                <div class="col-lg-9">
+                    <p style="font-weight: 600;"> Escoge el tipo de aporte que deseas hacer. </p>
+                </div>
+                    <div class="col-lg-3 align-self-end ">
+                    <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" class="img-fluid"
+                        id="icon_check3" />
+                    </div>
+                </div>
+
+                <div class="row d-flex my-2">
+                    <div class="col-lg-9">
+                        <p style="font-weight: 600;"> ¡Llena el formulario y dona! </p>
+                    </div>
+                        <div class="col-lg-3 align-self-end ">
+                        <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" class="img-fluid"
+                            id="icon_check3" />
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mt-3 mb-3"  style="background-color: white;  border-radius: 1rem;">
+            <div class="rememberletter">
+                <p style="color: #F29F05;font-size: 1.2rem;font-weight: bold;">
+                    ¿A quién puedo beneficiar?
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 d-flex " style=" border-radius: 1rem;">
+                    <img src="../../media/images/Student Male.png" alt="No Encontrada" width="40" height="40"
+                        id="icon_check4" />
+                    <p class="mx-3"> <strong> Estudiantes </strong> <br> Aspirantes a una beca para su carrera universitaría, técnica o tecnológica </p>
+                </div>
+
+                <div class="col-lg-12 d-flex mt-2 " style="border-radius: 1rem; ">
+                    <img src="../../media/images/Univerc.png" alt="No Encontrada" width="40" height="40"
+                        id="icon_check4" />
+                    <p class="mx-3"> <strong> Instituciones </strong> <br> Escuelas que buscan recursos para innovacción academica. </p>
+                </div>
+
+                <div class="col-lg-12 d-flex mt-2 " style="border-radius: 1rem; ">
+                    <img src="../../media/images/Diploma.png" alt="No Encontrada" width="40" height="40"
+                        id="icon_check4" />
+                    <p class="mx-3"> <strong> Departamentos o Programas </strong> <br> Áreas académicas de una institución que necesitan inversión. </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+<!--
+<div class="row mb-3 flex-sm-row" id="contTitulo">
+    <div class="col-md-8">
+      <br />
+      <p id="text1">
+        Hola de nuevo,
+    </p>
+    <p id="text2">
+        {{ request.user.name }}
+    </p>
+    <p id="text3">
+        Aquí puedes revisar la información sobre tu <br> solicitud de beca
+    </p>
+      <hr id="line" class="w-80" />
+    </div>
+    <div class="col-md-4">
+      <img
+        src="../../media/icons/HigherEducation.png"
+        alt="No Encontrada"
+        class="img-fluid d-none d-md-block"
+        id="graduatedImg"
+      />
+    </div>
+  </div>
+
 
     <div class="centerframe">
         <div>
@@ -103,9 +326,8 @@
             </div>
         </div>
     </div>
-</div>
-
+-->
+{% endblock %}
 {% endif %}
 
 
-{% endblock %}

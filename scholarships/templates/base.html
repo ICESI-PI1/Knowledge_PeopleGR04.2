@@ -133,15 +133,16 @@
                     </a>
                     {% elif user.role == 2 %}
                     <!-- El usuario es Donante -->
-                    <a class="nav-link" href="# ">
+                    <a class="nav-link" href="# " >
                       <img
                         src="../../../../media/images/DonorUser.png "
                         alt="Icono historial donantes "
                         class="img-fluid"
                         id="icon "
+                        
                       />
                       <span data-feather="donor_history "></span>
-                      &nbsp;Historial de donantes
+                      &nbsp;Consultar Beneficiarios
                     </a>
                     {% elif user.role == 3 %}
                     <!-- El usuario es Institución -->
@@ -178,17 +179,17 @@
                     </a>
                     {% elif user.role == 2 %}
                     <!-- El usuario es Donante -->
-                    <a class="nav-link" href="# ">
-                      <img
-                        src="../../../../media/images/RequestHistory.png "
-                        alt=" Icono historial
-                                            solicitudes "
-                        class="img-fluid"
-                        id="icon"
-                      />
-                      <span data-feather="request_history"></span>
-                      &nbsp; Consultar instituciones
-                    </a>
+                    <a class="nav-link d-flex " href="# " >
+                        <img
+                          src="../../../../media/images/ucampus.png "
+                          alt="Icono historial donantes "
+                          class="img-fluid"
+                          id="icon"
+                         
+                        />
+                        <span data-feather="donor_history " style="margin-left: 0.1rem; "></span>
+                        &nbsp;Consultar Instituciones
+                      </a>
                     {% elif user.role == 3 %}
                     <!-- El usuario es Institución -->
                     <a class="nav-link" href="# ">
@@ -431,7 +432,7 @@
                         {% elif user.role == 2 or user.role == 3 %}
                         <p>
                           <strong> ¡Bienvenid@!</strong> <br />
-                          NNos complace tenerte en nuestra plataforma. Esperamos
+                          Nos complace tenerte en nuestra plataforma. Esperamos
                           que tu ingreso sea beneficioso para tí. Siempre
                           estamos para ayudarte en tu formación academica
                         </p>
