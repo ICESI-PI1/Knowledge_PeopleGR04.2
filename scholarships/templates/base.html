@@ -214,7 +214,11 @@
                             <div class="col-md-12" id="profiles">
                                 <div class="row">
                                     <div class="col-md-4" >
+                                        {% if user.profilePicture != "" %}
                                         <img src="/media/{{ user.profilePicture }}" class="img-fluid" alt="noimage" style="max-width:4rem; max-height:3rem; margin-top:0.7rem; margin-left:0.7rem; border-radius:10px;">
+                                        {% else %}
+                                        <img src="/media/users/profile_default.png" class="img-fluid" alt="noimage" style="max-width:4rem; max-height:3rem; margin-top:0.7rem; margin-left:0.7rem; border-radius:10px;">
+                                        {% endif %}
                                     </div>
                                     <div class="col-md-6" id="profile_names">
                                         <label for="name" id="notification">
