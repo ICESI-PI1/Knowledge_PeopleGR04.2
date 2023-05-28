@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load  static %}
+
+<head>
+  {% block header  %}
+    <link href="{% static '/errorActiveScholar.css' %}" rel="stylesheet">
+  {% endblock %}
+</head>
+
+
+{% block content %}
+
+
+<h1>Lo sentimos, ha ocorrido un error.</h1>
+
+
+<p>Actualmente no hay solicitudes activas. Si deseas solicitar una beca, haz clic en el botón de abajo.</p>
+<button id="create-solicitud-btn">Crear solicitud</button>
+
+<script>
+  // Obtener el botón de crear solicitud
+  const createSolicitudBtn = document.getElementById('create-solicitud-btn');
+
+  createSolicitudBtn.addEventListener('click', function() {
+    window.location.href = '../newapplication/';
+  });
+</script>
+
+
+{% endblock %}

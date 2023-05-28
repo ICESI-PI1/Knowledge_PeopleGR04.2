@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 
-from .models import NaturalDonor, Beneficiary, User
+from .models import NaturalDonor, Beneficiary, User, Institution
 
 
 
@@ -34,10 +34,12 @@ class CustomUserCreationForm(UserCreationForm):
     }))
 
     BENEFICIARY=1
-    DONOR=2
-    INSTITUTION=3
+    NATURALDONOR=2
+    LEGALDONOR=3
+    INSTITUTION=4
     role_choices =[(BENEFICIARY, 'Beneficiario'),
-            (DONOR,'Donante'),
+            (NATURALDONOR,'Donante natural'),
+            (LEGALDONOR,'Donante jurídico'),
             (INSTITUTION,'Institución')]
 
     role = forms.ChoiceField(label='Registrarse como', widget=forms.Select(attrs={
@@ -92,6 +94,35 @@ class CustomUserCreationBenForm(CustomUserCreationForm):
         fields = ("email","name","password1","password2","idType", 'numID', 'role','profilePicture','gender',
                   'birth_date')
          
+
+class CustomInstitutionForm(CustomUserCreationForm):
+    
+
+    type_institution = forms.MultipleChoiceField(
+        choices=Institution.TYPE_CHOICES,
+        label='Tipo de Institucion',
+        widget=forms.CheckboxSelectMultiple(),
+        required=False
+    )
+
+    description = forms.CharField(label='Descripcion', widget=forms.Textarea(attrs={
+        'class': 'form-control',
+    }))
+
+    address = forms.CharField(label='Direccion', widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Ingrese su Direccion'
+    }))
+
+    city = forms.CharField(label='Ciudad', widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Ingrese su Ciudad'
+    }))
+
+    class Meta:
+        model = Institution
+        fields = ("email","name","password1","password2","idType", 'numID', 'role','profilePicture',
+                  'city','address','type_institution','description')
 
     
 

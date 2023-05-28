@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -5,326 +6,197 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enviar solicitud</title>
-  <link href="{% static '/newscholarship.css' %}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
+  {% block header %}
+    <link href="{% static '/newscholarship.css' %}" rel="stylesheet">
+  {% endblock %}
 </head>
 
 <body>
-  <div class="container-fluid" id="containerinit">
-    <div class="row">
+
+  {% block content %}
        <!-- Menú lateral -->
-       <nav class="navbar navbar-expand-lg col-md-3 sticky-md-top h-100 " id="leftspace" style=" height: 100%;">
-        <div class="container-fluid" id="leftbar">
-          <button class="navbar-toggler  my-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse " id="navbarSupportedContent"  >
-            <ul class="navbar-nav flex-column w-100" >
-              <img id="imgLogo" src="../../media/icons/logoInicio.png" class="img-fluid" alt="No Encontrada" id="imgLogo"/>
-                <div class="home">
-                <li class="nav-item mt-3" id="home-link">
-                    <a class="nav-link" href="#">
-                        <img src="../../media/icons/Home.png" alt="Icono Inicio" class="img-fluid" id="icon">
-                        <span data-feather="home"></span>
-                        &nbsp;Inicio
-                    </a>
-                </li>
-                </div>
-                <div class="new_scolarship">
-                <li class="nav-item mt-3" id="new_scolarshipps">
-                    <a class="nav-link active"  href="#">
-                        <img src="../../media/icons/IconPlus_green.png" alt="Icono nueva solicitud " class="img-fluid" id="icon">
-                        <span data-feather="new_scolarship"></span>
-                        &nbsp;Nueva solicitud de beca
-                    </a>
-                </li>
-                </div>
-                <div class="donor_history">
-                <li class="nav-item mt-3" id="donor_history-link">
-                    <a class="nav-link" href="#">
-                        <img src="../../media/icons/DonorUser.png" alt="Icono historial donantes " class="img-fluid" id="icon">
-                        <span data-feather="donor_history"></span>
-                        &nbsp;Tus donantes
-                    </a>
-                </li>
-                </div>
-                <div class="request_history">
-                <li class="nav-item mt-3" id="request_history-link">
-                    <a class="nav-link" href="#">
-                        <img src="../../media/icons/RequestHistory.png"" alt="Icono historial solicitudes " class="img-fluid" id="icon">
-                        <span data-feather="request_history"></span>
-                        &nbsp;Tus solicitudes
-                    </a>
-                </li>
-                </div>
-                
-                <div class="settings">
-                    <li class="nav-item mt-3" id="settings-link">
-                        <a class="nav-link" href="#">
-                            <img src="../../media/icons/setting.png" alt="Icono ajustes " class="img-fluid" id="icon">
-                            <span data-feather="settings"></span>
-                            &nbsp;Ajustes
-                        </a>
-                    </li>
-                </div>
-            </ul>
-          </div>
-        </div>
-      </nav>
+       
 
       <!--<button class="btn btn-primary mb-3 d-block d-md-none float-end w-50" type="button" data-bs-toggle="collapse" data-bs-target="#rightbar">más</button>-->
 
       <!-- Formulario en el centro -->
-      <div class="col-12 col-md-6 col" id="ok">
-        <div class="container  mt-3" id="x2">
-
-          <div class="row mb-3 flex-sm-row" id="contTitulo">
-            <div class="col-md-8">
-              <br>
-              <h1 id="titulo" class="mt-2">Formulario de solicitud</h1>
-              <hr id="line" class="w-80">
-            </div>
-            <div class="col-md-4">
-              <img src="../../media/icons/HigherEducation.png" alt="No Encontrada" class="img-fluid d-none d-md-block"
-                id="graduatedImg" />
-            </div>
-          </div>
-          <div class="row" id="fofo">
-            <div class="row">
-              <label for="subtitulo" id="subtitulo"><strong>Complete sus datos</strong></label>
-              <hr id="line2">
-            </div>
-            <form class="mt-3" id="container" id="cont2" action="/scholarships/insertScholarship/" method="post" enctype="multipart/form-data">
-              {% csrf_token %}
-              <div class="form-group">
-                <fieldset class="form-group">
-                  <div class="row mb-3">
-                    <div class="col-md-6" id="campo">
-                      <label for="nombres"><strong>Nombres</strong></label>
-                      <input type="text" name="nombres" id="nombres" class="form-control" required>
-                    </div>
-                    <div class="col-md-6" id="campo">
-                      <label for="apellidos"><strong>Apellidos</strong></label>
-                      <input type="text" name="apellidos" id="apellidos" class="form-control" required>
-                    </div>
-                  </div>
-                </fieldset>
-                <fieldset class="form-group">
-                  <div class="row mb-3">
-                    <div class="col-md-6" id="campo">
-                      <label for="tipodoc"><strong>Tipo de documento</strong></label>
-                      <select id="tipodoc" class="form-control" name="tipoid" required>
-                        <option selected disabled value="">Seleccione</option>
-                        <option>Tarjeta de identidad</option>
-                        <option>Cédula de ciudadania</option>
-                        <option>Cédula extranjera</option>
-                      </select>
-                    </div>
-                    <div class="col-md-6" id="campo">
-                      <label for="numdoc"><strong>Número de documento</strong></label>
-                      <input type="number" name="numdoc" id="numdoc" class="form-control" required>
-                    </div>
-                  </div>
-                </fieldset>
-                <fieldset class="form-group">
-                  <div class="row mb-3">
-                    <div class="col-md-6" id="campo">
-                      <label for="insti"><strong>Institución</strong></label>
-                      <select id="insti" class="form-control" required name="instituc">
-                        <option selected disabled value="">Seleccione</option>
-                        <option>ICESI</option>
-                        <option>Javeriana Cali</option>
-                      </select>
-                    </div>
-                    <div class="col-md-6" id="campo">
-                      <label for="programa"><strong>Programa</strong></label>
-                      <input type="text" name="programa" id="programa" class="form-control" required>
-                    </div>
-                  </div>
-                </fieldset>
-                <fieldset class="form-group">
-                  <div class="row mb-3">
-                    <div class="col-md-6" id="campo">
-                      <label for="valorS"><strong>Valor del periodo</strong></label>
-                      <input type="number" name="valorS" id="valorS" class="form-control" min="1000" max="50000000"
-                        required>
-                    </div>
-                    <div class="col-md-6" id="campo">
-                      <label for="periodoActual"><strong>Periodo actual</strong></label>
-                      <input type="number" name="periodoActual" id="periodoActual" class="form-control" min="1" max="20"
-                        required>
-                    </div>
-                  </div>
-                </fieldset>
-
-                <fieldset class="form-group">
-                  <div class="row mb-3">
-                    <div class="col-md-6" id="campo">
-                      <label for="totalPeriodos"><strong>Número de periodos a cursar</strong></label>
-                      <input type="number" class="form-control" name="totalPeriodos" id="totalPeriodos" min="1" max="20"
-                        required>
-                    </div>
-                    <div class="col-md-6" id="campo">
-                      <label for="puntajeI"><strong>Puntaje ICFES</strong></label>
-                      <input type="number" class="form-control" name="puntajeI" id="puntajeI" min="0" max="500"
-                        required>
-                    </div>
-                  </div>
-                </fieldset>
-                <fieldset class="form-group">
-                  <div class="row mb-3">
-                    <div class="col-md-6" id="campo">
-                      <label for="estrato"><strong>Estrato Socioeconómico</strong></label>
-                      <select class="form-control" id="estrato" required name="estrato">
-                        <option selected disabled value="">Seleccione</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                      </select>
-                    </div>
-                    <div class="col-md-6" id="campo">
-                      <label><strong>Seleccione:</strong></label>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" id="radio1" name="ingresoEstudiante"
-                          value="NI" checked>
-                        <label class="form-check-label" for="radio1">Soy estudiante de nuevo ingreso</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" id="radio2" name="ingresoEstudiante"
-                          value="A">
-                        <label class="form-check-label" for="radio2">Soy estudiante antiguo</label>
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
-                <div class="form-group">
-                  <br>
-                  <label for="subtitulo2" id="subtitulo2"><strong>Cargue los archivos</strong></label>
-                  <hr>
-
-                </div>
-                <fieldset class="form-group">
-                  <div class="row mb-3">
-                    <div class="col-md-12" id="campo">
-                      <label><strong>Documento de identidad</strong></label>
-                      <div class="custom-file">
-                        <input type="file" class="form-control " name="src-file1" accept=".pdf" id="docIdFile" required>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col-md-12" id="campo">
-                      <label><strong>Certificado de admisión</strong></label>
-                      <div class="custom-file">
-                        <input type="file" class="form-control" name="src-file2" accept=".pdf" id="certificadoFile"
-                          required>
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
-                <fieldset class="form-group">
-                  
-                  <label for="cartaMotivacional" id="subtitulo2"><strong>En este espacio escriba por qué desea la
-                      beca:</strong></label>
-                  <hr>
-                  <div class="row mb-3">
-                    <div class="col-md-12" id="campo">
-                      <div class="form-group">
-                        <textarea class="form-control" rows="15" name="cartaMotivacional" id="cartaMotivacional"
-                          maxlength="2000" required></textarea>
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
-
-              </div>
-              <div class="d-flex justify-content-center mt-3 mb-3">
-                <button type="submit" class="btn custom btn col-md-5" id="botonEnviar">Enviar solicitud</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- Barra de notificaciones en la parte derecha -->
       
-      <div class="col-12 col-md-3  mt-md-0  " id="right">
-       
-        <div class="sticky-md-top d-none d-md-block " id="rightbar">
-          <div class="row mt-3  " id="up_notifications">
-            <div class="row">
-              <div class="col-md-12" id="profiles">
-                <div class="row">
-                  <div class="col-md-4" id="profile_picture">
-                    <img src="../../media/icons/Allura Avatar.png" alt="No Encontrada" />
-                  </div>
-                  <div class="col-md-6" id="profile_names">
-                    <label for="name" id="notification">
-                      <p>
-                        {{ user.first_name|upper }}
-                      </p>
-                    </label>
-                  </div>
-                  <div class="col-md-2" id="perfil_dropdown">
-                    <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split"
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                      <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Ver perfil</a></li>
-                      <li><a class="dropdown-item" href="#">Editar perfil</a></li>
-                      <li>
-                        <hr class="dropdown-divider">
-                      </li>
-                      <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="row mt-3 " id="up_notifications2">
-            <div class="row vh-100 ">
-              <div class="col-md-12" id="showed_notifications">
-                <div class="row" id="title_notif">
-                  <div class="col-md-8" id="notif">
-                    <p>
-                      Notificaciones
-                    </p>
-                  </div>
-                  <div class="col-md-4 mt-4" id="see_all">
-                    <a id="linkShowAllNotifications" href="#">Ver todas</a>
-                  </div>
-                </div>
-                <div class="row mt-3" id="notif_list">
-                  <div class="col-md-3 mt-1" id="notif_item">
-                    <img src="../../media/icons/Notification_Icon.png" alt="No Encontrada" width="40" height="40"
-                      id="icon_check4" />
-                  </div>
-                  <div class="col-md-9" id="notification_text">
-                    <label for="notification" id="notification">
-                      <p> <strong> ¡Bienvenida!</strong> <br> Nos complace tenerte en nuestra plataforma. Esperamos que
-                        tu ingreso sea beneficioso para tí. Siempre estamos para ayudarte en tu formación académica.</p>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="row mb-3 flex-sm-row" id="contTitulo">
+        <div class="col-md-8">
+          <br>
+          <h1 id="titulo" class="mt-2">Formulario de solicitud</h1>
+          <hr id="line" class="w-80">
+        </div>
+        <div class="col-md-4">
+          <img src="../../media/icons/HigherEducation.png" alt="No Encontrada" class="img-fluid d-none d-md-block"
+            id="graduatedImg" />
         </div>
       </div>
-    </div>
-  </div>
+      <div class="row" id="fofo">
+        <div class="row">
+          <label for="subtitulo" id="subtitulo"><strong>Complete sus datos</strong></label>
+          <hr id="line2">
+        </div>
+        <form class="mt-3" id="container" id="cont2" action="/scholarships/insertScholarship/" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <fieldset class="form-group">
+              <div class="row mb-3">
+                <div class="col-md-6" id="campo">
+                  <label for="nombres"><strong>Nombres</strong></label>
+                  <input type="text" name="nombres" id="nombres" class="form-control" required>
+                </div>
+                <div class="col-md-6" id="campo">
+                  <label for="apellidos"><strong>Apellidos</strong></label>
+                  <input type="text" name="apellidos" id="apellidos" class="form-control" required>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <div class="row mb-3">
+                <div class="col-md-6" id="campo">
+                  <label for="tipodoc"><strong>Tipo de documento</strong></label>
+                  <select id="tipodoc" class="form-control" name="tipoid" required>
+                    <option selected disabled value="">Seleccione</option>
+                    <option>Tarjeta de identidad</option>
+                    <option>Cédula de ciudadania</option>
+                    <option>Cédula extranjera</option>
+                  </select>
+                </div>
+                <div class="col-md-6" id="campo">
+                  <label for="numdoc"><strong>Número de documento</strong></label>
+                  <input type="number" name="numdoc" id="numdoc" class="form-control" required>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <div class="row mb-3">
+                <div class="col-md-6" id="campo">
+                  <label for="insti"><strong>Institución</strong></label>
+                  <select id="insti" class="form-control" required name="instituc">
+                    <option selected disabled value="">Seleccione</option>
+                    <option>ICESI</option>
+                    <option>Javeriana Cali</option>
+                  </select>
+                </div>
+                <div class="col-md-6" id="campo">
+                  <label for="programa"><strong>Programa</strong></label>
+                  <input type="text" name="programa" id="programa" class="form-control" required>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <div class="row mb-3">
+                <div class="col-md-6" id="campo">
+                  <label for="valorS"><strong>Valor del periodo</strong></label>
+                  <input type="number" name="valorS" id="valorS" class="form-control" min="1000" max="50000000"
+                    required>
+                </div>
+                <div class="col-md-6" id="campo">
+                  <label for="periodoActual"><strong>Periodo actual</strong></label>
+                  <input type="number" name="periodoActual" id="periodoActual" class="form-control" min="1" max="20"
+                    required>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <div class="row mb-3">
+                <div class="col-md-6" id="campo">
+                  <label for="totalPeriodos"><strong>Número de periodos a cursar</strong></label>
+                  <input type="number" class="form-control" name="totalPeriodos" id="totalPeriodos" min="1" max="20"
+                    required>
+                </div>
+                <div class="col-md-6" id="campo">
+                  <label for="puntajeI"><strong>Puntaje ICFES</strong></label>
+                  <input type="number" class="form-control" name="puntajeI" id="puntajeI" min="0" max="500"
+                    required>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <div class="row mb-3">
+                <div class="col-md-6" id="campo">
+                  <label for="estrato"><strong>Estrato Socioeconómico</strong></label>
+                  <select class="form-control" id="estrato" required name="estrato">
+                    <option selected disabled value="">Seleccione</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                  </select>
+                </div>
+                <div class="col-md-6" id="campo">
+                  <label><strong>Seleccione:</strong></label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" id="radio1" name="ingresoEstudiante"
+                      value="NI" checked>
+                    <label class="form-check-label" for="radio1">Soy estudiante de nuevo ingreso</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" id="radio2" name="ingresoEstudiante"
+                      value="A">
+                    <label class="form-check-label" for="radio2">Soy estudiante antiguo</label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <div class="form-group">
+              <br>
+              <label for="subtitulo2" id="subtitulo2"><strong>Cargue los archivos</strong></label>
+              <hr>
+
+            </div>
+            <fieldset class="form-group">
+              <div class="row mb-3">
+                <div class="col-md-12" id="campo">
+                  <label><strong>Documento de identidad</strong></label>
+                  <div class="custom-file">
+                    <input type="file" class="form-control " name="src-file1" accept=".pdf" id="docIdFile" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-12" id="campo">
+                  <label><strong>Certificado de admisión</strong></label>
+                  <div class="custom-file">
+                    <input type="file" class="form-control" name="src-file2" accept=".pdf" id="certificadoFile"
+                      required>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              
+              <label for="cartaMotivacional" id="subtitulo2"><strong>En este espacio escriba por qué desea la
+                  beca:</strong></label>
+              <hr>
+              <div class="row mb-3">
+                <div class="col-md-12" id="campo">
+                  <div class="form-group">
+                    <textarea class="form-control" rows="15" name="cartaMotivacional" id="cartaMotivacional"
+                      maxlength="2000" required></textarea>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+          </div>
+          <div class="d-flex justify-content-center mt-3 mb-3">
+            <button type="submit" class="btn custom btn col-md-5" id="botonEnviar">Enviar solicitud</button>
+          </div>
+        </form>
+      </div>
   
+    {% endblock %}
   <!-- jQuery y Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
