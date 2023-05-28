@@ -4,24 +4,12 @@
 
 {% if user.is_authenticated %}
 {% block content %}
-<link href="{% static '/menu.css' %}" rel="stylesheet" />
+<link href="{% static '/consultBeneficiario.css' %}" rel="stylesheet" />
 
 <div class="container-fluid">
 <div class="row mb-3 flex-sm-row " style="background-color: #A4D955; border-radius: 20px; height: 10.5rem; " >
     <div class="col-md-8 ">
-        <h1 class="mt-2 text-left" style="color: white">Hola de Nuevo,</h1>
-        <h2 style="color: white;">
-            {{ request.user.name|capfirst }}
-        </h2>
-        {% if user.role == 1 %}
-        <h5 class="mt-2" style="color: white; font-weight: 400; font-size:medium;">
-            Aquí puedes revisar la información sobre tu <br> solicitud de beca
-        </h5>
-        {% elif user.role == 2%}
-        <h5 class="mt-2" style="color: white; font-weight: 400; font-size:medium;">
-            ¡Hoy Puedes Cumplir Muchos Sueños!
-        </h5>
-        {% endif %}
+       
     </div>
 
     <div class="col-md-4">
@@ -73,7 +61,7 @@
       {% else %}
       <div class=" col-md-6 " >
         <p style=" font-weight: 600; font-size:medium;" class="m-auto">
-            No has realizado Aportes Aun.
+            No has realizado Aportes aún.
         </p>
     </div>
       {% endif %}
