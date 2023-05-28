@@ -17,4 +17,8 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path("editSolicitudActiva/", views.EditSolicitud.as_view(), name='editSolicitudActiva'),
                 path("newdonation/", NewDonation.as_view(), name='newdonation'),
                 path("lookbeneficiaries/", views.LookBeneficiaries.as_view(), name='look_beneficiaries'),
+                path("filtersemester/<int:id>/'", views.FilterSemester.as_view(), name='filtersemester'),
+                path("filterinstitution/<int:id>/'", views.FilterInstitution.as_view(), name='filterinstitution'),
+                path("filterprogram/<str:program_name>/'", views.FilterProgram.as_view(), name='filterprogram'),
+                path('filtervalue/<int:min_value>/<int:max_value>/', views.FilterInterval.as_view(), name='filtervalue'),
  ]
