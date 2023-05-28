@@ -11,12 +11,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     NATURALDONOR=2
     LEGALDONOR=3
     INSTITUTION=4
+    ADMIN=5
 
     ROLE_CHOICE=(
           (BENEFICIARY, 'Beneficiario'),
           (NATURALDONOR,'Donante natural'),
           (LEGALDONOR,'Donante juridico'),
           (INSTITUTION,'Institución'),
+          (ADMIN,'Admin'),
     )
 
     TI=1
@@ -62,6 +64,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     def has_perm(self, perm, obj=None):
        return self.is_superuser
     
+class Admin(User):
+    pass
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name = 'Admin'
 
 class NaturalDonor(User):
     pass
@@ -70,7 +78,7 @@ class NaturalDonor(User):
         return self.name
     
     class Meta:
-        verbose_name = '    NaturalDonor'
+        verbose_name = 'NaturalDonor'
 
 class LegalDonor(User):
     description = models.TextField(max_length=255)
@@ -113,3 +121,8 @@ class Institution(User):
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=70)
     money_donation = models.IntegerField(default=0)
+
+    optionsstate= (('A','Aprobada'),
+                     ('P','Pendiente'),
+                     ('R','Rechazada'))
+    verificationState = models.CharField(max_length=30,choices=optionsstate,null=False, default='P')
