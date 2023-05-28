@@ -3,6 +3,9 @@ from django.shortcuts import render
 from users.models import Beneficiary
 from .models import Scholarship
 from datetime import datetime
+
+from django.views.generic import TemplateView
+
 from users.views import BeneficiaryUpdateView,NaturalDonorUpdateView,LegalDonorUpdateView,InstitutionUpdateView
 
 class ShowMenu(View):
@@ -140,7 +143,9 @@ class EditSolicitud(View):
             scholarshipUpdated.save()
             return render(request,'menu.html')
 
-   
+
+## Edit Profile
+
 class BeneficiaryUpdateView(BeneficiaryUpdateView):
     pass 
 
@@ -152,3 +157,11 @@ class LegalDonorUpdateView(LegalDonorUpdateView):
 
 class InstitutionUpdateView(InstitutionUpdateView):
     pass
+
+
+
+## Donor
+
+class NewDonation(TemplateView):
+    template_name= 'new_donation.html'
+

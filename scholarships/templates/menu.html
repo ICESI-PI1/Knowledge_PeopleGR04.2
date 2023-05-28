@@ -9,7 +9,7 @@
 <div class="container-fluid">
 <div class="row mb-3 flex-sm-row " style="background-color: #A4D955; border-radius: 20px; height: 10.5rem; " >
     <div class="col-md-8 ">
-        <h1 class="mt-2 text-left" style="color: white">Hola de Nuevo,</h1>
+        <h2 class="mt-2 text-left" style="color: white">Hola de nuevo,</h2>
         <h2 style="color: white;">
             {{ request.user.name|capfirst }}
         </h2>
@@ -19,7 +19,7 @@
         </h5>
         {% elif user.role == 2%}
         <h5 class="mt-2" style="color: white; font-weight: 400; font-size:medium;">
-            ¡Hoy Puedes Cumplir Muchos Sueños!
+            ¡Hoy puedes cumplir muchos sueños!
         </h5>
         {% endif %}
     </div>
@@ -73,7 +73,7 @@
       {% else %}
       <div class=" col-md-6 " >
         <p style=" font-weight: 600; font-size:medium;" class="m-auto">
-            No has realizado Aportes Aun.
+            No has realizado aportes aún.
         </p>
     </div>
       {% endif %}
@@ -147,11 +147,11 @@
     </div>
     <!-- Donor -->
     {% elif user.role == 2%}
-    <div class="row mb-3 flex-sm-row mt-2">
-        <div class="col-md-6"  style="background-color: white;  border-radius: 1rem;">
-            <div class="howreqletter mt-2">
+    <div class="row mb-3 flex-sm-row mt-2 justify-content-between">
+        <div class="col-lg-5 md-12"  style="background-color: white;  border-radius: 1rem;">
+            <div class="howreqletter mt-2 ju">
                 <p>
-                    Pasos para Realizar una Donación
+                    Pasos para realizar una donación.
                 </p>
             </div>
             <div class="row" style=" margin-top: 2rem;" >
@@ -195,7 +195,7 @@
             </div>
         </div>
 
-        <div class="col-md-6 mt-3 mb-3"  style="background-color: white;  border-radius: 1rem;">
+        <div class="col-lg-5 md-12"  style="background-color: white;  border-radius: 1rem;">
             <div class="rememberletter">
                 <p style="color: #F29F05;font-size: 1.2rem;font-weight: bold;">
                     ¿A quién puedo beneficiar?

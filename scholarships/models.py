@@ -50,3 +50,15 @@ class Transaction(models.Model):
 
     # optional relation with Institution
     institution_donation = models.ForeignKey(Institution, on_delete=models.CASCADE, null=True, blank=True, related_name='donations')
+
+
+    #Notificaciones
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.CharField(max_length=255)
+    is_read = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
