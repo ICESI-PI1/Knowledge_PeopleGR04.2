@@ -1,6 +1,6 @@
 from django.views import View
 from django.shortcuts import render
-from users.models import Beneficiary
+from users.models import Beneficiary, Institution
 from .models import Scholarship
 from datetime import datetime
 from django.views.generic import TemplateView, ListView
@@ -13,7 +13,9 @@ class ShowMenu(View):
 
 class NewApplication(View):
     def get(self,request):
-        return render(request,'newscholarship.html')
+        institutions = Institution.objects.all()
+        data = {'institutions':institutions}
+        return render(request,'newscholarship.html',data)
     
 class LookApplication(View):
     def get(self,request):
@@ -44,6 +46,7 @@ class InsertScholarship(View):
             typedocument = request.POST['tipoid']
             numdoc = request.POST['numdoc']
             institute = request.POST['instituc']
+            institutionvalue = Institution.objects.get(name=institute)
             program = request.POST['programa']
             valuesem = request.POST['valorS']
             timeA = request.POST['periodoActual']
@@ -67,7 +70,7 @@ class InsertScholarship(View):
                 scolarship = Scholarship(stratum=levels,photocopy_id=picturedoc, motivational_letter=letter,
                                         certificate=picturecer,value_period=valuesem,icfes_score=icfes,period_current=timeA,
                                         program_adm=program,application_type=optionnew,state='P',
-                                        total_periods=totalP,active='AC',date_application=now,id_user=ben)
+                                        total_periods=totalP,active='AC',date_application=now,id_user=ben,institution=institutionvalue)
                 scolarship.save()
 
                 return render(request,'menu.html')
