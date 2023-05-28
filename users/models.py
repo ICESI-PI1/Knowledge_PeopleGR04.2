@@ -66,10 +66,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     
 class Admin(User):
     pass
-
     def __str__(self):
         return self.name
-    
     class Meta:
         verbose_name = 'Admin'
 
@@ -123,3 +121,8 @@ class Institution(User):
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=70)
     money_donation = models.IntegerField(default=0)
+
+    optionsstate= (('A','Aprobada'),
+                     ('P','Pendiente'),
+                     ('R','Rechazada'))
+    verificationState = models.CharField(max_length=30,choices=optionsstate,null=False, default='P')
