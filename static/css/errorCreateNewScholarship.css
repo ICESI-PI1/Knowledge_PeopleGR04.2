@@ -1,4 +1,4 @@
-#create-solicitud-btn {
+#inactivarSoliBtn {
   background-color: #f29f05;
   border-color: #f29f05;
   color: #fff;
@@ -10,7 +10,7 @@
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
-#create-solicitud-btn:hover {
+#inactivarSoliBtn:hover {
   background-color: #a4d955;
   border-color: #a4d955;
   color: #fff;

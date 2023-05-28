@@ -1,5 +1,5 @@
 from django.views import View
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from users.models import Beneficiary, Institution
 from .models import Scholarship
 from datetime import datetime
@@ -15,7 +15,15 @@ class NewApplication(View):
     def get(self,request):
         institutions = Institution.objects.all()
         data = {'institutions':institutions}
-        return render(request,'newscholarship.html',data)
+
+        id_ben = request.user.id
+        datos_solicitud = Scholarship.objects.filter(id_user = id_ben, active = 'AC')
+        solicitud = datos_solicitud.first()
+
+        if(solicitud == None):
+            return render(request,'newscholarship.html',data)
+        else:
+            return render(request,'errorCreateNewScholarship.html')
     
 class LookApplication(View):
     def get(self,request):
@@ -29,10 +37,12 @@ class ActiveSolicitud(View):
         id_ben = request.user.id
         datos_solicitud = Scholarship.objects.filter(id_user = id_ben, active = 'AC')
         solicitud = datos_solicitud.first()
+        institutions = Institution.objects.all()
 
         if(solicitud != None):
             contexto = {
                 'solicitud_activa': solicitud,
+                'institutions': institutions,
             }
             return render(request, 'ActiveSolicitud.html', contexto)
         else:
@@ -42,7 +52,7 @@ class InsertScholarship(View):
     def post(self,request):
         if request.method == 'POST':
             name = request.POST['nombres']
-            lastname = request.POST['apellidos']
+            email = request.POST['correo']
             typedocument = request.POST['tipoid']
             numdoc = request.POST['numdoc']
             institute = request.POST['instituc']
@@ -86,10 +96,13 @@ class InsertScholarship(View):
 class EditSolicitud(View):
     def get(self,request):
         id_ben = request.user.id
-        datos_solicitud = Scholarship.objects.filter(id_user = id_ben   , active = 'AC')
+        datos_solicitud = Scholarship.objects.filter(id_user=id_ben, active='AC')
         solicitud = datos_solicitud.first()
+        institutions = Institution.objects.all()
+
         contexto = {
             'solicitud_activa': solicitud,
+            'institutions': institutions,
         }
         return render(request, 'editionScholarship.html', contexto)
 
@@ -98,23 +111,24 @@ class EditSolicitud(View):
 
             if 'inactivate_scholarship' in request.POST:
                 id_ben = request.user.id
-                solicitud = Scholarship.objects.filter(id_user = id_ben, active = 'AC')
+                solicitud = Scholarship.objects.filter(id_user=id_ben, active='AC')
                 scholarshipToInactivate = solicitud.first()
-                
+
                 scholarshipToInactivate.active = 'IN'
+                scholarshipToInactivate.state = 'R'
                 scholarshipToInactivate.save()
-                print(f"Solicitud con del usuario {scholarshipToInactivate.id_user.name} ha sido inactivada.")
-                return render(request,'menu.html')
-            
-            
-            program =  request.POST['programa']
+                print(f"Solicitud del usuario {scholarshipToInactivate.id_user.name} ha sido inactivada.")
+                return render(request, 'menu.html')
+
+            institute = request.POST['instituc']
+            program = request.POST['programa']
             valuesem = request.POST['valorS']
             timeA = request.POST['periodoActual']
             totalP = request.POST['totalPeriodos']
             icfes = request.POST['puntajeI']
             levels = request.POST['estrato']
             optionnew = request.POST['ingresoEstudiante']
-            picturedoc =  None
+            picturedoc = None
             picturecer = None
             try:
                 picturedoc = request.FILES['src-file1']
@@ -122,18 +136,17 @@ class EditSolicitud(View):
             except:
                 print('error')
 
-                
             now = datetime.now()
             letter = request.POST['cartaMotivacional']
-                
+
             id_ben = request.user.id
-            solicitud = Scholarship.objects.filter(id_user = id_ben, active = 'AC')
+            solicitud = Scholarship.objects.filter(id_user=id_ben, active='AC')
             scholarshipUpdated = solicitud.first()
 
             scholarshipUpdated.stratum = levels
-            scholarshipUpdated.photocopy_id = picturedoc  if picturedoc != None else scholarshipUpdated.photocopy_id 
+            scholarshipUpdated.photocopy_id = picturedoc if picturedoc != None else scholarshipUpdated.photocopy_id
             scholarshipUpdated.motivational_letter = letter
-            scholarshipUpdated.certificate = picturecer  if picturecer != None else scholarshipUpdated.certificate 
+            scholarshipUpdated.certificate = picturecer if picturecer != None else scholarshipUpdated.certificate
             scholarshipUpdated.value_period = valuesem
             scholarshipUpdated.icfes_score = icfes
             scholarshipUpdated.period_current = timeA
@@ -141,9 +154,12 @@ class EditSolicitud(View):
             scholarshipUpdated.application_type = optionnew
             scholarshipUpdated.total_periods = totalP
             scholarshipUpdated.date_application = now
+            institution = get_object_or_404(Institution, id=institute)
+            scholarshipUpdated.institution = institution
 
             scholarshipUpdated.save()
-            return render(request,'menu.html')
+            return render(request, 'menu.html')
+
 
 class LookBeneficiaries(ListView):
     def get(self, request):
