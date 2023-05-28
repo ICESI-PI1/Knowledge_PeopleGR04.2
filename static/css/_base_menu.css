@@ -4,10 +4,13 @@ body{
     background-color: #F0F7FF;
 }
 
+
+
 /*left bar style*/
 #leftspace, #leftbar, #navbarSupportedContent {
     background-color: white;
     opacity: 100%;
+
 }
 
 #imgLogo {
@@ -25,8 +28,7 @@ div.active_request,
 div.settings{
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
-    font-weight: 500;
-    font-size: 1.125rem;
+    
     line-height: 3.125rem;
     color: #8A8A8A;
     font-weight: bold;
@@ -40,10 +42,6 @@ div.settings{
     color: #A4D955;
 }
 
-.leftbar .nav-link:visited {
-    color: #A4D955;
-    background-color: #F0F7FF;
-}
 
 .navbar-toggler.my-toggler {
     border: 2px solid #558018;
@@ -54,19 +52,10 @@ div.settings{
   }
 
 
-
-/*right bar style*/
-#rightbar{     
-    width: fit-content;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 43.75rem;
-    font-size: 1.25rem;
-    line-height: 1.688rem;
- 
-    background: #FFFFFF;
-    border-radius: 1.25rem 1.25rem 1.25rem 1.25rem;
+.nav-link{
+    color:#8A8A8A;
 }
+
 
 
 #profiles{
@@ -77,8 +66,7 @@ div.settings{
 }
 
 #profile_picture{
- 
-    width: min-content;
+    
     height: fit-content;
     margin-left: 7%;
     margin-top: 3%;
@@ -99,16 +87,30 @@ div.settings{
     
 }
 
+  .username {
+    font-size: 1.5rem;
+  }
+
 #perfil_dropdown{
     margin-top: 4%;
 }
 
-#showed_notifications{
-    margin-left: 4%;
-    border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
-    background: #FFEEBD;
-}
-#notif{
+
+#notif {
+    height: calc(100vh - 200px); /* Establece la altura para ocupar el espacio restante de la ventana */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical si hay demasiado contenido */
+    background-color:black;
+
+  }
+
+  #scrollBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none; /* Oculta el botón de desplazamiento inicialmente */
+    z-index: 999;
+  }
+#notif h4{
     font-family: 'Open Sans';
     font-style: bold;
     font-size: 1.25rem;
@@ -135,8 +137,38 @@ div.settings{
     background-color: #F0F7FF;
 }
 
+ok {
+    margin-bottom: 80px;
+}
+
+
 #fofo{
     background-color: #fff;
 }
 
+#profile{
+    background-color: #fff;
+}
+
+#notif {
+    background: rgba(255, 218, 109, 0.46);
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.list-group-item {
+    margin-bottom: 10px;
+    
+}
+
+.list-group-item.font-weight-bold {
+    background-color: rgba(255, 255, 255, 0.5);
+    
+
+}
+
+.badge.bg-primary {
+    background-color: #007bff;
+    
+}
 
