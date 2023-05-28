@@ -16,4 +16,5 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path("soli_Activa/", views.ActiveSolicitud.as_view(), name="soli_Activa"),
                 path("editSolicitudActiva/", views.EditSolicitud.as_view(), name='editSolicitudActiva'),
                 path("newdonation/", NewDonation.as_view(), name='newdonation'),
+                path("lookbeneficiaries/", views.LookBeneficiaries.as_view(), name='look_beneficiaries'),
  ]

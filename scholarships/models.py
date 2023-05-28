@@ -26,6 +26,7 @@ class Scholarship(models.Model):
     active = models.CharField(max_length=20,choices=optionsactive,default='Activo',null=False)
     date_application = models.DateTimeField(auto_now_add=True)
     id_user = models.ForeignKey(Beneficiary,null=False,blank=False,on_delete=models.CASCADE)
+    institution = models.ForeignKey(Institution,null=False,blank=False, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.state + ", icfes: " + str(self.icfes_score)

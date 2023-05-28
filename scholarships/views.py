@@ -3,8 +3,7 @@ from django.shortcuts import render
 from users.models import Beneficiary
 from .models import Scholarship
 from datetime import datetime
-
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 from users.views import BeneficiaryUpdateView,NaturalDonorUpdateView,LegalDonorUpdateView,InstitutionUpdateView
 
@@ -143,6 +142,9 @@ class EditSolicitud(View):
             scholarshipUpdated.save()
             return render(request,'menu.html')
 
+class LookBeneficiaries(ListView):
+    def get(self, request):
+        return render(request, 'lookbeneficiaries.html')
 
 ## Edit Profile
 

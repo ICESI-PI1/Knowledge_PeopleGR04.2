@@ -83,7 +83,7 @@
                     </a>
                     {% elif user.role == user.NATURALDONOR %}
                     <!-- El usuario es Donante natural -->
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{% url 'scholarships:look_beneficiaries' %}">
                       <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
                       <span data-feather="donor_history"></span>
                       &nbsp;Consultar Beneficiarios
