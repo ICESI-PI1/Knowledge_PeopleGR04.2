@@ -207,8 +207,10 @@
                 <div class="d-flex align-items-center justify-content-center">
                   <button type="submit" class="btn btn-link p-0" style=" border: none;" name="viewBeneficiaryDetails"
                     data-scholarship-id="{{ x.id_user.name }}">
+                    <a href="{% url 'scholarships:showdetailsbeneficiary' id=x.id %}">
                     <img src="/media/images/Forward.png" class="img-fluid" alt="noimage"
                       style="max-width: 3rem; max-height: 3rem;">
+                    </a>
                   </button>
                 </div>
               </td>

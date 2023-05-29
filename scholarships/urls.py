@@ -21,4 +21,5 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path("filterinstitution/<int:id>/'", views.FilterInstitution.as_view(), name='filterinstitution'),
                 path("filterprogram/<str:program_name>/'", views.FilterProgram.as_view(), name='filterprogram'),
                 path('filtervalue/<int:min_value>/<int:max_value>/', views.FilterInterval.as_view(), name='filtervalue'),
+                path('showdetailsBen/<int:id>/', views.ShowDetailsBen.as_view(), name='showdetailsbeneficiary'),
  ]
