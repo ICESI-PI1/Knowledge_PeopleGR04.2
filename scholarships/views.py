@@ -175,6 +175,7 @@ class LookBeneficiaries(ListView):
         return render(request, 'lookbeneficiaries.html',data)
 
 
+
 class FilterSemester(ListView):
     def get(self,request,id):
         semester = []
