@@ -14,7 +14,6 @@ body {
   color: #ffffff;
   opacity: 100%;
   font-family: "Open Sans";
-  font-size: 2rem;
   font-weight: bold;
   margin-left: 3rem;
 }
@@ -30,79 +29,14 @@ body {
 
 #graduatedImg {
   float: right;
-  width: 11rem;
-  height: 7rem;
+  max-height: 7rem;
   background: url(.png);
   margin-right: 2rem;
   margin-top: 1rem;
 }
 
 /*form style*/
-.container {
-  background-color: #fff;
-}
 
-#subtitulo {
-  font-family: "Open Sans";
-  font-style: normal;
-  font-weight: bold;
-  font-size: 1.2rem;
-  line-height: 1.688rem;
-  color: #8a8a8a;
-}
-
-#campo2 {
-  margin-bottom: 1em;
-  font-family: "Open Sans";
-  font-style: normal;
-  font-size: 1em;
-  color: #8a8a8a;
-}
-
-#campo2 label {
-  font-family: "Open Sans";
-  font-style: normal;
-  font-weight: 43.7rem;
-  font-size: 0.938rem;
-  line-height: 1.688rem;
-  margin-bottom: 0.1em;
-  color: #8a8a8a;
-  display: block;
-}
-
-#campo2 input[type="text"],
-#campo2 input[type="email"],
-#campo2 input[type="number"] {
-  border: 1px solid #8a8a8a;
-  box-shadow: 0.125rem 0.125rem 0.125rem rgba(0, 0, 0, 0.2);
-  display: block;
-
-  font-family: "Open Sans";
-  font-style: normal;
-  font-size: 1em;
-  color: #8a8a8a;
-  border-radius: 0.5rem;
-}
-
-#check {
-  padding: 0.2em;
-  font-family: "Open Sans";
-  font-style: normal;
-  font-size: 1em;
-  color: #8a8a8a;
-  border-radius: 8px;
-}
-
-textarea {
-  border: 1px solid #558018;
-  border-radius: 8px;
-}
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
 
 #botonDonar {
   background-color: #f29f05;

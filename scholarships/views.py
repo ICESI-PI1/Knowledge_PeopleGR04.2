@@ -254,6 +254,19 @@ class FilterProgram(ListView):
         data = {'scholarships':scholarships,'semesters':semester,'institutions':institutions,'intervals':intervals}
         return render(request,'lookbeneficiaries.html',data)
 
+
+class LookInstitutions(ListView):
+    def get(self, request):
+        institutions = Institution.objects.all()
+        
+        data = {'institutions':institutions}
+        return render(request, 'lookinstitution.html',data)
+
+class ShowDetailsBen(TemplateView):
+    def get(self,request,id):
+        scholarship = Scholarship.objects.get(id=id)
+        data = {'scholarship':scholarship}
+        return render(request, 'beneficiaryDetailsToDonate.html',data)
 ## Edit Profile
 
 class BeneficiaryUpdateView(BeneficiaryUpdateView):
@@ -275,6 +288,15 @@ class InstitutionUpdateView(InstitutionUpdateView):
 class NewDonation(TemplateView):
     template_name= 'new_donation.html'
 
+#Aliados
+
+from django.views.generic import ListView
+from .models import Institution
+
+class InstitutionListView(ListView):
+    model = Institution
+    template_name = 'aliados.html'  # Reemplaza "institution_list.html" con el nombre de tu plantilla
+    context_object_name = 'institutions'  # Define el nombre de la variable de contexto que contendrá la lista de instituciones
 
 class TransactionListView(TemplateView):
     template_name = 'menu.html'
@@ -323,4 +345,3 @@ class ScholarshipListView(View):
         scholarship.save()
 
         return redirect('scholarships:scholarships')  # Redirigir a la lista de becas
-

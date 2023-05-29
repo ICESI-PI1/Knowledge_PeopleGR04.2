@@ -121,7 +121,7 @@
                     </a>
                     {% elif user.role == user.NATURALDONOR %}
                     <!-- El usuario es Donante -->
-                    <a class="nav-link d-flex" href="#">
+                    <a class="nav-link d-flex" href="{% url 'scholarships:look_institutions' %}">
                       <img src="../../../../media/images/ucampus.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
                       <span data-feather="donor_history" style="margin-left: 0.1rem;"></span>
                       &nbsp;Consultar Instituciones

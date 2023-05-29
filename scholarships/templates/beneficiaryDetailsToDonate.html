@@ -19,118 +19,111 @@
 
 <body>
     {% block content %}
+    <div class="container-fluid">
     <div class="row mb-3 flex-sm-row" id="contTitulo">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <br />
-            <h1 id="titulo" class="mt-2">Descripción del estudiante</h1>
+            <h3 id="titulo" class="mt-2">Descripción del Aspirante</h3>
             <hr id="line" class="w-80" />
         </div>
-        <div class="col-md-4">
-            <img src="../../media/icons/toDonate.png" alt="No Encontrada" class="img-fluid d-none d-md-block"
+        <div class="col-md-3 text-center">
+            <div class="d-flex justify-content-center">
+            <img src="../../../media/icons/fund.png" alt="No Encontrada" class="img-fluid d-none d-md-block"
                 id="graduatedImg" />
+            </div>
         </div>
     </div>
-    <div class="row" id="fofo">
-        <form class="mt-3" id="container" id="cont2" method="get" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-group">
-                <fieldset class="form-group">
-                    <div class="row mb-3">
-                        <div class="col-md-2">
-                            <img src="/media/{{ user.profilePicture }}" class="img-fluid" alt="noimage" style="
-                            max-width: 18rem;
-                            max-height: 22rem;
-                            margin-top: 1.5rem;
-                            margin-left: 1rem;
-                            border-radius: 10px;" />
-                        </div>
 
-                        <div class="col-md-6" id="campo2" style="margin-left: 15rem">
-                            <label for="nombres"><strong>Nombre completo</strong></label>
-                            <input type="text" name="nombres" id="nombres" class="form-control" value="{{ user.name }}"
-                                readonly />
 
-                            <label for="email" style="margin-top: 0.5rem"><strong>Correo electronico</strong></label>
-                            <input type="text" name="email" id="email" class="form-control" value="{{ user.email }}"
-                                readonly />
+    <!--- fields form-->
+    <div class="form">
+        <div class="row">
+            <div class="col-lg-5 d-flex flex-column align-items-center " >
+                <img src="/media/{{ scholarship.id_user.profilePicture }}" class="img-fluid" alt="noimage"
+                  style="max-width: 15rem; height: 13rem; border-radius: 10px; margin-right: 0.5rem;">
 
-                            <label for="insti" style="margin-top: 0.5rem"><strong>Institución</strong></label>
-                            <input type="text" name="apellidos" id="apellidos" class="form-control" value="ICESI"
-                                readonly />
-                        </div>
-                    </div>
-                </fieldset>
 
-                <fieldset class="form-group">
-                    <div class="row mb-3">
-                        <div class="col-md-6" id="campo2">
-                            <label for="programa"><strong>Programa</strong></label>
-                            <input type="text" name="programa" id="programa" class="form-control" value="" readonly />
-                        </div>
-
-                        <div class="col-md-6" id="campo2">
-                            <label for="periodoActual"><strong>Periodo actual</strong></label>
-                            <input type="number" name="periodoActual" id="periodoActual" class="form-control" min="1"
-                                max="20" required value="" readonly />
-                        </div>
-                    </div>
-                </fieldset>
-
-                <fieldset class="form-group">
-                    <div class="row mb-3">
-                        <div class="col-md-6" id="campo2">
-                            <label for="valorS"><strong>Valor del semestre</strong></label>
-                            <input type="number" name="valorS" id="valorS" class="form-control" min="1000"
-                                max="50000000" required value="" readonly />
-                        </div>
-
-                        <div class="col-md-6" id="campo2">
-                            <label for="totalPeriodos"><strong>Total periodos</strong></label>
-                            <input type="number" class="form-control" name="totalPeriodos" id="totalPeriodos" min="1"
-                                max="20" required value="" readonly />
-                        </div>
-                    </div>
-                </fieldset>
-
-                <fieldset class="form-group">
-                    <div class="row mb-3">
-                        <div class="col-md-6" id="campo2">
-                            <label for="estrato"><strong>Estrato Socioeconómico</strong></label>
-                            <input type="number" class="form-control" name="estrato" id="estrato" min="1" max="20"
-                                required value="" readonly />
-                        </div>
-
-                        <div class="col-md-6" id="campo2">
-                            <label for="estrato"><strong>Estado beneficiado</strong></label>
-                            <input type="text" class="form-control" name="estadoBeneficiado" id="estadoBeneficiado"
-                                required value="" readonly />
-                        </div>
-                    </div>
-                </fieldset>
-
-                <fieldset class="form-group">
-                    <label for="cartaMotivacional" id="campo2"><strong>Carta mativacional</strong></label>
-                    <div class="row mb-3">
-                        <div class="col-md-12" id="campo">
-                            <div class="form-group">
-                                <textarea class="form-control" rows="15" name="cartaMotivacional" id="cartaMotivacional"
-                                    maxlength="2000" value="" readonly>
-
-                                </textarea>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
+                <div class="d-flex mt-3 ">
+                    <h5 style="color: #F29F05;">Periodos a Cursar: </h5>
+                    <h5 class="mx-2"> 
+                    {{ scholarship.total_periods }}
+                    </h5>
+                </div>
+                <div class="d-flex ">
+                    <h5 style="color: #F29F05;">Periodo Actual: </h5>
+                    <h5 class="mx-2"> 
+                    {{ scholarship.period_current }}
+                    </h5>
+                </div>
+               
             </div>
 
-            <div class="d-flex justify-content-center mt-3 mb-3">
-                <button type="submit" class="btn custom btn col-md-5" id="botonDonar">
-                    Aportar
-                </button>
+            <div class="col-lg-7">
+                <div class="d-flex ">
+                    <h5 style="color: #F29F05;">Nombre: </h5>
+                    <h5 class="mx-2"> 
+                    {{ scholarship.id_user.name|capfirst }}
+                    </h5>
+                </div>
+                <div class="d-flex ">
+                    <h5 style="color: #F29F05;">Puntaje Icfes: </h5>
+                    <h5 class="mx-2"> 
+                    {{ scholarship.icfes_score }}
+                    </h5>
+                </div>
+                <div class="d-flex ">
+                    <h5 style="color: #F29F05;">Email: </h5>
+                    <h5 class="mx-2"> 
+                    {{ scholarship.id_user.email }}
+                    </h5>
+                </div>
+                <div class="d-flex ">
+                    <h5 style="color: #F29F05;">Institucion: </h5>
+                    <h5 class="mx-2"> 
+                    {{ scholarship.institution.name }}
+                    </h5>
+                </div>
+                <div class="d-flex ">
+                    <h5 style="color: #F29F05;">Programa: </h5>
+                    <h5 class="mx-2"> 
+                    {{ scholarship.program_adm }}
+                    </h5>
+                </div>
+                <div class="d-flex ">
+                    <h5 style="color: #F29F05;">Estrato Social: </h5>
+                    <h5 class="mx-2"> 
+                    {{ scholarship.stratum }}
+                    </h5>
+                </div>
+                <div class="d-flex mt-4 ">
+                    <h5 style="color: #F29F05;">Valor Periodo: </h5>
+                    <h5 class="mx-2"> 
+                    $ {{ scholarship.value_period }}
+                    </h5>
+                </div>
+                <div class="d-flex">
+                    <h6 style="color: #F29F05;">Tipo de Estudiante: </h6>
+                    {% if scholarship.application_type == 'NI' %}
+                      <h6>Soy estudiante de nuevo ingreso</h6>
+                    {% else %}
+                      <h6>Soy estudiante antiguo</h6>
+                    {% endif %}
+                  </div>
             </div>
-        </form>
+        </div>
+        <div class="row justify-content-center mt-4 mb-4">
+            <div class="col-lg-10 d-flex flex-column align-items-center">
+              <h5 style="text-align: left; color: #F29F05;">Carta Motivacional</h5>
+              <textarea class="form-control " rows="13" id="cartaMotivacional"
+                        maxlength="2000" value="" readonly style="border: 1.5px solid gray; border-radius:1rem">{{ scholarship.motivational_letter }}</textarea>
+            </div>
+            <button type="submit" class="btn custom btn col-md-5 mt-4 mb-5" id="botonDonar">
+                Aportar
+            </button>
+          </div>
     </div>
-
+    </div>
+   
     {% endblock %}
     <!-- jQuery y Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
