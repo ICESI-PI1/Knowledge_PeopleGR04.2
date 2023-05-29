@@ -17,9 +17,13 @@
         <h5 class="mt-2" style="color: white; font-weight: 400; font-size:medium;">
             Aquí puedes revisar la información sobre tu <br> solicitud de beca
         </h5>
-        {% elif user.role == 2%}
+        {% elif user.role == 2 or user.role == 3 %}
         <h5 class="mt-2" style="color: white; font-weight: 400; font-size:medium;">
             ¡Hoy puedes cumplir muchos sueños!
+        </h5>
+        {% elif user.role == 5 %}
+        <h5 class="mt-2" style="color: white; font-weight: 400; font-size:medium;">
+            ¡wakawaka!
         </h5>
         {% endif %}
     </div>
@@ -59,7 +63,7 @@
     </div>
       {% endif %}
     </div>
-    {% elif user.role == 2%}
+    {% elif user.role == 2 or  user.role == 3%}
     <div class="text-center d-flex " >
         <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;" class="m-auto">
             Mis Aportes
@@ -148,7 +152,7 @@
         </div>
     </div>
     <!-- Donor -->
-    {% elif user.role == 2%}
+    {% elif user.role == 2 or  user.role == 3%}
     <div class="row mb-3 flex-sm-row mt-2 justify-content-between">
         <div class="col-lg-5 md-12"  style="background-color: white;  border-radius: 1rem;">
             <div class="howreqletter mt-2 ju">

@@ -1,0 +1,59 @@
+body {
+  background-color: #f0f7ff;
+}
+
+/*center title style*/
+
+#contTitulo {
+  background: #a4d955;
+  border-radius: 20px;
+  height: 9rem;
+}
+
+#titulo {
+  color: #ffffff;
+  opacity: 100%;
+  font-family: "Open Sans";
+  font-weight: bold;
+  margin-left: 3rem;
+}
+
+#line {
+  height: 0.15rem;
+  opacity: 100%;
+  border: 0.094rem solid #ffffff;
+  background-color: #ffffff;
+  transform: matrix(1, 0, 0, 1, 0, 0);
+  margin-left: 2rem;
+}
+
+#graduatedImg {
+  float: right;
+  max-height: 7rem;
+  background: url(.png);
+  margin-right: 2rem;
+  margin-top: 1rem;
+}
+
+/*form style*/
+
+
+#botonDonar {
+  background-color: #f29f05;
+  border-color: #f29f05;
+  color: #fff;
+
+  font-family: "Open Sans";
+  font-style: normal;
+  font-size: 1em;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+#botonDonar:hover {
+  background-color: #a4d955;
+  border-color: #a4d955;
+  color: #fff;
+  box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: none;
+}

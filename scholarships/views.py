@@ -1,8 +1,9 @@
 from django.views import View
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from users.models import Beneficiary, Institution
 from .models import Scholarship
 from datetime import datetime
+from django.db.models import Q
 from django.views.generic import TemplateView, ListView
 
 from users.views import BeneficiaryUpdateView,NaturalDonorUpdateView,LegalDonorUpdateView,InstitutionUpdateView
@@ -15,7 +16,15 @@ class NewApplication(View):
     def get(self,request):
         institutions = Institution.objects.all()
         data = {'institutions':institutions}
-        return render(request,'newscholarship.html',data)
+
+        id_ben = request.user.id
+        datos_solicitud = Scholarship.objects.filter(id_user = id_ben, active = 'AC')
+        solicitud = datos_solicitud.first()
+
+        if(solicitud == None):
+            return render(request,'newscholarship.html',data)
+        else:
+            return render(request,'errorCreateNewScholarship.html')
     
 class LookApplication(View):
     def get(self,request):
@@ -29,10 +38,12 @@ class ActiveSolicitud(View):
         id_ben = request.user.id
         datos_solicitud = Scholarship.objects.filter(id_user = id_ben, active = 'AC')
         solicitud = datos_solicitud.first()
+        institutions = Institution.objects.all()
 
         if(solicitud != None):
             contexto = {
                 'solicitud_activa': solicitud,
+                'institutions': institutions,
             }
             return render(request, 'ActiveSolicitud.html', contexto)
         else:
@@ -42,7 +53,7 @@ class InsertScholarship(View):
     def post(self,request):
         if request.method == 'POST':
             name = request.POST['nombres']
-            lastname = request.POST['apellidos']
+            email = request.POST['correo']
             typedocument = request.POST['tipoid']
             numdoc = request.POST['numdoc']
             institute = request.POST['instituc']
@@ -86,10 +97,13 @@ class InsertScholarship(View):
 class EditSolicitud(View):
     def get(self,request):
         id_ben = request.user.id
-        datos_solicitud = Scholarship.objects.filter(id_user = id_ben   , active = 'AC')
+        datos_solicitud = Scholarship.objects.filter(id_user=id_ben, active='AC')
         solicitud = datos_solicitud.first()
+        institutions = Institution.objects.all()
+
         contexto = {
             'solicitud_activa': solicitud,
+            'institutions': institutions,
         }
         return render(request, 'editionScholarship.html', contexto)
 
@@ -98,23 +112,24 @@ class EditSolicitud(View):
 
             if 'inactivate_scholarship' in request.POST:
                 id_ben = request.user.id
-                solicitud = Scholarship.objects.filter(id_user = id_ben, active = 'AC')
+                solicitud = Scholarship.objects.filter(id_user=id_ben, active='AC')
                 scholarshipToInactivate = solicitud.first()
-                
+
                 scholarshipToInactivate.active = 'IN'
+                scholarshipToInactivate.state = 'R'
                 scholarshipToInactivate.save()
-                print(f"Solicitud con del usuario {scholarshipToInactivate.id_user.name} ha sido inactivada.")
-                return render(request,'menu.html')
-            
-            
-            program =  request.POST['programa']
+                print(f"Solicitud del usuario {scholarshipToInactivate.id_user.name} ha sido inactivada.")
+                return render(request, 'menu.html')
+
+            institute = request.POST['instituc']
+            program = request.POST['programa']
             valuesem = request.POST['valorS']
             timeA = request.POST['periodoActual']
             totalP = request.POST['totalPeriodos']
             icfes = request.POST['puntajeI']
             levels = request.POST['estrato']
             optionnew = request.POST['ingresoEstudiante']
-            picturedoc =  None
+            picturedoc = None
             picturecer = None
             try:
                 picturedoc = request.FILES['src-file1']
@@ -122,18 +137,17 @@ class EditSolicitud(View):
             except:
                 print('error')
 
-                
             now = datetime.now()
             letter = request.POST['cartaMotivacional']
-                
+
             id_ben = request.user.id
-            solicitud = Scholarship.objects.filter(id_user = id_ben, active = 'AC')
+            solicitud = Scholarship.objects.filter(id_user=id_ben, active='AC')
             scholarshipUpdated = solicitud.first()
 
             scholarshipUpdated.stratum = levels
-            scholarshipUpdated.photocopy_id = picturedoc  if picturedoc != None else scholarshipUpdated.photocopy_id 
+            scholarshipUpdated.photocopy_id = picturedoc if picturedoc != None else scholarshipUpdated.photocopy_id
             scholarshipUpdated.motivational_letter = letter
-            scholarshipUpdated.certificate = picturecer  if picturecer != None else scholarshipUpdated.certificate 
+            scholarshipUpdated.certificate = picturecer if picturecer != None else scholarshipUpdated.certificate
             scholarshipUpdated.value_period = valuesem
             scholarshipUpdated.icfes_score = icfes
             scholarshipUpdated.period_current = timeA
@@ -141,14 +155,116 @@ class EditSolicitud(View):
             scholarshipUpdated.application_type = optionnew
             scholarshipUpdated.total_periods = totalP
             scholarshipUpdated.date_application = now
+            institution = get_object_or_404(Institution, id=institute)
+            scholarshipUpdated.institution = institution
 
             scholarshipUpdated.save()
-            return render(request,'menu.html')
+            return render(request, 'menu.html')
+
 
 class LookBeneficiaries(ListView):
     def get(self, request):
-        return render(request, 'lookbeneficiaries.html')
+        semester = []
+        for i in range(1,13):
+            semester.append(i)
 
+        intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
+        institutions = Institution.objects.all()
+        scholarships = Scholarship.objects.all()
+        data = {'semesters':semester,'scholarships':scholarships,'institutions':institutions,'intervals':intervals}
+        return render(request, 'lookbeneficiaries.html',data)
+
+
+
+class FilterSemester(ListView):
+    def get(self,request,id):
+        semester = []
+        for i in range(1,13):
+            semester.append(i)
+        
+        intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
+        institutions = Institution.objects.all()
+        scholarships = Scholarship.objects.filter(period_current=id)
+        data = {'scholarships':scholarships,'semesters':semester,'institutions':institutions,'intervals':intervals}
+        return render(request,'lookbeneficiaries.html',data)
+## Edit Profile
+
+class FilterInstitution(ListView):
+    def get(self, request, id):
+        semester = []
+        for i in range(1,13):
+            semester.append(i)
+
+        intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
+        actualinst = Institution.objects.get(id=id)
+        institutions = Institution.objects.all()
+        scholarships = Scholarship.objects.filter(institution=actualinst)
+        data = {'scholarships':scholarships,'semesters':semester,'institutions':institutions,'intervals':intervals}
+        return render(request,'lookbeneficiaries.html',data)
+
+class FilterInterval(ListView):
+    def get(self, request, min_value, max_value):
+        semester = []
+        for i in range(1,13):
+            semester.append(i)
+        
+        intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
+        scholarships = Scholarship.objects.filter(value_period__gte=min_value, value_period__lte=max_value)
+        institutions = Institution.objects.all()
+        data = {'scholarships':scholarships,'semesters':semester,'institutions':institutions,'intervals':intervals}
+        return render(request,'lookbeneficiaries.html',data)
+
+class FilterProgram(ListView):
+    def get(self, request, program_name):
+        semester = []
+        for i in range(1,13):
+            semester.append(i)
+
+        intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
+        if program_name == 'ingenieria-informatica':
+            scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='sistemas')
+                                                      | Q(program_adm__icontains='tecnologia'))
+        elif program_name == 'administracion-empresas':
+            scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='marketing')
+                                                      | Q(program_adm__icontains='emprendimiento') | Q(program_adm__icontains='contabilidad'))
+        elif program_name == 'medicina':
+            scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='salud')
+                                                   | Q(program_adm__icontains='enfermeria') | Q(program_adm__icontains='cirujano'))
+        elif program_name == 'ingenieria-civil':
+            scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='constructor')
+                                                   | Q(program_adm__icontains='arquitecto') | Q(program_adm__icontains='operario'))
+        elif program_name == 'psicologia':
+            scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='terapeuta')
+                                                | Q(program_adm__icontains='antropologia')    )
+        elif program_name == 'derecho':
+            scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='juez')
+                                                   | Q(program_adm__icontains='fiscal') | Q(program_adm__icontains='investigador'))
+        elif program_name == 'ingenieria-industrial':
+            scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='logistica')
+                                                   | Q(program_adm__icontains='calidad') | Q(program_adm__icontains='analisis'))
+        elif program_name == 'comunicacion-social':
+            scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='periodismo')
+                                                   | Q(program_adm__icontains='reportero') | Q(program_adm__icontains='entrevistador'))
+        else :
+            scholarships = None
+
+        institutions = Institution.objects.all()
+        data = {'scholarships':scholarships,'semesters':semester,'institutions':institutions,'intervals':intervals}
+        return render(request,'lookbeneficiaries.html',data)
+
+
+class LookInstitutions(ListView):
+    def get(self, request):
+        institutions = Institution.objects.all()
+        
+        data = {'institutions':institutions}
+        return render(request, 'lookinstitution.html',data)
+
+class ShowDetailsBen(TemplateView):
+    def get(self,request,id):
+        scholarship = Scholarship.objects.get(id=id)
+        data = {'scholarship':scholarship}
+        return render(request, 'beneficiaryDetailsToDonate.html',data)
 ## Edit Profile
 
 class BeneficiaryUpdateView(BeneficiaryUpdateView):
