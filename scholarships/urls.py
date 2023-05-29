@@ -2,6 +2,7 @@ from django.urls import path
 from users.views import BeneficiaryUpdateView
 from . import views
 from.views import NewDonation
+from .views import InstitutionListView
 
 app_name = 'scholarships'
 
@@ -17,10 +18,11 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path("editSolicitudActiva/", views.EditSolicitud.as_view(), name='editSolicitudActiva'),
                 path("newdonation/", NewDonation.as_view(), name='newdonation'),
                 path("lookbeneficiaries/", views.LookBeneficiaries.as_view(), name='look_beneficiaries'),
+                path('aliados/', InstitutionListView.as_view(), name='aliados'),
                 path("lookInstitutios/", views.LookInstitutions.as_view(), name='look_institutions'),
                 path("filtersemester/<int:id>/'", views.FilterSemester.as_view(), name='filtersemester'),
                 path("filterinstitution/<int:id>/'", views.FilterInstitution.as_view(), name='filterinstitution'),
                 path("filterprogram/<str:program_name>/'", views.FilterProgram.as_view(), name='filterprogram'),
                 path('filtervalue/<int:min_value>/<int:max_value>/', views.FilterInterval.as_view(), name='filtervalue'),
                 path('showdetailsBen/<int:id>/', views.ShowDetailsBen.as_view(), name='showdetailsbeneficiary'),
- ]
+               ]

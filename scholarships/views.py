@@ -286,3 +286,13 @@ class InstitutionUpdateView(InstitutionUpdateView):
 class NewDonation(TemplateView):
     template_name= 'new_donation.html'
 
+#Aliados
+
+from django.views.generic import ListView
+from .models import Institution
+
+class InstitutionListView(ListView):
+    model = Institution
+    template_name = 'aliados.html'  # Reemplaza "institution_list.html" con el nombre de tu plantilla
+    context_object_name = 'institutions'  # Define el nombre de la variable de contexto que contendrá la lista de instituciones
+
