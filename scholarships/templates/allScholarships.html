@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link href="{% static '/historyapplications.css' %}" rel="stylesheet"/>
+<link href="{% static 'newscholarship.css' %}" rel="stylesheet"/>
+
+<div class="row mb-3 flex-sm-row" id="contTitulo">
+      <div class="col-md-8">
+        <br />
+        <h1 id="titulo" class="mt-2" style="color: white">Solicitudes de beca</h1>
+        <hr id="line" class="w-80" />
+      </div>
+      <div class="col-md-4">
+        <img
+          src="../../media/icons/HigherEducation.png"
+          alt="No Encontrada"
+          class="img-fluid d-none d-md-block"
+          id="graduatedImg"
+        />
+      </div>
+    </div>
+
+<!-- Container -->
+<!-- Mostrar siempre el formulario de filtrado -->
+<form method="get" action="{% url 'scholarships:scholarships' %}">
+    <label for="state_filter">Filtrar por estado:</label>
+    <select name="state" id="state_filter">
+        <option value="" {% if state_filter == "" %}selected{% endif %}>Todos</option>
+        <option value="P" {% if state_filter == "P" %}selected{% endif %}>Pendiente</option>
+        <option value="A" {% if state_filter == "A" %}selected{% endif %}>Aceptada</option>
+        <option value="R" {% if state_filter == "R" %}selected{% endif %}>Rechazada</option>
+    </select>
+    <button type="submit">Filtrar</button>
+</form>
+
+
+{% if scholarships %}
+    <!-- scholarship_list.html -->
+    <h1>Lista de Becas</h1>
+
+    <ul>
+        {% for scholarship in scholarships %}
+            <li>{{ scholarship.state }}, icfes: {{ scholarship.icfes_score }}</li>
+            {% if scholarship.state == 'P' %}
+                <form method="post" action="{% url 'scholarships:scholarships' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="scholarship_id" value="{{ scholarship.id }}">
+                    <button type="submit" name="action" value="publicar">Publicar</button>
+                    <button type="submit" name="action" value="rechazar">Rechazar</button>
+                </form>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+{% else %}
+
+    <div class="row justify-content-center" style="min-height: 85vh">
+        <div class="col align-self-center text-center">
+            <p style="font-weight: 600; font-size: 24px">
+                No tienes Solicitudes de Becas
+            </p>
+        </div>
+    </div>
+
+{% endif %}
+
+{% endblock %}
+</body>
+</html>

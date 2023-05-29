@@ -23,7 +23,7 @@
         </h5>
         {% elif user.role == 5 %}
         <h5 class="mt-2" style="color: white; font-weight: 400; font-size:medium;">
-            ¡wakawaka!
+            Como administrador puedes dar gestión a los usuarios, solicitudes de beca e instituciones aliadas.
         </h5>
         {% endif %}
     </div>
@@ -80,6 +80,27 @@
       <div class=" col-md-6 " >
         <p style=" font-weight: 600; font-size:medium;" class="m-auto">
             No has realizado aportes aún.
+        </p>
+    </div>
+      {% endif %}
+    </div>
+    {% elif user.role == 5%}
+    <div class="text-center d-flex " >
+        <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;" class="m-auto">
+            Últimas donaciones realizadas
+        </p>
+    </div>
+    <div class="col-md-12 d-flex text-center align-items-center justify-content-center" style="height: 32rem; background-color: white;">
+        {% if transactions %}
+        <ul>
+            {% for transaction in transactions %}
+            <li>{{ transaction.date_transaction }} - {{ transaction.amount }} - {{ transaction.payment }} - {{ transaction.get_type_pay_display }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+      <div class=" col-md-6 " >
+        <p style=" font-weight: 600; font-size:medium;" class="m-auto">
+            No se han realizado donaciones aún.
         </p>
     </div>
       {% endif %}
@@ -231,108 +252,7 @@
     {% endif %}
 
 </div>
-<!--
-<div class="row mb-3 flex-sm-row" id="contTitulo">
-    <div class="col-md-8">
-      <br />
-      <p id="text1">
-        Hola de nuevo,
-    </p>
-    <p id="text2">
-        {{ request.user.name }}
-    </p>
-    <p id="text3">
-        Aquí puedes revisar la información sobre tu <br> solicitud de beca
-    </p>
-      <hr id="line" class="w-80" />
-    </div>
-    <div class="col-md-4">
-      <img
-        src="../../media/icons/HigherEducation.png"
-        alt="No Encontrada"
-        class="img-fluid d-none d-md-block"
-        id="graduatedImg"
-      />
-    </div>
-  </div>
 
-
-    <div class="centerframe">
-        <div>
-            <p id="requestext">
-                Solicitud de beca activa
-            </p>
-        </div>
-
-        <hr id="textbar">
-
-        <div class="act_req">
-            {% if active_scholarships %}
-            <ul>
-              {% for scholarship in active_scholarships %}
-                <li>{{ scholarship }}</li>
-              {% endfor %}
-            </ul>
-          {% else %}
-            <p>No tienes solicitudes activas.</p>
-          {% endif %}
-        </div>
-    </div>
-
-    <div class="downframe">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="howreqletter">
-                    <p>
-                        ¿Cómo hacer una solicitud de <br> beca satisfactoria?
-                    </p>
-                </div>
-                <div class="to_do_list">
-                    <div class="list_item">
-                        <p> Sube todos los <br> documentos necesarios </p>
-                        <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" width="34" height="34"
-                            id="icon_check1" />
-                    </div>
-
-                    <div class="list_item">
-                        <p> Describe por qué <br> deseas la beca </p>
-                        <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" width="34" height="34"
-                            id="icon_check2" />
-                    </div>
-
-                    <div class="list_item">
-                        <p> Ingresa los valores <br> correctammente </p>
-                        <img src="../../media/images/IconActive_Green.png" alt="No Encontrada" width="34" height="34"
-                            id="icon_check3" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="rememberletter">
-                    <p>
-                        Recuerda...
-                    </p>
-                </div>
-                <div class="remember_list">
-                    <div class="remlist_item">
-                        <img src="../../media/images/Alert_Orange.png" alt="No Encontrada" width="40" height="40"
-                            id="icon_check4" />
-                        <p> <strong> Admisión </strong> <br> Debes estar previamente <br> admitido en la institución que
-                            <br> deseas estudiar. </p>
-                    </div>
-
-                    <div class="remlist_item">
-                        <img src="../../media/images/Alert_Orange.png" alt="No Encontrada" width="40" height="40"
-                            id="icon_check4" />
-                        <p> <strong> Institución </strong> <br> Debes revisar que la <br> institución en la que estás
-                            <br> admitido sea una de nuestras <br> instituciones aliadas. </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
--->
 {% endblock %}
 {% endif %}
 

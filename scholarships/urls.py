@@ -1,7 +1,7 @@
 from django.urls import path
 from users.views import BeneficiaryUpdateView
 from . import views
-from.views import NewDonation
+from .views import NewDonation, TransactionListView,ScholarshipListView,DonationsListView
 from .views import InstitutionListView
 
 app_name = 'scholarships'
@@ -25,4 +25,7 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path("filterprogram/<str:program_name>/'", views.FilterProgram.as_view(), name='filterprogram'),
                 path('filtervalue/<int:min_value>/<int:max_value>/', views.FilterInterval.as_view(), name='filtervalue'),
                 path('showdetailsBen/<int:id>/', views.ShowDetailsBen.as_view(), name='showdetailsbeneficiary'),
+                path('transactions/', TransactionListView.as_view(), name='transaction-list'),
+                path('donations/', DonationsListView.as_view(), name='donationslist'),
+                path('scholarships/', ScholarshipListView.as_view(), name='scholarships'),
                ]
