@@ -253,6 +253,13 @@ class FilterProgram(ListView):
         return render(request,'lookbeneficiaries.html',data)
 
 
+class LookInstitutions(ListView):
+    def get(self, request):
+        institutions = Institution.objects.all()
+        
+        data = {'institutions':institutions}
+        return render(request, 'lookinstitution.html',data)
+
 class ShowDetailsBen(TemplateView):
     def get(self,request,id):
         scholarship = Scholarship.objects.get(id=id)
