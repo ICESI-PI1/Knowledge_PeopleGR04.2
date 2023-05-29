@@ -1,4 +1,7 @@
 from django import forms
+from django.shortcuts import redirect
+
+from django.views import View
 from django.views.generic.edit import CreateView
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -7,7 +10,7 @@ from django.contrib.auth.views import LoginView
 from .forms import CustomUserCreationForm,CustomAuthenticationForm, CustomUserCreationBenForm, CustomInstitutionForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import Beneficiary, Institution, LegalDonor, NaturalDonor
+from .models import Beneficiary, Institution, LegalDonor, NaturalDonor, User
 
 
 
@@ -119,4 +122,41 @@ class InstitutionUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("scholarships:showmenu")
+
+class UserListView(ListView):
+    model = User
+    template_name = 'usersList.html'
+    context_object_name = 'users'
+
+    def get_queryset(self):
+        return User.objects.filter(role=User.INSTITUTION)
     
+class InstitutionVerifyView(View):
+    def get(self, request, pk):
+        institution = Institution.objects.get(pk=pk)
+        institution.verificationState = 'A'  # Cambiar estado de verificación a 'Aprobada'
+        institution.save()
+        return redirect('users:user_list')  # Redirigir a la lista de instituciones
+
+class InstitutionRejectVerificationView(View):
+    def get(self, request, pk):
+        institution = Institution.objects.get(pk=pk)
+        institution.verificationState = 'R'  # Cambiar estado de verificación a 'Rechazada'
+        institution.save()
+        return redirect('users:user_list')  # Redirigir a la lista de instituciones
+
+
+class AllUserListView(View):
+    template_name = 'showUsers.html'
+
+    def get(self, request):
+        users = User.objects.all()
+        role_filter = request.GET.get('role', None)
+
+        if role_filter:
+            users = users.filter(role=int(role_filter))
+
+        context = {
+            'users': users,
+        }
+        return render(request, self.template_name, context)
