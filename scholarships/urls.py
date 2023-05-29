@@ -2,6 +2,7 @@ from django.urls import path
 from users.views import BeneficiaryUpdateView
 from . import views
 from.views import NewDonation
+from .views import InstitutionListView
 
 app_name = 'scholarships'
 
@@ -17,4 +18,8 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path("editSolicitudActiva/", views.EditSolicitud.as_view(), name='editSolicitudActiva'),
                 path("newdonation/", NewDonation.as_view(), name='newdonation'),
                 path("lookbeneficiaries/", views.LookBeneficiaries.as_view(), name='look_beneficiaries'),
+
+                #Home
+                path('aliados/', InstitutionListView.as_view(), name='aliados'),
+
  ]
