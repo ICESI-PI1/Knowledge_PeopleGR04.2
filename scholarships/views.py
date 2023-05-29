@@ -252,6 +252,19 @@ class FilterProgram(ListView):
         data = {'scholarships':scholarships,'semesters':semester,'institutions':institutions,'intervals':intervals}
         return render(request,'lookbeneficiaries.html',data)
 
+
+class LookInstitutions(ListView):
+    def get(self, request):
+        institutions = Institution.objects.all()
+        
+        data = {'institutions':institutions}
+        return render(request, 'lookinstitution.html',data)
+
+class ShowDetailsBen(TemplateView):
+    def get(self,request,id):
+        scholarship = Scholarship.objects.get(id=id)
+        data = {'scholarship':scholarship}
+        return render(request, 'beneficiaryDetailsToDonate.html',data)
 ## Edit Profile
 
 class BeneficiaryUpdateView(BeneficiaryUpdateView):

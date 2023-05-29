@@ -126,3 +126,6 @@ class Institution(User):
                      ('P','Pendiente'),
                      ('R','Rechazada'))
     verificationState = models.CharField(max_length=30,choices=optionsstate,null=False, default='P')
+
+
+   
