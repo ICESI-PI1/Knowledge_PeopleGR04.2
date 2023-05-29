@@ -4,7 +4,8 @@ from users.models import Beneficiary, Institution
 from .models import Scholarship
 from datetime import datetime
 from django.db.models import Q
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView,DetailView
+
 
 from users.views import BeneficiaryUpdateView,NaturalDonorUpdateView,LegalDonorUpdateView,InstitutionUpdateView
 
@@ -265,6 +266,8 @@ class ShowDetailsBen(TemplateView):
         scholarship = Scholarship.objects.get(id=id)
         data = {'scholarship':scholarship}
         return render(request, 'beneficiaryDetailsToDonate.html',data)
+## Edit Profile
+    
 ## Edit Profile
 
 class BeneficiaryUpdateView(BeneficiaryUpdateView):
