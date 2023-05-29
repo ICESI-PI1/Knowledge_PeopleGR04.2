@@ -26,6 +26,7 @@ class Scholarship(models.Model):
     active = models.CharField(max_length=20,choices=optionsactive,default='Activo',null=False)
     date_application = models.DateTimeField(auto_now_add=True)
     id_user = models.ForeignKey(Beneficiary,null=False,blank=False,on_delete=models.CASCADE)
+    institution = models.ForeignKey(Institution,null=False,blank=False, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.state + ", icfes: " + str(self.icfes_score)
@@ -50,3 +51,15 @@ class Transaction(models.Model):
 
     # optional relation with Institution
     institution_donation = models.ForeignKey(Institution, on_delete=models.CASCADE, null=True, blank=True, related_name='donations')
+
+
+    #Notificaciones
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.CharField(max_length=255)
+    is_read = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content

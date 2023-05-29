@@ -81,8 +81,13 @@
                   <label for="insti"><strong>Institución</strong></label>
                   <select id="insti" class="form-control" required name="instituc">
                     <option selected disabled value="">Seleccione</option>
-                    <option>ICESI</option>
-                    <option>Javeriana Cali</option>
+                    {% if institutions %}
+                    {% for x in institutions %}
+                    <option>
+                      {{ x.name }}
+                    </option>
+                    {% endfor %}
+                    {% endif %}
                   </select>
                 </div>
                 <div class="col-md-6" id="campo">
