@@ -258,9 +258,95 @@ class FilterProgram(ListView):
 class LookInstitutions(ListView):
     def get(self, request):
         institutions = Institution.objects.all()
-        
-        data = {'institutions':institutions}
+        cities = []
+
+        types = []
+        types.append('Tecnica')
+        types.append('Tecnologica')
+        types.append('Pregrado')
+        types.append('Posgrado')
+        for i in institutions:
+            city = i.city
+            if city not in cities:
+                cities.append(city)
+
+        data = {'institutions':institutions,'cities':cities,'types':types}
         return render(request, 'lookinstitution.html',data)
+
+class FilterCity(ListView):
+    def get(self, request,city):
+        institutions = Institution.objects.all()
+        cities = []
+        for i in institutions:
+            cit = i.city
+            if cit not in cities:
+                cities.append(cit)
+
+        types = []
+        types.append('Tecnica')
+        types.append('Tecnologica')
+        types.append('Pregrado')
+        types.append('Posgrado')
+        institutions_f = Institution.objects.filter(city=city)
+        data = {'institutions':institutions_f,'cities':cities,'types':types}
+        return render(request, 'lookinstitution.html',data)
+
+class FilterTypeI(ListView):
+    def get(self, request,typeI):
+        institutions = Institution.objects.all()
+        cities = []
+        for i in institutions:
+            cit = i.city
+            if cit not in cities:
+                cities.append(cit)
+
+        types = []
+        types.append('Tecnica')
+        types.append('Tecnologica')
+        types.append('Pregrado')
+        types.append('Posgrado')
+
+        institutions_f = Institution.objects.filter(type_institution__contains=typeI)
+        data = {'institutions':institutions_f,'cities':cities,'types':types}
+        return render(request, 'lookinstitution.html',data)
+
+
+class SrchView(ListView):
+    def post(self, request):
+        
+            institutions = Institution.objects.all()
+            cities = []
+            for i in institutions:
+                cit = i.city
+                if cit not in cities:
+                    cities.append(cit)
+
+            types = []
+            types.append('Tecnica')
+            types.append('Tecnologica')
+            types.append('Pregrado')
+            types.append('Posgrado')
+
+            value =  request.POST.get('inputsearch')
+
+            institutions_f = Institution.objects.filter(Q(city__icontains=value)| Q(name__icontains=value))
+            data = {'institutions':institutions_f,'cities':cities,'types':types}
+            return render(request, 'lookinstitution.html',data)
+
+
+class SrchBenView(ListView):
+    def post(self, request):
+        
+        semester = []
+        for i in range(1,13):
+            semester.append(i)
+
+        intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
+        institutions = Institution.objects.all()
+        value =  request.POST.get('inputsearch')
+        scholarships = Scholarship.objects.filter(Q(program_adm__icontains=value)| Q(id_user__name__icontains=value))
+        data = {'semesters':semester,'scholarships':scholarships,'institutions':institutions,'intervals':intervals}
+        return render(request, 'lookbeneficiaries.html',data)   
 
 class ShowDetailsBen(TemplateView):
     def get(self,request,id):
