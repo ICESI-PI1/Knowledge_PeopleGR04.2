@@ -348,12 +348,38 @@ class SrchBenView(ListView):
         data = {'semesters':semester,'scholarships':scholarships,'institutions':institutions,'intervals':intervals}
         return render(request, 'lookbeneficiaries.html',data)   
 
+
+
+
+#Show Details
 class ShowDetailsBen(TemplateView):
     def get(self,request,id):
         scholarship = Scholarship.objects.get(id=id)
         data = {'scholarship':scholarship}
         return render(request, 'beneficiaryDetailsToDonate.html',data)
+
+
+class ShowDetailsIns(TemplateView):
+    def get(self,request,id):
+        institution = Institution.objects.get(id=id)
+        data = {'institution':institution}
+        return render(request, 'institutionDetails.html',data)
 ## Edit Profile
+
+class DonationIns(TemplateView):
+    def get(self,request,id):
+        institution = Institution.objects.get(id=id)
+        data = {'institution':institution}
+        return render(request, 'institutionDonation.html',data)
+
+
+class Payments(TemplateView):
+    def get(self,request,id):
+        institution = Institution.objects.get(id=id)
+        data = {'institution':institution}
+        return render(request, 'lookpayments.html',data)
+
+
 
 class BeneficiaryUpdateView(BeneficiaryUpdateView):
     pass 

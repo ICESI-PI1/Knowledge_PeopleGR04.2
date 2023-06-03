@@ -62,6 +62,10 @@ class CustomUserCreationForm(UserCreationForm):
         'autocomplete': 'current-password',
     }))
 
+    def __init__(self, *args, **kwargs):
+        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['profilePicture'].initial = 'users/profile_default.png'
+
     class Meta:
         model = NaturalDonor
         fields = ("email","name","idType", 'numID', 'role','profilePicture')

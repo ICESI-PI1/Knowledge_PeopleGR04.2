@@ -29,8 +29,11 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path("searchBen",views.SrchBenView.as_view(),name='searchBen'),
                 path('filtervalue/<int:min_value>/<int:max_value>/', views.FilterInterval.as_view(), name='filtervalue'),
                 path('showdetailsBen/<int:id>/', views.ShowDetailsBen.as_view(), name='showdetailsbeneficiary'),
+                path('showdetailsIns/<int:id>/', views.ShowDetailsIns.as_view(), name='showdetailsinstitucion'),
                 path('transactions/', TransactionListView.as_view(), name='transaction-list'),
                 path('donations/', DonationsListView.as_view(), name='donationslist'),
+                path('payments/<int:id>/', views.Payments.as_view(), name='payments'),
+                path('donationIns/<int:id>/', views.DonationIns.as_view() , name='donationIns'),
                 path('scholarships/', ScholarshipListView.as_view(), name='scholarships'),
                 
                ]
