@@ -1,10 +1,12 @@
 from django.views import View
 from django.shortcuts import get_object_or_404, render
 from users.models import Beneficiary, Institution
-from .models import Scholarship
+from .models import Scholarship,Transaction
 from datetime import datetime
 from django.db.models import Q
 from django.views.generic import TemplateView, ListView
+from django.shortcuts import redirect
+
 
 from users.views import BeneficiaryUpdateView,NaturalDonorUpdateView,LegalDonorUpdateView,InstitutionUpdateView
 
@@ -25,7 +27,7 @@ class NewApplication(View):
             return render(request,'newscholarship.html',data)
         else:
             return render(request,'errorCreateNewScholarship.html')
-    
+
 class LookApplication(View):
     def get(self,request):
         id_ben = request.user.id
@@ -175,6 +177,7 @@ class LookBeneficiaries(ListView):
         return render(request, 'lookbeneficiaries.html',data)
 
 
+
 class FilterSemester(ListView):
     def get(self,request,id):
         semester = []
@@ -251,6 +254,105 @@ class FilterProgram(ListView):
         data = {'scholarships':scholarships,'semesters':semester,'institutions':institutions,'intervals':intervals}
         return render(request,'lookbeneficiaries.html',data)
 
+
+class LookInstitutions(ListView):
+    def get(self, request):
+        institutions = Institution.objects.all()
+        cities = []
+
+        types = []
+        types.append('Tecnica')
+        types.append('Tecnologica')
+        types.append('Pregrado')
+        types.append('Posgrado')
+        for i in institutions:
+            city = i.city
+            if city not in cities:
+                cities.append(city)
+
+        data = {'institutions':institutions,'cities':cities,'types':types}
+        return render(request, 'lookinstitution.html',data)
+
+class FilterCity(ListView):
+    def get(self, request,city):
+        institutions = Institution.objects.all()
+        cities = []
+        for i in institutions:
+            cit = i.city
+            if cit not in cities:
+                cities.append(cit)
+
+        types = []
+        types.append('Tecnica')
+        types.append('Tecnologica')
+        types.append('Pregrado')
+        types.append('Posgrado')
+        institutions_f = Institution.objects.filter(city=city)
+        data = {'institutions':institutions_f,'cities':cities,'types':types}
+        return render(request, 'lookinstitution.html',data)
+
+class FilterTypeI(ListView):
+    def get(self, request,typeI):
+        institutions = Institution.objects.all()
+        cities = []
+        for i in institutions:
+            cit = i.city
+            if cit not in cities:
+                cities.append(cit)
+
+        types = []
+        types.append('Tecnica')
+        types.append('Tecnologica')
+        types.append('Pregrado')
+        types.append('Posgrado')
+
+        institutions_f = Institution.objects.filter(type_institution__contains=typeI)
+        data = {'institutions':institutions_f,'cities':cities,'types':types}
+        return render(request, 'lookinstitution.html',data)
+
+
+class SrchView(ListView):
+    def post(self, request):
+        
+            institutions = Institution.objects.all()
+            cities = []
+            for i in institutions:
+                cit = i.city
+                if cit not in cities:
+                    cities.append(cit)
+
+            types = []
+            types.append('Tecnica')
+            types.append('Tecnologica')
+            types.append('Pregrado')
+            types.append('Posgrado')
+
+            value =  request.POST.get('inputsearch')
+
+            institutions_f = Institution.objects.filter(Q(city__icontains=value)| Q(name__icontains=value))
+            data = {'institutions':institutions_f,'cities':cities,'types':types}
+            return render(request, 'lookinstitution.html',data)
+
+
+class SrchBenView(ListView):
+    def post(self, request):
+        
+        semester = []
+        for i in range(1,13):
+            semester.append(i)
+
+        intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
+        institutions = Institution.objects.all()
+        value =  request.POST.get('inputsearch')
+        scholarships = Scholarship.objects.filter(Q(program_adm__icontains=value)| Q(id_user__name__icontains=value))
+        data = {'semesters':semester,'scholarships':scholarships,'institutions':institutions,'intervals':intervals}
+        return render(request, 'lookbeneficiaries.html',data)   
+
+class ShowDetailsBen(TemplateView):
+    def get(self,request,id):
+        scholarship = Scholarship.objects.get(id=id)
+        data = {'scholarship':scholarship}
+        return render(request, 'beneficiaryDetailsToDonate.html',data)
 ## Edit Profile
 
 class BeneficiaryUpdateView(BeneficiaryUpdateView):
@@ -272,3 +374,60 @@ class InstitutionUpdateView(InstitutionUpdateView):
 class NewDonation(TemplateView):
     template_name= 'new_donation.html'
 
+#Aliados
+
+from django.views.generic import ListView
+from .models import Institution
+
+class InstitutionListView(ListView):
+    model = Institution
+    template_name = 'aliados.html'  # Reemplaza "institution_list.html" con el nombre de tu plantilla
+    context_object_name = 'institutions'  # Define el nombre de la variable de contexto que contendrá la lista de instituciones
+
+class TransactionListView(TemplateView):
+    template_name = 'menu.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        transactions = Transaction.objects.all()
+        context['transactions'] = transactions
+        return context
+
+class DonationsListView(TemplateView):
+    template_name = 'donationsList.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        transactions = Transaction.objects.all()
+        context['transactions'] = transactions
+        return context
+
+class ScholarshipListView(View):
+    def get(self, request):
+        state_filter = request.GET.get('state', '')  # Obtener el estado filtrado de la URL
+
+        # Filtrar las becas según el estado seleccionado
+        scholarships = Scholarship.objects.all()
+        if state_filter:
+            scholarships = scholarships.filter(state__startswith=state_filter)
+
+        context = {
+            'scholarships': scholarships,
+            'state_filter': state_filter,
+        }
+        return render(request, 'allScholarships.html', context)
+
+    def post(self, request):
+        scholarship_id = request.POST.get('scholarship_id')
+        action = request.POST.get('action')
+
+        scholarship = Scholarship.objects.get(pk=scholarship_id)
+
+        if action == 'publicar':
+            scholarship.state = 'Aceptada'
+        elif action == 'rechazar':
+            scholarship.state = 'Rechazada'
+
+        scholarship.save()
+
+        return redirect('scholarships:scholarships')  # Redirigir a la lista de becas

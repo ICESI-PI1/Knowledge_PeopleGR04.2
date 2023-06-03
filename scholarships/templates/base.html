@@ -69,6 +69,12 @@
                       <span data-feather="new_scolarship"></span>
                       &nbsp;Nueva donación
                     </a>
+                    {% elif user.role == 5%}
+                    <a class="nav-link" href="{% url 'scholarships:scholarships' %}">
+                      <img src="../../../../media/images/RequestHistory.png" alt="Icono historial solicitudes" class="img-fluid" id="icon" />
+                      <span data-feather="request_history"></span>
+                      &nbsp;Gestión de solicitudes
+                    </a>
                     {% endif %}
                   </li>
                 </div>
@@ -95,6 +101,12 @@
                       <span data-feather="donor_history"></span>
                       &nbsp;Historial de donantes
                     </a>
+                    {% elif user.role == 5%}
+                    <a class="nav-link" href="{% url 'users:user_list' %}">
+                      <img src="../../../../media/images/ucampus.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
+                      <span data-feather="donor_history" style="margin-left: 0.1rem;"></span>
+                      &nbsp;Gestión de instituciones
+                    </a>
                     {% endif %}
                   </li>
                 </div>
@@ -109,7 +121,7 @@
                     </a>
                     {% elif user.role == user.NATURALDONOR %}
                     <!-- El usuario es Donante -->
-                    <a class="nav-link d-flex" href="#">
+                    <a class="nav-link d-flex" href="{% url 'scholarships:look_institutions' %}">
                       <img src="../../../../media/images/ucampus.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
                       <span data-feather="donor_history" style="margin-left: 0.1rem;"></span>
                       &nbsp;Consultar Instituciones
@@ -120,6 +132,12 @@
                       <img src="../../media/images/campus_u.png" alt="Icono historial solicitudes" class="img-fluid" id="icon" />
                       <span data-feather="request_history"></span>
                       &nbsp;Historial de aportes
+                    </a>
+                    {% elif user.role == 5%}
+                    <a class="nav-link" href="{% url 'scholarships:donationslist' %}">
+                      <img src="../../media/images/dollar.png" alt="Icono historial solicitudes" class="img-fluid" id="icon" />
+                      <span data-feather="request_history"></span>
+                      &nbsp;Control de donaciones
                     </a>
                     {% endif %}
                   </li>
@@ -147,6 +165,12 @@
                       <span data-feather="settings"></span>
                       &nbsp;Ajustes
                     </a>
+                    {% elif user.role == 5%}
+                    <a class="nav-link"  href="{% url 'users:showUsers' %}">
+                      <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
+                      <span data-feather="donor_history"></span>
+                      &nbsp;Gestión de usuarios
+                    </a>
                     {% endif %}
                   </li>
                 </div>
@@ -163,6 +187,12 @@
                     {% elif user.role == user.LEGALDONOR or user.role == user.INSTITUTION %}
                     <!-- El usuario es Donante jurídico o Institución -->
                     <!--Institución ya tiene settings-->
+                    <a class="nav-link" href="#">
+                      <img src="../../../../media/images/setting.png" alt="Icono ajustes" class="img-fluid" id="icon" />
+                      <span data-feather="settings"></span>
+                      &nbsp;Ajustes
+                    </a>
+                    {% elif user.role == 5%}
                     <a class="nav-link" href="#">
                       <img src="../../../../media/images/setting.png" alt="Icono ajustes" class="img-fluid" id="icon" />
                       <span data-feather="settings"></span>
