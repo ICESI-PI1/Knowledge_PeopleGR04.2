@@ -472,11 +472,11 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .forms import ContactForm
 
-
+from django.contrib import messages
 class ContactView(FormView):
     template_name = 'contact.html'
     form_class = ContactForm  
-    success_url = '/contact/success/'  # Reemplaza con la URL de la página de confirmación
+    success_url = '/contact/'  # Reemplaza con la URL de la página de confirmación
 
     def form_valid(self, form):
         name = form.cleaned_data['name']
@@ -491,6 +491,9 @@ class ContactView(FormView):
             [settings.CONTACT_EMAIL],
             fail_silently=False,
         )
+
+        # Agregar mensaje de éxito
+        messages.success(self.request, 'Se ha enviado la solicitud de contacto.')
 
         return super().form_valid(form)
 

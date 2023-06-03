@@ -114,7 +114,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # Servidor SMTP de Gmail
 EMAIL_PORT = 587  # Puerto SMTP de Gmail
 EMAIL_HOST_USER = 'dreamsbank.kp@gmail.com'  # Dirección de correo electrónico de envío
-EMAIL_HOST_PASSWORD = 'lnqncngyyebspdeh'  # Contraseña del correo electrónico de envío
+EMAIL_HOST_PASSWORD = 'lnqncngyyebspdeh'  # Contraseña de aplicación del correo electrónico de envío
 EMAIL_USE_TLS = True  # Usar TLS para la conexión segura
 EMAIL_USE_SSL = False  # No usar SSL
 
