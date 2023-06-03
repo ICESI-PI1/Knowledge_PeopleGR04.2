@@ -21,15 +21,25 @@
 
 
   <div class="container-fluid">
-    <div class="input-group">
-      <input type="text" class="form-control custom-input" placeholder="Buscar Institucion" aria-label="Buscar"
-        style="font-weight: bolder;">
+    
+      <form class="d-flex col=lg-12" action="{% url 'scholarships:searchIns' %}" method="post">
+        {% csrf_token %}
+        <div class="input-group">
+      <input type="text" name="inputsearch"  class="form-control custom-input" placeholder="Buscar Institucion" aria-label="Buscar"
+        style="font-weight: bolder;" >
+      
       <div class="input-group-append">
+        <button style="
+        border: none; background-color: transparent;" type="submit">
         <span class="input-group-text search-icon">
           <i class="fas fa-search"></i>
         </span>
+      </button>
       </div>
     </div>
+      </form>
+  
+  
 
 
     <!-- Filters -->
@@ -41,10 +51,9 @@
             Ciudad
           </button>
           <ul class="dropdown-menu ">
-            {% for interval in intervals %}
+            {% for city in cities %}
             <li><a class="dropdown-item text-center itemnumberp"
-                href="{% url 'scholarships:filtervalue' interval.0 interval.1 %}">$ {{ interval.0 }} - $ {{ interval.1
-                }}</a></li>
+                href="{% url 'scholarships:filtercity' city %}">{{ city }}</a></li>
             {% endfor %}
           </ul>
         </div>
@@ -56,39 +65,15 @@
             Tipo de Carrera
           </button>
           <ul class="dropdown-menu">
-            
+            {% for typeI in types %}
+            <li><a class="dropdown-item text-center itemnumberp"
+                href="{% url 'scholarships:filtertype' typeI %}">{{ typeI }}</a></li>
+            {% endfor %}
           </ul>
         </div>
       </div>
 
-      <div class="d-flex justify-content-center mt-3" style=" width: auto;">
-        <div class="dropdown text-center">
-          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-            style="background-color: white; border: 0.5px solid #A4D955;">
-            Programa
-          </button>
-          <ul class="dropdown-menu ">
-            <li><a class="dropdown-item itemnumberp"
-                href="{% url 'scholarships:filterprogram' 'ingenieria-informatica' %}">Ingeniería Informática</a></li>
-            <li><a class="dropdown-item itemnumberp"
-                href="{% url 'scholarships:filterprogram' 'administracion-empresas' %}">Administración de Empresas</a>
-            </li>
-            <li><a class="dropdown-item itemnumberp"
-                href="{% url 'scholarships:filterprogram' 'medicina' %}">Medicina</a></li>
-            <li><a class="dropdown-item itemnumberp"
-                href="{% url 'scholarships:filterprogram' 'ingenieria-civil' %}">Ingeniería Civil</a></li>
-            <li><a class="dropdown-item itemnumberp"
-                href="{% url 'scholarships:filterprogram' 'psicologia' %}">Psicología</a></li>
-            <li><a class="dropdown-item itemnumberp" href="{% url 'scholarships:filterprogram' 'derecho' %}">Derecho</a>
-            </li>
-            <li><a class="dropdown-item itemnumberp"
-                href="{% url 'scholarships:filterprogram' 'ingenieria-industrial' %}">Ingeniería Industrial</a></li>
-            <li><a class="dropdown-item itemnumberp"
-                href="{% url 'scholarships:filterprogram' 'comunicacion-social' %}">Comunicación Social</a></li>
-
-          </ul>
-        </div>
-      </div>
+      
       
     </div>
     <style>
@@ -137,11 +122,11 @@
       <div class="col-lg-4 align-self-end d-flex justify-content-end">
 
         <button class="btn itemall" type="button" aria-expanded="false">
-          <a class="text-center itemn " href="{% url 'scholarships:look_beneficiaries' %}"> Ver todos </a>
+          <a class="text-center itemn " href="{% url 'scholarships:look_institutions' %}"> Ver todos </a>
         </button>
 
       </div>
-      <div class="table-responsive" style="max-height: 70rem;">
+      <div class="table-responsive" >
         <table class="table">
           <thead>
             <tr>
@@ -155,7 +140,7 @@
           <tbody>
             {% if institutions %}
             {% for x in institutions %}
-            <tr class="mt-3 align-middle">
+            <tr class="mt-4 align-middle" style="height: 7rem;" >
               <td class="align-middle" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
                 {% if x.profilePicture != "" %}
                 <img src="/media/{{ x.profilePicture }}" class="img-fluid" alt="noimage"
@@ -208,7 +193,7 @@
                 <div class="d-flex align-items-center justify-content-center">
                   <button type="submit" class="btn btn-link p-0" style=" border: none;" name="viewBeneficiaryDetails"
                     data-scholarship-id="{{ x.id_user.name }}">
-                    <a href="{% url 'scholarships:showdetailsbeneficiary' id=x.id %}">
+                    <a href="{% url 'scholarships:showdetailsinstitucion' id=x.id %}">
                     <img src="/media/images/Forward.png" class="img-fluid" alt="noimage"
                       style="max-width: 3rem; max-height: 3rem;">
                     </a>
