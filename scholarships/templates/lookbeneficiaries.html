@@ -64,8 +64,7 @@
           </button>
           <ul class="dropdown-menu">
             {% for institution in institutions %}
-            <li><a class="dropdown-item itemnumberp" href="{% url 'scholarships:filterinstitution' institution.id %}">{{
-                institution.name }}</a></li>
+            <li><a class="dropdown-item itemnumberp" href="{% url 'scholarships:filterinstitution' institution.id %}">{{institution.name }}</a></li>
             {% endfor %}
           </ul>
         </div>

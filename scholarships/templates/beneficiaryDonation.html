@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Descripción de institucion para aportar</title>
+    <title>Descripción de Beneficiario para aportar</title>
     <link href="{% static '/beneficiaryToDonate.css' %}" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css" />
     <!-- Bootstrap CSS -->
@@ -15,6 +15,8 @@
     {% block header %}
     <link href="{% static '/beneficiaryToDonate.css' %}" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-fhf8PvcXpGw3Z9wC1fdjPIK33VUz8/KVXgrNzn8nK1jZjmYd1eDCqlpgzH2s3Qr7i1qxSf/Nx08IHNifJin+GA==" crossorigin="anonymous" />
+
     {% endblock %}
 </head>
 
@@ -24,12 +26,12 @@
     <div class="row mb-3 flex-sm-row" id="contTitulo">
         <div class="col-md-9">
             <br />
-            <h3 id="titulo" class="mt-2">Detalle de Institucion</h3>
+            <h3 id="titulo" class="mt-2">Detalle de Beneficiario</h3>
             <hr id="line" class="w-80" />
         </div>
         <div class="col-md-3 text-center">
             <div class="d-flex justify-content-center">
-            <img src="../../../media/icons/fund.png" alt="No Encontrada" class="img-fluid d-none d-md-block"
+            <img src="{% static '/../media/icons/fund.png' %}" alt="No Encontrada" class="img-fluid d-none d-md-block"
                 id="graduatedImg" />
             </div>
         </div>
@@ -40,7 +42,7 @@
     <div class="form">
         <div class="row">
             <div class="col-lg-5 d-flex flex-column align-items-center " >
-                <img src="/media/{{ institution.profilePicture }}" class="img-fluid" alt="noimage"
+                <img src="/media/{{ scholarship.id_user.profilePicture }}" class="img-fluid" alt="noimage"
                   style="max-width: 15rem; height: 13rem; border-radius: 10px; margin-right: 0.5rem;">
 
 
@@ -50,61 +52,140 @@
 
             <div class="col-lg-7">
                 <div class="d-flex ">
-                    <h5 style="color: #F29F05;">Institucion: </h5>
+                    <h5 style="color: #F29F05;">Nombre: </h5>
                     <h5 class="mx-2"> 
-                    {{ institution.name|capfirst }}
+                        {{ scholarship.id_user.name|capfirst }}
                     </h5>
                 </div>
                 <div class="d-flex ">
-                    <h5 style="color: #F29F05;">Carreras: </h5>
+                    <h5 style="color: #F29F05;">Puntaje Icfes: </h5>
                     <h5 class="mx-2">
-                    {% for choice in institution.TYPE_CHOICES %}
-                        {% if choice.0 in institution.type_institution %}
-                         {{ choice.1 }},
-                        {% endif %}
-                        {% endfor %}
-
-                    </h5>
-                </div>
-                <div class="d-flex ">
-                    <h5 style="color: #F29F05;">Ciudad: </h5>
-                    <h5 class="mx-2"> 
-                    {{ institution.city }}
+                        {{ scholarship.icfes_score }}
                     </h5>
                 </div>
                 <div class="d-flex ">
                     <h5 style="color: #F29F05;">Email: </h5>
                     <h5 class="mx-2"> 
-                    {{ institution.email }}
-                    </h5>
-                </div>
-                <div class="d-flex ">
-                    <h5 style="color: #F29F05;">Direccion: </h5>
-                    <h5 class="mx-2"> 
-                    {{ institution.address }}
-                    </h5>
-                </div>
-                <div class="d-flex ">
-                    <h5 style="color: #F29F05;">Contacto: </h5>
-                    <h5 class="mx-2"> 
-                    {{ institution.contact }}
+                        {{ scholarship.id_user.email }} 
                     </h5>
                 </div>
                 
+                <div class="d-flex ">
+                    <h5 style="color: #F29F05;">Institucion: </h5>
+                    <h5 class="mx-2"> 
+                    {{ scholarship.institution.name }}
+                    </h5>
+                </div>
+                <div class="d-flex ">
+                    <h5 style="color: #F29F05;">Programa: </h5>
+                    <h5 class="mx-2"> 
+                    {{ scholarship.program_adm }}
+                    </h5>
+                </div>
+                <div class="d-flex ">
+                    <h5 style="color: #F29F05;">Valor Periodo: </h5>
+                    <h5 class="mx-2"> 
+                    $ {{ scholarship.value_period }}
+                    </h5>
+                </div>
             </div>
         </div>
         <div class="row justify-content-center mt-5 mb-4">
 
-            <form action="{% url 'scholarships:payments' institution.id %}" class="text-center" id="formdon" method="post">
+            <form action="{% url 'scholarships:paymentsBen' scholarship.id %}" class="text-center" id="formdon" method="post">
             {% csrf_token %}
+            <style>
+                .itemcomplete:hover{
+                    color: white;
+                    background-color: #A4D955;
+                    font-weight: 600;
+                }
+
+                .itemgold:hover{
+                    color: white;
+                    background-color: #FFD700;
+                    font-weight: 600;
+                }
+                .itemsilver:hover{
+                    color: white;
+                    background-color: #C0C0C0;
+                    font-weight: 600;
+                }
+                .itembronze:hover{
+                    color: white;
+                    background-color: #CD7F32;
+                    font-weight: 600;
+                }
+                .itemcomp:hover{
+                    color: white;
+                    background-color: #F29F05;
+                    font-weight: 600;
+                }
+            </style>
             <div class="col-lg-12 d-flex flex-column align-items-start">
-                <h5 style="text-align: left; color: #F29F05;">Aporte Libre</h5>
+                <h5 style="text-align: left; color: #F29F05;" class="mt-3">Tipo de Donacion</h5>
+                <div class="dropdown text-center w-100">
+                    <button class="btn dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                      style="background-color: white; border: 0.5px solid #A4D955;">
+                        Tipo de Aporte que deseas Realizar
+                    </button>
+                    <ul class="dropdown-menu w-100">
+                      <li><a class="dropdown-item itemcomplete " href="{% url 'scholarships:typeSch' scholarship.id 1 %}">
+                        Beca Completa
+                      </a></li>
+                      <li><a class="dropdown-item itemcomplete" href="{% url 'scholarships:typeSch' scholarship.id 2 %}">
+                        Beca Semestre
+                      </a></li>
+                      <li><a class="dropdown-item itemgold" href="{% url 'scholarships:typeSch' scholarship.id 3 %}">
+                        Beca Oro
+                      </a></li>
+
+                      <li><a class="dropdown-item itemsilver" href="{% url 'scholarships:typeSch' scholarship.id 4 %}">
+                        Beca Plata
+                      </a></li>
+
+                      <li><a class="dropdown-item itembronze" href="{% url 'scholarships:typeSch' scholarship.id 5 %}">
+                        Beca Bronce
+                      </a></li>
+
+                      <li><a class="dropdown-item itemcomp " href="{% url 'scholarships:typeSch' scholarship.id 6 %}">
+                        Aporte Libre
+                      </a></li>
+                    </ul>
+                  </div>
+                
+                  <div class="d-flex flex-column text-center col-lg-12 mt-3" >
+                    {% if message == 1 %}
+                        <p>El valor a Donar, sera BECA Completa, es decir toda la carrera &#x1F600;</p>
+
+                    {% elif message == 2 %}
+                        <p>El valor a Donar, sera BECA Semestre, es decir el valor de un semestre &#x1F600;</p>
+
+                    {% elif message == 3 %}
+                        <p>El valor a Donar, sera BECA ORO, es decir el 75% del valor de un semestre &#x1F600;</p>
+                    
+                    {% elif message == 4 %}
+                        <p>El valor a Donar, sera BECA Plata, es decir el 50% del valor de un semestre &#x1F600;</p>
+                    {% elif message == 5 %}
+                        <p>El valor a Donar, sera BECA Bronce, es decir el 30% del valor de un semestre &#x1F600;</p>
+                    {% elif message == 6 %}
+                        <p>Elegiste Aporte Libre, por favor ingresa el valor que deseas ingresar &#x1F600;</p>
+                    {%endif%}
+                  </div>
+                <h5 style="text-align: left; color: #F29F05;" class="mt-4">Cantidad a Donar</h5>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text">$</span>
                     </div>
-                    <input type="number" class="form-control" id="inputdon" style="direction: rtl;" placeholder="Ingrese la cantidad a donar" min="1000000" max="300000000" name="inputdonation">
-                  </div>
+                    {% if message == 6 %}
+                    <input type="number" class="form-control" id="inputdon" style="direction: rtl;"  min="1000000" max="300000000" name="inputdonation" >
+                    {% elif message  %}
+                    <input type="number" class="form-control" id="inputdon" style="direction: rtl;"  min="1000000" max="300000000" name="inputdonation" value="{{donation}}" readonly>
+                    {% else %}
+                    <input type="number" class="form-control" id="inputdon" style="direction: rtl;"  min="1000000" max="300000000" name="inputdonation" readonly>
+                    {%endif%}
+                
+                </div>
                   <div id="alertContainer"></div>
               </div>
             <a type="button" class="btn custom btn col-md-5 mt-4 mb-5 " id="botonDonar" data-bs-toggle="modal" data-bs-target="#confirmModal">
@@ -132,20 +213,19 @@
       </div>
     </div>
   </div>
-  <div id="institution" data-id="{{ institution.id }}" style="display: none;"></div>
+  
 
   <script>
     function redirect() {
     
     
     var inputValue = document.getElementById('inputdon').value;
-    var min = 1000000;
+    var min = 100000;
     var max = 300000000;
 
 
     if (inputValue >= min && inputValue <= max) {
         var form = document.getElementById('formdon'); 
-
         var input = document.createElement('input');
         input.type = 'hidden';
         input.name = 'valueinput';
@@ -159,7 +239,7 @@
     if (inputValue < min || inputValor > max) {
 
         $('#confirmModal').modal('hide');
-      var message = 'El valor ingresado está fuera del rango permitido.<br> Minimo $ 1.000.000 - Maximo $300.000.000';
+      var message = 'El valor ingresado está fuera del rango permitido.<br> Minimo $ 100.000 - Maximo $300.000.000';
       var alert = '<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">' +
                    '<div class="modal-dialog modal-dialog-centered">' +
                    '<div class="modal-content">' +
