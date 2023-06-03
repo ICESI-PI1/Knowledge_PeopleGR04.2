@@ -463,3 +463,34 @@ class ScholarshipListView(View):
         scholarship.save()
 
         return redirect('scholarships:scholarships')  # Redirigir a la lista de becas
+
+
+##Contacto
+
+from django.views.generic import FormView
+from django.core.mail import send_mail
+from django.conf import settings
+from .forms import ContactForm
+
+
+class ContactView(FormView):
+    template_name = 'contact.html'
+    form_class = ContactForm  
+    success_url = '/contact/success/'  # Reemplaza con la URL de la página de confirmación
+
+    def form_valid(self, form):
+        name = form.cleaned_data['name']
+        email = form.cleaned_data['email']
+        message = form.cleaned_data['message']
+
+        # Lógica para enviar el mensaje de contacto
+        send_mail(
+            'Mensaje de contacto',
+            f'Nombre: {name}\nEmail: {email}\nMensaje: {message}',
+            email,
+            [settings.CONTACT_EMAIL],
+            fail_silently=False,
+        )
+
+        return super().form_valid(form)
+

@@ -109,7 +109,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Configuración del backend de correo electrónico
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Servidor SMTP de Gmail
+EMAIL_PORT = 587  # Puerto SMTP de Gmail
+EMAIL_HOST_USER = 'dreamsbank.kp@gmail.com'  # Dirección de correo electrónico de envío
+EMAIL_HOST_PASSWORD = 'lnqncngyyebspdeh'  # Contraseña del correo electrónico de envío
+EMAIL_USE_TLS = True  # Usar TLS para la conexión segura
+EMAIL_USE_SSL = False  # No usar SSL
 
+# Dirección de correo electrónico a la que se enviarán los mensajes de contacto
+CONTACT_EMAIL = 'dreamsbank.kp@gmail.com'
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
