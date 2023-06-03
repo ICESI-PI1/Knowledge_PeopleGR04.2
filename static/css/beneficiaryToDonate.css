@@ -1,7 +1,18 @@
-body {
-  background-color: #f0f7ff;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=Roboto+Condensed&display=swap');
+
+:root{
+    --bs-body-font-family:'DM Sans', sans-serif;
 }
 
+body {
+  background-color: #f0f7ff;
+
+  font-family: 'Open Sans', sans-serif;
+}
+
+form{
+  font-family: 'Open Sans', sans-serif;
+}
 /*center title style*/
 
 #contTitulo {
