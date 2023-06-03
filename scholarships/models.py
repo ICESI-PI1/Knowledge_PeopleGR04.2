@@ -53,6 +53,20 @@ class Transaction(models.Model):
     institution_donation = models.ForeignKey(Institution, on_delete=models.CASCADE, null=True, blank=True, related_name='donations')
 
 
+class PartialTransaction(models.Model):
+    date_transaction = models.DateTimeField(auto_now_add=True)
+    amount = models.IntegerField()
+    payment = models.CharField(max_length=120) 
+    optionspay = (
+        ('PSE', 'PSE'),
+        ('Cards', 'Card'),
+        ('PayPal', 'PayPal')
+    )
+    type_pay = models.CharField(max_length=200, choices=optionspay, null=True)
+    donor_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="partialtransaction_donator")
+    scolarship_donation = models.ForeignKey(Scholarship, on_delete=models.CASCADE, null=True, blank=True, related_name='partialtransaction_donations')
+    institution_donation = models.ForeignKey(Institution, on_delete=models.CASCADE, null=True, blank=True, related_name='partialtransaction_donations')
+   
     #Notificaciones
 
 class Notification(models.Model):
