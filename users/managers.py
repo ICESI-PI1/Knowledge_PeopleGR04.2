@@ -29,7 +29,7 @@ class UserManager(BaseUserManager):
         name=name,
         idType=idType,
         numID=numID,
-        role=role,
+        role=5,
         profilePicture=profilePicture,
         password=password,
         is_superuser=True,
