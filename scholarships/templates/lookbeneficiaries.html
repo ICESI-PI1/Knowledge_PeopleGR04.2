@@ -21,15 +21,22 @@
 
 
   <div class="container-fluid">
-    <div class="input-group">
-      <input type="text" class="form-control custom-input" placeholder="Buscar Beneficiario" aria-label="Buscar"
-        style="font-weight: bolder;">
+    <form class="d-flex col=lg-12" action="{% url 'scholarships:searchBen' %}" method="post">
+        {% csrf_token %}
+      <div class="input-group">
+      <input type="text" name="inputsearch"  class="form-control custom-input" placeholder="Buscar Institucion" aria-label="Buscar"
+      style="font-weight: bolder;" >
+    
       <div class="input-group-append">
-        <span class="input-group-text search-icon">
-          <i class="fas fa-search"></i>
-        </span>
+      <button style="
+      border: none; background-color: transparent;" type="submit">
+      <span class="input-group-text search-icon">
+        <i class="fas fa-search"></i>
+      </span>
+      </button>
       </div>
-    </div>
+      </div>
+    </form>
 
 
     <!-- Filters -->
@@ -157,7 +164,7 @@
         </button>
 
       </div>
-      <div class="table-responsive" style="max-height: 70rem;">
+      <div class="table-responsive" >
         <table class="table">
           <thead>
             <tr>
