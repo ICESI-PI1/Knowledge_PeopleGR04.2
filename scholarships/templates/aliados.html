@@ -22,6 +22,7 @@ Instituciones Carousel
           <br>
           <div class="row">
             {% for institution in institutions %}
+            {% if institution.verificationState == 'A' %}
             <div class="col-lg-4">
               <div class="card">
                 <div class="box front">
@@ -47,6 +48,7 @@ Instituciones Carousel
                 </div>
               </div>
             </div>
+            {% endif %}
             {% endfor %}
           </div>
         </div>
