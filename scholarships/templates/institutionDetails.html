@@ -98,9 +98,9 @@
               <textarea class="form-control " rows="13" id="cartaMotivacional"
                         maxlength="2000" value="" readonly style="border: 1.5px solid gray; border-radius:1rem">{{ institution.description }}</textarea>
             </div>
-            <button type="submit" class="btn custom btn col-md-5 mt-4 mb-5" id="botonDonar">
-                Aportar
-            </button>
+            <a type="submit" href="{% url 'scholarships:donationIns' institution.id %}" class="btn custom btn col-md-5 mt-4 mb-5" id="botonDonar">
+                 Aportar
+            </a>
           </div>
     </div>
     </div>

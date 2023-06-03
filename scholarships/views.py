@@ -366,6 +366,21 @@ class ShowDetailsIns(TemplateView):
         return render(request, 'institutionDetails.html',data)
 ## Edit Profile
 
+class DonationIns(TemplateView):
+    def get(self,request,id):
+        institution = Institution.objects.get(id=id)
+        data = {'institution':institution}
+        return render(request, 'institutionDonation.html',data)
+
+
+class Payments(TemplateView):
+    def get(self,request,id):
+        institution = Institution.objects.get(id=id)
+        data = {'institution':institution}
+        return render(request, 'lookpayments.html',data)
+
+
+
 class BeneficiaryUpdateView(BeneficiaryUpdateView):
     pass 
 
