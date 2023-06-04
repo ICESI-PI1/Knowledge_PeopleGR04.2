@@ -47,9 +47,6 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path('scholarships/', ScholarshipListView.as_view(), name='scholarships'),
 
                 path('contact/', ContactView.as_view(), name='contact_view'),
-                
 
-                path("showmenu/", views.ShowMenuList.as_view(), name="showmenu"), 
-
-                
+                path("lookdonationsmade/", views.LookDonationHistory.as_view(), name="lookdonationsmade"),
                ]
