@@ -65,7 +65,7 @@
                       <img src="../../../../media/images/IconPlus.png" alt="Icono nueva solicitud" class="img-fluid" id="icon" />
                       <span data-feather="new_scolarship"></span> &nbsp; Nueva donación
                     </a>
-                    {% elif user.role == user.LEGALDONOR or user.role == user.INSTITUTION %}
+                    {% elif user.role == user.LEGALDONOR  %}
                     <!-- El usuario es Donante jurídico o Institución -->
                     <a class="nav-link" href="../newdonation/">
                       <img src="../../../../media/images/IconPlus.png" alt="Icono nueva solicitud" class="img-fluid" id="icon" />
@@ -90,21 +90,34 @@
                       <span data-feather="donor_history"></span>
                       &nbsp;Historial de donantes
                     </a>
+
                     {% elif user.role == user.NATURALDONOR or user.role == user.LEGALDONOR %}
+
                     <!-- El usuario es Donante natural -->
                     <a class="nav-link" href="{% url 'scholarships:look_beneficiaries' %}">
                       <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
                       <span data-feather="donor_history"></span>
                       &nbsp;Consultar Beneficiarios
                     </a>
-                    {% elif  user.role == user.INSTITUTION %}
+
+                    {% elif  user.role == user.INSTITUTION and user.institution.verificationState  == 'A'%}
+                    <!-- El usuario es Donante natural -->
+                    <a class="nav-link" href="{% url 'scholarships:look_beneficiaries' %}">
+                      <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
+                      <span data-feather="donor_history"></span>
+                      &nbsp;Consultar Beneficiarios
+                    </a>
+                    {% elif user.role == user.LEGALDONOR  %}
+
                     <!-- El usuario es Donante jurídico o Institución -->
                     <a class="nav-link" href="#">
                       <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
                       <span data-feather="donor_history"></span>
                       &nbsp;Historial de donantes
                     </a>
+
                     {% elif user.role == 5 %}
+
                     <a class="nav-link" href="{% url 'users:user_list' %}">
                       <img src="../../../../media/images/ucampus.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
                       <span data-feather="donor_history" style="margin-left: 0.1rem;"></span>
@@ -129,7 +142,15 @@
                       <span data-feather="donor_history" style="margin-left: 0.1rem;"></span>
                       &nbsp;Consultar Instituciones
                     </a>
-                    {% elif  user.role == user.INSTITUTION %}
+                    {% elif user.role == user.LEGALDONOR  %}
+                    <!-- El usuario es Donante jurídico o Institución -->
+                    <a class="nav-link" href="#">
+                      <img src="../../media/images/campus_u.png" alt="Icono historial solicitudes" class="img-fluid" id="icon" />
+                      <span data-feather="request_history"></span>
+                      &nbsp;Historial de aportes
+                    </a>
+                    {% elif user.role == user.INSTITUTION and user.institution.verificationState  == 'A' %}
+
                     <!-- El usuario es Donante jurídico o Institución -->
                     <a class="nav-link" href="#">
                       <img src="../../media/images/campus_u.png" alt="Icono historial solicitudes" class="img-fluid" id="icon" />
@@ -161,7 +182,15 @@
                       <span data-feather="request_history"></span>
                       &nbsp;Historial de aportes
                     </a>
-                    {% elif user.role == user.INSTITUTION %}
+                    {% elif user.role == user.LEGALDONOR %}
+                    <!-- El usuario es Donante jurídico o Institución -->
+                    <a class="nav-link" href="#">
+                      <img src="../../../../media/images/setting.png" alt="Icono ajustes" class="img-fluid" id="icon" />
+                      <span data-feather="settings"></span>
+                      &nbsp;Ajustes
+                    </a>
+                    {% elif user.role == user.INSTITUTION and user.institution.verificationState  == 'A'%}
+
                     <!-- El usuario es Donante jurídico o Institución -->
                     <a class="nav-link" href="#">
                       <img src="../../../../media/images/setting.png" alt="Icono ajustes" class="img-fluid" id="icon" />
@@ -187,7 +216,9 @@
                       <span data-feather="settings"></span>
                       &nbsp;Ajustes
                     </a>
+
                     {% elif user.role == user.LEGALDONOR %}
+
                     <!-- El usuario es Donante jurídico o Institución -->
                     <!--Institución ya tiene settings-->
                     <a class="nav-link" href="#">
