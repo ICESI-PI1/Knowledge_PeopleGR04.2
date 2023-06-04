@@ -5,6 +5,15 @@ from django.utils.translation import gettext_lazy as _
 
 from .managers import UserManager
 
+class Notification(models.Model):
+    content = models.CharField(max_length=255)
+    is_read = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
+    
+
 class User(AbstractBaseUser, PermissionsMixin):
     username=None
     BENEFICIARY=1
@@ -42,6 +51,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now_add=True)
     contact = models.CharField(max_length=15)
+    notifications = models.ManyToManyField(Notification)
+
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

@@ -50,8 +50,7 @@
           <ul class="dropdown-menu ">
             {% for interval in intervals %}
             <li><a class="dropdown-item text-center itemnumberp"
-                href="{% url 'scholarships:filtervalue' interval.0 interval.1 %}">$ {{ interval.0 }} - $ {{ interval.1
-                }}</a></li>
+                href="{% url 'scholarships:filtervalue' interval.0 interval.1 %}">$ {{ interval.0 }} - $ {{ interval.1 }}</a></li>
             {% endfor %}
           </ul>
         </div>
@@ -106,8 +105,7 @@
           </button>
           <ul class="dropdown-menu w-100">
             {% for i in semesters %}
-            <li><a class="dropdown-item text-center itemnumber " href="{% url 'scholarships:filtersemester' i %}"> {{ i
-                }}</a></li>
+            <li><a class="dropdown-item text-center itemnumber " href="{% url 'scholarships:filtersemester' i %}"> {{ i }}</a></li>
             {% endfor %}
           </ul>
         </div>
