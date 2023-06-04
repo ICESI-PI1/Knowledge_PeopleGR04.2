@@ -198,14 +198,14 @@ class InstitutionVerifyView(View):
         institution = Institution.objects.get(pk=pk)
         institution.verificationState = 'A'  # Cambiar estado de verificación a 'Aprobada'
         institution.save()
-        return redirect('users:user_list')  # Redirigir a la lista de instituciones
+        return redirect('scholarships:look_institutions')  # Redirigir a la lista de instituciones
 
 class InstitutionRejectVerificationView(View):
     def get(self, request, pk):
         institution = Institution.objects.get(pk=pk)
         institution.verificationState = 'R'  # Cambiar estado de verificación a 'Rechazada'
         institution.save()
-        return redirect('users:user_list')  # Redirigir a la lista de instituciones
+        return redirect('scholarships:look_institutions')  # Redirigir a la lista de instituciones
 
 
 class AllUserListView(View):
