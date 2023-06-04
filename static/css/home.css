@@ -7,19 +7,6 @@
 }
 
 
-.nav-link{
-    margin-left: 4rem;
-    font-size: 1.5rem;
-    color: black;
-}
-
-#register{
-    color: #f29f05;
-}
-
-#login{
-    color: #f29f05;
-}
 
 
 #col1{
@@ -61,14 +48,7 @@
     padding: 0;
 }
 
-.navbar-expand-lg{
-    background-color: white;
-}
 
-.dropdown-item:hover{
-    color: white;
-    background-color: #A4D955;
-}
 
 .btn{
     background-color: #f8c059;

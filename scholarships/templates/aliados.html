@@ -3,11 +3,12 @@
 {% load static %}
 
 {% block title %}
-Instituciones Carousel
+Aliados
 {% endblock %}
 
 {% block content %}
 <link href="{% static '/aliados.css' %}" rel="stylesheet">
+<link href="{% static '_base.css' %}" rel="stylesheet">
 <div class="container">
   <div class="row md-6" id="rowTitle">
     <h1>Instituciones de educación superior aliadas</h1>
@@ -22,6 +23,7 @@ Instituciones Carousel
           <br>
           <div class="row">
             {% for institution in institutions %}
+            {% if institution.verificationState == 'A' %}
             <div class="col-lg-4">
               <div class="card">
                 <div class="box front">
@@ -47,6 +49,7 @@ Instituciones Carousel
                 </div>
               </div>
             </div>
+            {% endif %}
             {% endfor %}
           </div>
         </div>
@@ -113,7 +116,7 @@ Instituciones Carousel
         <h3>Acceso a una amplia red de donantes y financiamiento para programas de becas.</h3>
       </div>
     </div>
-    <a href="/formulario" class="btn-join" id="join-button">¡Únete Ahora!</a>
+    <a href="/../users/signupIns" class="btn-join" id="join-button">¡Únete Ahora!</a>
   </div>
   
 
