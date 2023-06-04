@@ -82,7 +82,7 @@ class InsertScholarship(View):
             if not Scholarship.objects.filter(id_user=id_ben, active='AC').exists():
                 scolarship = Scholarship(stratum=levels,photocopy_id=picturedoc, motivational_letter=letter,
                                         certificate=picturecer,value_period=valuesem,icfes_score=icfes,period_current=timeA,
-                                        program_adm=program,application_type=optionnew,state='P',
+                                        program_adm=program,application_type=optionnew,state='Pendiente',
                                         total_periods=totalP,active='AC',date_application=now,id_user=ben,institution=institutionvalue)
                 scolarship.save()
 
@@ -90,7 +90,7 @@ class InsertScholarship(View):
             else:
                 scolarship = Scholarship(stratum=levels,photocopy_id=picturedoc, motivational_letter=letter,
                                         certificate=picturecer,value_period=valuesem,icfes_score=icfes,period_current=timeA,
-                                        program_adm=program,application_type=optionnew,state='P',
+                                        program_adm=program,application_type=optionnew,state='Pendiente',
                                         total_periods=totalP,active='IN',date_application=now,id_user=ben)
                 scolarship.save()
   
@@ -118,7 +118,7 @@ class EditSolicitud(View):
                 scholarshipToInactivate = solicitud.first()
 
                 scholarshipToInactivate.active = 'IN'
-                scholarshipToInactivate.state = 'R'
+                scholarshipToInactivate.state = 'Rechazada'
                 scholarshipToInactivate.save()
                 print(f"Solicitud del usuario {scholarshipToInactivate.id_user.name} ha sido inactivada.")
                 return render(request, 'menu.html')
@@ -431,17 +431,22 @@ class DonationsListView(TemplateView):
 class ScholarshipListView(View):
     def get(self, request):
         state_filter = request.GET.get('state', '')  # Obtener el estado filtrado de la URL
+        search_query = request.GET.get('search', '')  # Obtener el término de búsqueda
 
-        # Filtrar las becas según el estado seleccionado
         scholarships = Scholarship.objects.all()
+
         if state_filter:
             scholarships = scholarships.filter(state__startswith=state_filter)
 
+        if search_query:
+            scholarships = scholarships.filter(Q(id_user__name__icontains=search_query) | Q(id_user__id__icontains=search_query))
         context = {
             'scholarships': scholarships,
             'state_filter': state_filter,
+            'search_query': search_query,
         }
         return render(request, 'allScholarships.html', context)
+
 
     def post(self, request):
         scholarship_id = request.POST.get('scholarship_id')
