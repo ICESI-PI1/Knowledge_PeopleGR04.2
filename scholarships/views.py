@@ -103,7 +103,7 @@ class InsertScholarship(View):
             if not Scholarship.objects.filter(id_user=id_ben, active='AC').exists():
                 scolarship = Scholarship(stratum=levels,photocopy_id=picturedoc, motivational_letter=letter,
                                         certificate=picturecer,value_period=valuesem,icfes_score=icfes,period_current=timeA,
-                                        program_adm=program,application_type=optionnew,state='Pendiente',
+                                        program_adm=program,application_type=optionnew,state='P',
                                         total_periods=totalP,active='AC',date_application=now,id_user=ben,institution=institutionvalue)
                 scolarship.save()
 
@@ -111,7 +111,7 @@ class InsertScholarship(View):
             else:
                 scolarship = Scholarship(stratum=levels,photocopy_id=picturedoc, motivational_letter=letter,
                                         certificate=picturecer,value_period=valuesem,icfes_score=icfes,period_current=timeA,
-                                        program_adm=program,application_type=optionnew,state='Pendiente',
+                                        program_adm=program,application_type=optionnew,state='P',
                                         total_periods=totalP,active='IN',date_application=now,id_user=ben)
                 scolarship.save()
   
@@ -139,7 +139,7 @@ class EditSolicitud(View):
                 scholarshipToInactivate = solicitud.first()
 
                 scholarshipToInactivate.active = 'IN'
-                scholarshipToInactivate.state = 'Rechazada'
+                scholarshipToInactivate.state = 'R'
                 scholarshipToInactivate.save()
                 print(f"Solicitud del usuario {scholarshipToInactivate.id_user.name} ha sido inactivada.")
                 return render(request, 'menu.html')
@@ -278,8 +278,14 @@ class FilterProgram(ListView):
 
 class LookInstitutions(ListView):
     def get(self, request):
+        state_filter = request.GET.get('verificationState', '')
         institutions = Institution.objects.all()
         cities = []
+
+        verificationStates = []
+        verificationStates.append('A')
+        verificationStates.append('R')
+        verificationStates.append('P')
 
         types = []
         types.append('Tecnica')
@@ -291,9 +297,11 @@ class LookInstitutions(ListView):
             if city not in cities:
                 cities.append(city)
 
-        data = {'institutions':institutions,'cities':cities,'types':types}
+        if state_filter:
+            institutions = institutions.filter(verificationState__startswith=state_filter)
+        data = {'institutions':institutions,'cities':cities,'types':types, 'verificationStates':verificationStates, 'state_filter': state_filter}
         return render(request, 'lookinstitution.html',data)
-
+    
 class FilterCity(ListView):
     def get(self, request,city):
         institutions = Institution.objects.all()
@@ -302,6 +310,12 @@ class FilterCity(ListView):
             cit = i.city
             if cit not in cities:
                 cities.append(cit)
+        
+        verificationStates = []
+        verificationStates.append('A')
+        verificationStates.append('R')
+        verificationStates.append('P')
+
 
         types = []
         types.append('Tecnica')
@@ -309,7 +323,7 @@ class FilterCity(ListView):
         types.append('Pregrado')
         types.append('Posgrado')
         institutions_f = Institution.objects.filter(city=city)
-        data = {'institutions':institutions_f,'cities':cities,'types':types}
+        data = {'institutions':institutions_f,'cities':cities,'types':types, 'verificationStates':verificationStates}
         return render(request, 'lookinstitution.html',data)
 
 class FilterTypeI(ListView):
@@ -327,8 +341,13 @@ class FilterTypeI(ListView):
         types.append('Pregrado')
         types.append('Posgrado')
 
+        verificationStates = []
+        verificationStates.append('A')
+        verificationStates.append('R')
+        verificationStates.append('P')
+
         institutions_f = Institution.objects.filter(type_institution__contains=typeI)
-        data = {'institutions':institutions_f,'cities':cities,'types':types}
+        data = {'institutions':institutions_f,'cities':cities,'types':types, 'verificationStates':verificationStates}
         return render(request, 'lookinstitution.html',data)
     
 
@@ -602,7 +621,7 @@ class ScholarshipListView(View):
         if action == 'publicar':
             scholarship.state = 'Aceptada'
         elif action == 'rechazar':
-            scholarship.state = 'Rechazada'
+            scholarship.state = 'R'
 
         scholarship.save()
 

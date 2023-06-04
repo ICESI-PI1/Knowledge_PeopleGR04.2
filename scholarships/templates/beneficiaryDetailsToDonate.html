@@ -127,8 +127,8 @@
                     <form method="post" action="{% url 'scholarships:scholarships' %}">
                         {% csrf_token %}
                         <input type="hidden" name="scholarship_id" value="{{ scholarship.id }}">
-                        <button type="submit" name="action" id="rechazarBTN" value="rechazar" class="btn custom btn col-md-5 mt-4 mb-5" id="botonDonar">Rechazar</button>
-                        <button type="submit" name="action" id="publicarBTN" value="publicar" class="btn custom btn col-md-5 mt-4 mb-5" id="botonDonar">Publicar</button>
+                        <button type="submit" name="action" id="rechazarBTN" value="rechazar" class="btn custom btn col-md-5 mt-4 mb-5" >Rechazar</button>
+                        <button type="submit" name="action" id="publicarBTN" value="publicar" class="btn custom btn col-md-5 mt-4 mb-5" >Publicar</button>
                     </form>
                 </div>
             {% elif scholarship.state == 'Rechazada' %}
