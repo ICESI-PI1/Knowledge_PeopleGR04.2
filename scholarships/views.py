@@ -1,6 +1,6 @@
 from django.views import View
 from django.shortcuts import get_object_or_404, render
-from users.models import Beneficiary, Institution, User
+from users.models import Beneficiary, Institution, User, Notification
 from .models import Scholarship,Transaction, PartialTransaction
 from datetime import datetime
 from django.db.models import Q
@@ -223,6 +223,21 @@ class LookBeneficiaries(ListView):
         data = {'semesters':semester,'scholarships':scholarships,'institutions':institutions,'intervals':intervals}
         return render(request, 'lookbeneficiaries.html',data)
 
+
+class LookDonors(ListView):
+    def get(self, request):
+        id_ben = request.user.id
+        donations = Transaction.objects.filter(scolarship_donation__id_user=id_ben)
+
+        user = User.objects.get(id=id_ben)
+        notifications = user.notifications.all()
+
+        for notification in notifications:
+            notification.is_read = True
+            notification.save()
+
+        data = {'donations':donations}
+        return render(request, 'lookdonors.html',data)
 
 
 class FilterSemester(ListView):
@@ -469,7 +484,7 @@ class Payments(TemplateView):
         user = User.objects.get(id=id_user)
         partialTran = PartialTransaction(date_transaction=now,amount=value,donor_user=user,institution_donation=institution)
         partialTran.save()
-        data = {'institution':institution,'partialTransaction':partialTran}
+        data = {'institution':institution,'partialTransaction':partialTran,'Ins':True}
         return render(request, 'lookpayments.html',data)
 
 class PaymentsBen(TemplateView):
@@ -483,7 +498,7 @@ class PaymentsBen(TemplateView):
         user = User.objects.get(id=id_user)
         partialTran = PartialTransaction(date_transaction=now,amount=value,donor_user=user,scolarship_donation=scholarship)
         partialTran.save()
-        data = {'institution':scholarship,'partialTransaction':partialTran,'value':value}
+        data = {'institution':scholarship,'partialTransaction':partialTran,'Ben':True}
         return render(request, 'lookpayments.html',data)
 
 
@@ -491,33 +506,61 @@ class PaymentsBen(TemplateView):
 class PaymentsPaypal(TemplateView):
     def get(self,request,id):
         ptransaction = PartialTransaction.objects.get(id=id)
-        data = {'partialTransaction':ptransaction,'paypal':True}
-        return render(request, 'lookpayments.html',data)
+        if ptransaction.institution_donation!=None:
+            data = {'partialTransaction':ptransaction,'paypal':True,'Ins':True}
+            return render(request, 'lookpayments.html',data)
+        
+        if ptransaction.scolarship_donation!=None:
+            data = {'partialTransaction':ptransaction,'paypal':True,'Ben':True}
+            return render(request, 'lookpayments.html',data)
+        
     
 class PaymentsCard(TemplateView):
     def get(self,request,id):
         ptransaction = PartialTransaction.objects.get(id=id)
-        data = {'partialTransaction':ptransaction,'card':True}
-        return render(request, 'lookpayments.html',data)
+        if ptransaction.institution_donation!=None:
+            data = {'partialTransaction':ptransaction,'card':True,'Ins':True}
+            return render(request, 'lookpayments.html',data)
+        
+        if ptransaction.scolarship_donation!=None:
+            data = {'partialTransaction':ptransaction,'card':True,'Ben':True}
+            return render(request, 'lookpayments.html',data)
 
 class PaymentsPse(TemplateView):
     def get(self,request,id):
         ptransaction = PartialTransaction.objects.get(id=id)
-        data = {'partialTransaction':ptransaction,'psetrue':True}
-        return render(request, 'lookpayments.html',data)
+        if ptransaction.institution_donation!=None:
+            data = {'partialTransaction':ptransaction,'psetrue':True,'Ins':True}
+            return render(request, 'lookpayments.html',data)
+        
+        if ptransaction.scolarship_donation!=None:
+            data = {'partialTransaction':ptransaction,'psetrue':True,'Ben':True}
+            return render(request, 'lookpayments.html',data)
 
 class Pay1(TemplateView):
     def post(self,request,id):
         ptransaction = PartialTransaction.objects.get(id=id)
+        datenow = datetime.now()
         if ptransaction.institution_donation != None:
             transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,institution_donation=ptransaction.institution_donation,
                                       payment='Paypal',type_pay='PayPal')
             transaction.save()
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(content=message,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.institution_donation
+            usernot.notifications.add(notification)
         
         elif ptransaction.scolarship_donation != None:
             transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,scolarship_donation=ptransaction.scolarship_donation,
                                       payment='Paypal',type_pay='PayPal')
             transaction.save()
+
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(content=message,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.scolarship_donation.id_user
+            usernot.notifications.add(notification)
 
         data = {'Transaction':transaction}
         return render(request, 'report.html',data)
@@ -525,15 +568,27 @@ class Pay1(TemplateView):
 class Pay2(TemplateView):
     def post(self,request,id):
         ptransaction = PartialTransaction.objects.get(id=id)
+        datenow = datetime.now()
         if ptransaction.institution_donation != None:
             transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,institution_donation=ptransaction.institution_donation,
                                       payment='Card',type_pay='Cards')
             transaction.save()
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(user=ptransaction.institution_donation,content=message,is_read=False,timestamp=datenow)
+            notification.save()
+
+            usernot = ptransaction.institution_donation
+            usernot.notifications.add(notification)
         
         elif ptransaction.scolarship_donation != None:
             transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,scolarship_donation=ptransaction.scolarship_donation,
                                       payment='Card',type_pay='Cards')
             transaction.save()
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(user=ptransaction.scolarship_donation.id_user,content=message,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.scolarship_donation.id_user
+            usernot.notifications.add(notification)
 
         data = {'Transaction':transaction}
         return render(request, 'report.html',data)
@@ -541,15 +596,27 @@ class Pay2(TemplateView):
 class Pay3(TemplateView):
     def post(self,request,id):
         ptransaction = PartialTransaction.objects.get(id=id)
+        datenow = datetime.now()
         if ptransaction.institution_donation != None:
             transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,institution_donation=ptransaction.institution_donation,
                                       payment='Pse',type_pay='PSE')
             transaction.save()
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(user=ptransaction.institution_donation,content=message,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.institution_donation
+            usernot.notifications.add(notification)
         
         elif ptransaction.scolarship_donation != None:
             transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,scolarship_donation=ptransaction.scolarship_donation,
                                       payment='Pse',type_pay='PSE')
             transaction.save()
+
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(user=ptransaction.scolarship_donation.id_user,content=message,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.scolarship_donation.id_user
+            usernot.notifications.add(notification)
 
         data = {'Transaction':transaction}
         return render(request, 'report.html',data)
