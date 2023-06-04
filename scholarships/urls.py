@@ -1,7 +1,7 @@
 from django.urls import path
 from users.views import BeneficiaryUpdateView
 from . import views
-from .views import NewDonation, TransactionListView,ScholarshipListView,DonationsListView
+from .views import NewDonation, TransactionListView,ScholarshipListView,DonationsListView, ContactView 
 from .views import InstitutionListView
 
 app_name = 'scholarships'
@@ -20,9 +20,9 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path("lookbeneficiaries/", views.LookBeneficiaries.as_view(), name='look_beneficiaries'),
                 path('aliados/', InstitutionListView.as_view(), name='aliados'),
                 path("lookInstitutios/", views.LookInstitutions.as_view(), name='look_institutions'),
-                path("filtersemester/<int:id>/'", views.FilterSemester.as_view(), name='filtersemester'),
-                path("filterinstitution/<int:id>/'", views.FilterInstitution.as_view(), name='filterinstitution'),
-                path("filterprogram/<str:program_name>/'", views.FilterProgram.as_view(), name='filterprogram'),
+                path("filtersemester/<int:id>/", views.FilterSemester.as_view(), name='filtersemester'),
+                path("filterinstitution/<int:id>/", views.FilterInstitution.as_view(), name='filterinstitution'),
+                path("filterprogram/<str:program_name>/", views.FilterProgram.as_view(), name='filterprogram'),
                 path("filtercity/<str:city>/", views.FilterCity.as_view(), name='filtercity'),
                 path("filtertype/<str:typeI>/", views.FilterTypeI.as_view(), name='filtertype'),
                 path("searchIns",views.SrchView.as_view(),name='searchIns'),
@@ -44,6 +44,11 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path('donationSch/<int:id>/', views.DonationSch.as_view() , name='donationSch'),
                 path('typeSch/<int:id>/<int:x>/', views.TypeSch.as_view() , name='typeSch'),
                 path('scholarships/', ScholarshipListView.as_view(), name='scholarships'),
+
+                path('contact/', ContactView.as_view(), name='contact_view'),
+                
+
                 path("showmenu/", views.ShowMenuList.as_view(), name="showmenu"), 
+
                 
                ]

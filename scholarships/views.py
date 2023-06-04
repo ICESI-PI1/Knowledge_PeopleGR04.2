@@ -4,8 +4,12 @@ from users.models import Beneficiary, Institution, User
 from .models import Scholarship,Transaction, PartialTransaction
 from datetime import datetime
 from django.db.models import Q
+
+from django.views.generic import TemplateView, ListView,DetailView
+
 from django.views.generic import TemplateView, ListView
 from django.shortcuts import redirect
+
 
 
 from users.views import BeneficiaryUpdateView,NaturalDonorUpdateView,LegalDonorUpdateView,InstitutionUpdateView
@@ -422,6 +426,8 @@ class ShowDetailsIns(TemplateView):
         data = {'institution':institution}
         return render(request, 'institutionDetails.html',data)
 ## Edit Profile
+    
+## Edit Profile
 
 class DonationIns(TemplateView):
     def get(self,request,id):
@@ -607,3 +613,37 @@ class ScholarshipListView(View):
         scholarship.save()
 
         return redirect('scholarships:scholarships')  # Redirigir a la lista de becas
+
+
+##Contacto
+
+from django.views.generic import FormView
+from django.core.mail import send_mail
+from django.conf import settings
+from .forms import ContactForm
+
+from django.contrib import messages
+class ContactView(FormView):
+    template_name = 'contact.html'
+    form_class = ContactForm  
+    success_url = '/contact/'  
+
+    def form_valid(self, form):
+        name = form.cleaned_data['name']
+        email = form.cleaned_data['email']
+        message = form.cleaned_data['message']
+
+        # Lógica para enviar el mensaje de contacto
+        send_mail(
+            'Mensaje de contacto',
+            f'Nombre: {name}\nEmail: {email}\nMensaje: {message}',
+            email,
+            [settings.CONTACT_EMAIL],
+            fail_silently=False,
+        )
+
+       
+        messages.success(self.request, 'Se ha enviado la solicitud de contacto.')
+
+        return super().form_valid(form)
+

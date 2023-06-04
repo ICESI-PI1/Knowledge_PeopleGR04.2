@@ -74,6 +74,15 @@ div.settings{
     background: #FFFFFF
 }
 
+#profile_picture {
+    height: fit-content;
+    margin-left: 4%;
+    margin-top: 3%;
+    border-radius: 10px;
+    background: #FFFFFF;
+  }
+  
+
 #profile_names{
 
    font-family: 'Open Sans';

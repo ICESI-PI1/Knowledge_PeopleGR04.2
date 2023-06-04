@@ -82,6 +82,21 @@ class NaturalDonor(User):
 
 class LegalDonor(User):
     description = models.TextField(max_length=255)
+    organization_type_choices = (
+        ('foundation', 'Fundación o Beca'),
+        ('company', 'Empresa o Empleador'),
+        ('alumni_association', 'Asociación de Exalumnos'),
+        ('charity', 'Organización Benéfica o Sin Fines de Lucro'),
+        ('community_organization', 'Organización Comunitaria'),
+        ('mentoring_program', 'Programa de Tutoría o Mentoría'),
+        ('religious_organization', 'Organización Religiosa'),
+        ('government', 'Gobierno u Organismo Público'),
+    )
+    organization_type = models.CharField(
+        max_length=50,
+        choices=organization_type_choices,
+    )
+
 
     def __str__(self):
         return self.name

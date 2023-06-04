@@ -25,8 +25,6 @@
 
   <body>
 
-    
-    
     <div class="container-fluid" id="containerinit">
       <div class="row  justify-content-between" >
         <!-- Menú lateral -->
@@ -59,7 +57,7 @@
                       <span data-feather="new_scolarship"></span>
                       &nbsp;Nueva solicitud de beca
                     </a>
-                    {% elif user.role == user.NATURALDONOR %}
+                    {% elif user.role == user.NATURALDONOR or user.role == user.LEGALDONOR %}
                     <!-- El usuario es Donante natural -->
                     <a class="nav-link" href="../newdonation/">
                       <img src="../../../../media/images/IconPlus.png" alt="Icono nueva solicitud" class="img-fluid" id="icon" />
@@ -90,13 +88,16 @@
                       <span data-feather="donor_history"></span>
                       &nbsp;Historial de donantes
                     </a>
-                    {% elif user.role == user.NATURALDONOR  %}
+
+                    {% elif user.role == user.NATURALDONOR or user.role == user.LEGALDONOR %}
+
                     <!-- El usuario es Donante natural -->
                     <a class="nav-link" href="{% url 'scholarships:look_beneficiaries' %}">
                       <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
                       <span data-feather="donor_history"></span>
                       &nbsp;Consultar Beneficiarios
                     </a>
+
                     {% elif  user.role == user.INSTITUTION and user.institution.verificationState  == 'A'%}
                     <!-- El usuario es Donante natural -->
                     <a class="nav-link" href="{% url 'scholarships:look_beneficiaries' %}">
@@ -105,15 +106,17 @@
                       &nbsp;Consultar Beneficiarios
                     </a>
                     {% elif user.role == user.LEGALDONOR  %}
+
                     <!-- El usuario es Donante jurídico o Institución -->
                     <a class="nav-link" href="#">
                       <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
                       <span data-feather="donor_history"></span>
                       &nbsp;Historial de donantes
                     </a>
-                    
-                    {% elif user.role == 5%}
-                    <a class="nav-link" href="{% url 'scholarships:look_institutions' %}">
+
+                    {% elif user.role == 5 %}
+
+                    <a class="nav-link" href="{% url 'users:user_list' %}">
                       <img src="../../../../media/images/ucampus.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
                       <span data-feather="donor_history" style="margin-left: 0.1rem;"></span>
                       &nbsp;Gestión de instituciones
@@ -130,7 +133,7 @@
                       <span data-feather="request_history"></span>
                       &nbsp;Historial de solicitudes
                     </a>
-                    {% elif user.role == user.NATURALDONOR %}
+                    {% elif user.role == user.NATURALDONOR or user.role == user.LEGALDONOR %}
                     <!-- El usuario es Donante -->
                     <a class="nav-link d-flex" href="{% url 'scholarships:look_institutions' %}">
                       <img src="../../../../media/images/ucampus.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
@@ -145,6 +148,7 @@
                       &nbsp;Historial de aportes
                     </a>
                     {% elif user.role == user.INSTITUTION and user.institution.verificationState  == 'A' %}
+
                     <!-- El usuario es Donante jurídico o Institución -->
                     <a class="nav-link" href="#">
                       <img src="../../../../media/images/RequestHistory.png " alt="Icono historial solicitudes" class="img-fluid" id="icon" />
@@ -169,7 +173,7 @@
                       <span data-feather="active_request"></span>
                       &nbsp;Solicitud activa
                     </a>
-                    {% elif user.role == user.NATURALDONOR %}
+                    {% elif user.role == user.NATURALDONOR or user.role == user.LEGALDONOR %}
                     <!-- El usuario es Donante -->
                     <a class="nav-link" href="#">
                       <img src="../../../../media/images/RequestHistory.png" alt="Icono historial solicitudes" class="img-fluid" id="icon" />
@@ -184,6 +188,7 @@
                       &nbsp;Ajustes
                     </a>
                     {% elif user.role == user.INSTITUTION and user.institution.verificationState  == 'A'%}
+
                     <!-- El usuario es Donante jurídico o Institución -->
                     <a class="nav-link" href="#">
                       <img src="../../../../media/images/setting.png" alt="Icono ajustes" class="img-fluid" id="icon" />
@@ -209,7 +214,9 @@
                       <span data-feather="settings"></span>
                       &nbsp;Ajustes
                     </a>
-                    {% elif user.role == user.LEGALDONOR  %}
+
+                    {% elif user.role == user.LEGALDONOR %}
+
                     <!-- El usuario es Donante jurídico o Institución -->
                     <!--Institución ya tiene settings-->
                     <a class="nav-link" href="#">
@@ -260,6 +267,7 @@
                     {{ user.name|capfirst }}
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    {% if user.is_authenticated and user.id %}
                     {% if user.role == user.BENEFICIARY %}
                     <li>
                       <a class="dropdown-item" href="{% url 'scholarships:beneficiary_profile_update' pk=user.id %}">Editar perfil</a>
@@ -276,6 +284,7 @@
                     <li>
                       <a class="dropdown-item" href="{% url 'scholarships:institution_profile_update' pk=user.id %}">Editar perfil</a>
                     </li>
+                    {% endif %}
                     {% endif %}
                     <li>
                       <hr class="dropdown-divider">
