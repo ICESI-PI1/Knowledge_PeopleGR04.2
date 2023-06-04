@@ -620,7 +620,7 @@ from django.contrib import messages
 class ContactView(FormView):
     template_name = 'contact.html'
     form_class = ContactForm  
-    success_url = '/contact/'  # Reemplaza con la URL de la página de confirmación
+    success_url = '/contact/'  
 
     def form_valid(self, form):
         name = form.cleaned_data['name']
@@ -636,7 +636,7 @@ class ContactView(FormView):
             fail_silently=False,
         )
 
-        # Agregar mensaje de éxito
+       
         messages.success(self.request, 'Se ha enviado la solicitud de contacto.')
 
         return super().form_valid(form)

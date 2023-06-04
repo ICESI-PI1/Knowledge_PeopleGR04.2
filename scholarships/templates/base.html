@@ -25,8 +25,6 @@
 
   <body>
 
-    
-    
     <div class="container-fluid" id="containerinit">
       <div class="row  justify-content-between" >
         <!-- Menú lateral -->
@@ -269,6 +267,7 @@
                     {{ user.name|capfirst }}
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    {% if user.is_authenticated and user.id %}
                     {% if user.role == user.BENEFICIARY %}
                     <li>
                       <a class="dropdown-item" href="{% url 'scholarships:beneficiary_profile_update' pk=user.id %}">Editar perfil</a>
@@ -285,6 +284,7 @@
                     <li>
                       <a class="dropdown-item" href="{% url 'scholarships:institution_profile_update' pk=user.id %}">Editar perfil</a>
                     </li>
+                    {% endif %}
                     {% endif %}
                     <li>
                       <hr class="dropdown-divider">

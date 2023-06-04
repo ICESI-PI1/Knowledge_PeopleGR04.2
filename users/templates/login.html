@@ -1,6 +1,6 @@
 {% extends '_base.html' %}
 {% load static %}
-{% block title %}Log In{% endblock %}
+{% block title %}Inicio de sesión{% endblock %}
 
 {% block content %}
 <link href="{% static 'login.css' %}" rel="stylesheet">
@@ -12,7 +12,7 @@
     </div>
     <div class ="col-lg-6 px-5 ">
 
-      <h3 class="text-center py-5 mt-5">Inicio de Sesion</h3>
+      <h3 class="text-center py-5 mt-5">Inicio de Sesión</h3>
 
           <form class=" form-control-sm mt-5" method="post">
             {% csrf_token %}

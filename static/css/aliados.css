@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=Roboto+Condensed&display=swap');
+
+:root {
+  --bs-body-font-family: 'DM Sans', sans-serif;
+}
+
 /* aliados.css */
 body {
 	background: white;
