@@ -193,6 +193,12 @@
                       <span data-feather="request_history"></span>
                       &nbsp;Historial de aportes
                     </a>
+                    {% elif user.role == user.INSTITUTION and user.institution.verificationState  == 'A' %}
+                    <!-- El usuario es Donante -->
+                    <a class="nav-link" href="#">
+                      <img src="../../../../media/images/RequestHistory.png" alt="Icono historial solicitudes" class="img-fluid" id="icon" />
+                      <span data-feather="request_history"></span>
+                      &nbsp;Historial de aportes
                     {% elif user.role == user.LEGALDONOR %}
                     <!-- El usuario es Donante jurídico o Institución -->
                     <a class="nav-link" href="#">
