@@ -49,7 +49,7 @@ form{
 /*form style*/
 
 
-#botonDonar {
+#botonDonar, #rechazarBTN, #publicarBTN  {
   background-color: #f29f05;
   border-color: #f29f05;
   color: #fff;
@@ -59,9 +59,11 @@ form{
   font-size: 1em;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  margin-left: 30%;
 }
 
-#botonDonar:hover {
+
+#botonDonar:hover, #rechazarBTN:hover, #publicarBTN:hover {
   background-color: #a4d955;
   border-color: #a4d955;
   color: #fff;
