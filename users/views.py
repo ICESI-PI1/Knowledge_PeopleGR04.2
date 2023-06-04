@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.views import LoginView
 from .forms import CustomUserCreationForm,CustomAuthenticationForm, CustomUserCreationBenForm, CustomInstitutionForm
+from .forms import LegalDonorForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Beneficiary, Institution, LegalDonor, NaturalDonor, User
@@ -19,15 +20,75 @@ class SignUpBen(CreateView):
     success_url = reverse_lazy("users:sigin")
     template_name = 'signup.html'
 
+    def form_valid(self, form):
+        # Crea una instancia del modelo User con los datos del formulario
+        user = form.save(commit=False)
+
+        # Establece el campo 'role' como User.BENEFICIARY
+        user.role = User.BENEFICIARY
+
+        # Guarda el usuario en la base de datos
+        user.save()
+
+       
+        return super().form_valid(form)
+
 class SignUpDon(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("users:sigin")
     template_name = 'signup.html'
 
+    def form_valid(self, form):
+        # Crea una instancia del modelo User con los datos del formulario
+        user = form.save(commit=False)
+
+        # Establece el campo 'role' como User.NATURALDONOR
+        user.role = User.NATURALDONOR
+
+        # Guarda el usuario en la base de datos
+        user.save()
+
+       
+        return super().form_valid(form)
+
+class SignUpLegalDon(CreateView):
+    form_class = LegalDonorForm
+    success_url = reverse_lazy("users:sigin")
+    template_name = 'signup.html'
+
+    def form_valid(self, form):
+        # Crea una instancia del modelo User con los datos del formulario
+        user = form.save(commit=False)
+
+        # Establece el campo 'role' como User.LEGALDONOR
+        user.role = User.LEGALDONOR
+
+        # Guarda el usuario en la base de datos
+        user.save()
+
+       
+        return super().form_valid(form)        
+
 class SignUpIns(CreateView):
     form_class = CustomInstitutionForm
     success_url = reverse_lazy("users:sigin")
     template_name = 'signup.html'
+
+    def form_valid(self, form):
+        # Crea una instancia del modelo User con los datos del formulario
+        user = form.save(commit=False)
+
+        # Establece el campo 'role' como User.INSTITUTION
+        user.role = User.INSTITUTION
+
+        # Guarda el usuario en la base de datos
+        user.save()
+
+        
+        return super().form_valid(form)
+    
+
+    
 
 class SigIn(LoginView):
     authentication_form = CustomAuthenticationForm
@@ -89,6 +150,7 @@ class LegalDonorUpdateForm(forms.ModelForm):
             'numID': forms.TextInput(attrs={'class': 'form-control'}),
             'description':forms.TextInput(attrs={'class': 'form-control'}),
             'profilePicture':forms.FileInput(attrs={'class': 'form-control'}),
+            
         }
 
 class LegalDonorUpdateView(UpdateView):
