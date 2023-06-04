@@ -83,7 +83,7 @@
                   <li class="nav-item mt-3" id="donor_history-link">
                     {% if user.role == user.BENEFICIARY %}
                     <!-- El usuario es Beneficiario -->
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{% url 'scholarships:look_donors' %}">
                       <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid" id="icon" />
                       <span data-feather="donor_history"></span>
                       &nbsp;Historial de donantes
@@ -304,18 +304,26 @@
             </div>
           </div>
           
-          <div class="row" id="notif">
+          <div class="row d-flex flex-column" id="notif" >
             <h4>Notificaciones</h4>
-            <ul class="list-group">
-              {% for notification in notifications %}
-                <li class="list-group-item{% if not notification.is_read %} font-weight-bold{% endif %}">
-                  {{ notification.content }}
-                  {% if not notification.is_read %}
-                    <span class="badge bg-primary rounded-pill">Nueva</span>
-                  {% endif %}
-                </li>
+            <ul class="list-group" >
+              {% for notification in user.notifications.all %}
+              {% if not notification.is_read %}
+        <!-- Aquí puedes mostrar el contenido de la notificación -->
+              <a class="btn d-flex my-2 notifies" style="border-radius: 1rem;" href="{% url 'scholarships:look_donors' %}">
+                <img src="/media/images/Notification_Icon.png" class="img-fluid" alt="noimage" style="max-width: 3rem; max-height: 3rem; border-radius: 10px; margin-right: 0.5rem;">
+                {{ notification.content }}</a>
+              {% endif %}
               {% endfor %}
             </ul>
+
+            <style>
+              .notifies:hover{
+
+                background-color: rgba(255, 218, 109, 0.6);
+              }
+
+            </style>
           </div>
           
         </div>
