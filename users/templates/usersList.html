@@ -43,8 +43,72 @@
     <!--  Container -->
     {% if users %}
 <!-- user_list.html -->
+{% for user in users  %}
+<tr class="mt-4 align-middle" style="height: 7rem;" >
+  <td class="align-middle" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
+    {% if user.profilePicture != "" %}
+    <img src="/media/{{ user.profilePicture }}" class="img-fluid" alt="noimage"
+      style="max-width: 3rem; max-height: 3rem; border-radius: 10px; margin-right: 0.5rem;">
+    {% else %}
+    <img src="/media/users/profile_default.png" class="img-fluid" alt="noimage"
+      style="max-width: 3rem; max-height: 3rem; border-radius: 10px; margin-right: 0.5rem;">
+    {% endif %}
+  </td>
+  <td>
+    <div class="row">
+      <div class="col-12" style="font-weight: bolder; font-size: larger;">{{ user.name|capfirst }}
+      </div>
+      <div class="col-12"></div>
+      <div class="col-12">{{ user.institution.city }}</div>
+    </div>
+  </td>
+  <td>
+    <div class="row">
+        <div class="col-12">
+            {% for choice in user.TYPE_CHOICES %}
+            {% if choice.0 in user.type_institution %}
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="type_institution_checkbox" value="{{ choice.0 }}"
+                {% if choice.0 in user.type_institution %} checked {% endif %}>
+              <label class="form-check-label">
+                {{ choice.1 }}
+              </label>
+            </div>
+          {% endif %}
+            {% endfor %}
+        </div>
+        <style>
+            .form-check-input:checked {
+            background-color:#A4D955;
+            border: none;
+            }
+        </style>
+      </div>
+  </td>
+  <td>
+    <div class="row my-auto">
+      <div class="col-12 text-center">Recaudado</div>
+      <div class="col-12 text-center">$ {{ user.money_donation }}</div>
+    </div>
+  </td>
+  <td
+    style="background-color: rgba(242, 159, 5, 0.7); border-top-right-radius: 10px; border-bottom-right-radius: 10px;"
+    class="align-middle">
+    <div class="d-flex align-items-center justify-content-center">
+      <button type="submit" class="btn btn-link p-0" style=" border: none;" name="viewBeneficiaryDetails"
+        data-scholarship-id="{{ user.id_user.name }}">
+        <a href="{% url 'scholarships:showdetailsinstitucion' id=user.id %}">
+        <img src="/media/images/Forward.png" class="img-fluid" alt="noimage"
+          style="max-width: 3rem; max-height: 3rem;">
+        </a>
+      </button>
+    </div>
+  </td>
+</tr>
+{% endfor %}
 
-<h1>Lista de usuarios de tipo institución:</h1>
+
+<!--<h1>Lista de usuarios de tipo institución:</h1>
 <ul>
   {% for user in users %}
     <li>{{ user.name }} - {{ user.email }} - {{ user.institution.verificationState }}</li>
@@ -53,7 +117,7 @@
     <a href="{% url 'users:reject_verification' pk=user.institution.pk%}">Rechazar Verificación</a>
     {% endif %}
   {% endfor %}
-</ul>
+</ul>-->
 
     {% else %}
 
@@ -67,33 +131,8 @@
 
     {% endif %}
 
-    <!--   {% if scholarships %}
-      {% for sc in scholarships %}
-
-        
-      
-        <div class="d-flex">
-            <div class="fields" id="fields">
-            {{ sc.date_application|date:"Y-m-d" }}
-            </div>
-            <div class="fields">
-                {{ sc.program_adm }}
-            </div>
-            <div class="fields">
-                {{ sc.icfes_score }}
-            </div>
-            <div class="fields" style="margin-left: 5rem;">
-                {{ sc.value_period }}
-            </div>
-            <div class="fields" style="margin-left: 5rem;">
-                {{ sc.total_periods }}
-            </div>
-        </div>        
-      
-     
-      {% endfor %}
-      {% endif %}
-       -->
     {% endblock %}
   </body>
 </html>
+
+

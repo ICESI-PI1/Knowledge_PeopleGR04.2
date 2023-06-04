@@ -330,6 +330,7 @@ class FilterTypeI(ListView):
         institutions_f = Institution.objects.filter(type_institution__contains=typeI)
         data = {'institutions':institutions_f,'cities':cities,'types':types}
         return render(request, 'lookinstitution.html',data)
+    
 
 
 class SrchView(ListView):
