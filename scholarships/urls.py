@@ -44,5 +44,6 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path('donationSch/<int:id>/', views.DonationSch.as_view() , name='donationSch'),
                 path('typeSch/<int:id>/<int:x>/', views.TypeSch.as_view() , name='typeSch'),
                 path('scholarships/', ScholarshipListView.as_view(), name='scholarships'),
+                path("showmenu/", views.ShowMenuList.as_view(), name="showmenu"), 
                 
                ]

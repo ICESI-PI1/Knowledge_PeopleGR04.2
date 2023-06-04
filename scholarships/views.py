@@ -13,6 +13,27 @@ from users.views import BeneficiaryUpdateView,NaturalDonorUpdateView,LegalDonorU
 class ShowMenu(View):
     def get(self,request):
         return render(request,'menu.html')
+    
+class ShowMenuList(View):
+    def get(self,request):
+        userInstitution = request.user
+        idInst = request.user.id
+        scholarshipList = []
+        allScholarships = Scholarship.objects.filter(institution = idInst, active = 'AC')
+
+        for i in reversed(allScholarships):
+            if len(scholarshipList) <= 5:
+                scholarshipList.append(allScholarships.index(i))
+
+        context = {
+            'userInstitution': userInstitution,
+            'scholarshipList':scholarshipList
+        }
+        return render(request,'menu.html',context)
+
+
+        
+
 
 class NewApplication(View):
     def get(self,request):
