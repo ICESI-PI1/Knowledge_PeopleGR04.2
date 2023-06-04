@@ -84,53 +84,50 @@
                   <li class="nav-item mt-3" id="donor_history-link">
                     {% if user.role == user.BENEFICIARY %}
                     <!-- El usuario es Beneficiario -->
+                    <a class="nav-link" href="{% url 'scholarships:look_donors' %}">
+                      <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid"
+                        id="icon" />
+                      <span data-feather="donor_history"></span>
+                      &nbsp;Historial de donantes
+                    </a>
+
+                    {% elif user.role == user.NATURALDONOR or user.role == user.LEGALDONOR %}
+
+                    <!-- El usuario es Donante natural -->
+                    <a class="nav-link" href="{% url 'scholarships:look_beneficiaries' %}">
+                      <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid"
+                        id="icon" />
+                      <span data-feather="donor_history"></span>
+                      &nbsp;Consultar Beneficiarios
+                    </a>
+
+                    {% elif user.role == user.INSTITUTION and user.institution.verificationState == 'A'%}
+                    <!-- El usuario es Donante natural -->
+                    <a class="nav-link" href="{% url 'scholarships:look_beneficiaries' %}">
+                      <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid"
+                        id="icon" />
+                      <span data-feather="donor_history"></span>
+                      &nbsp;Consultar Beneficiarios
+                    </a>
+                    {% elif user.role == user.LEGALDONOR %}
+
+                    <!-- El usuario es Donante jurídico o Institución -->
                     <a class="nav-link" href="#">
                       <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid"
                         id="icon" />
-                      <a class="nav-link" href="{% url 'scholarships:look_donors' %}">
-                        <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes"
-                          class="img-fluid" id="icon" />
-                        <span data-feather="donor_history"></span>
-                        &nbsp;Historial de donantes
-                      </a>
+                      <span data-feather="donor_history"></span>
+                      &nbsp;Historial de donantes
+                    </a>
 
-                      {% elif user.role == user.NATURALDONOR or user.role == user.LEGALDONOR %}
+                    {% elif user.role == 5 %}
 
-                      <!-- El usuario es Donante natural -->
-                      <a class="nav-link" href="{% url 'scholarships:look_beneficiaries' %}">
-                        <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes"
-                          class="img-fluid" id="icon" />
-                        <span data-feather="donor_history"></span>
-                        &nbsp;Consultar Beneficiarios
-                      </a>
-
-                      {% elif user.role == user.INSTITUTION and user.institution.verificationState == 'A'%}
-                      <!-- El usuario es Donante natural -->
-                      <a class="nav-link" href="{% url 'scholarships:look_beneficiaries' %}">
-                        <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes"
-                          class="img-fluid" id="icon" />
-                        <span data-feather="donor_history"></span>
-                        &nbsp;Consultar Beneficiarios
-                      </a>
-                      {% elif user.role == user.LEGALDONOR %}
-
-                      <!-- El usuario es Donante jurídico o Institución -->
-                      <a class="nav-link" href="#">
-                        <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes"
-                          class="img-fluid" id="icon" />
-                        <span data-feather="donor_history"></span>
-                        &nbsp;Historial de donantes
-                      </a>
-
-                      {% elif user.role == 5 %}
-
-                      <a class="nav-link" href="{% url 'users:user_list' %}">
-                        <img src="../../../../media/images/ucampus.png" alt="Icono historial donantes" class="img-fluid"
-                          id="icon" />
-                        <span data-feather="donor_history" style="margin-left: 0.1rem;"></span>
-                        &nbsp;Gestión de instituciones
-                      </a>
-                      {% endif %}
+                    <a class="nav-link" href="{% url 'users:user_list' %}">
+                      <img src="../../../../media/images/ucampus.png" alt="Icono historial donantes" class="img-fluid"
+                        id="icon" />
+                      <span data-feather="donor_history" style="margin-left: 0.1rem;"></span>
+                      &nbsp;Gestión de instituciones
+                    </a>
+                    {% endif %}
                   </li>
                 </div>
                 <div class="request_history">
@@ -319,144 +316,74 @@
                   </li>
                 </ul>
               </li>
+            </ul>
+          </div>
+        </div>
 
-              <div class="col-md-3" id="rightbar">
-                <div class="row justify-content-end" id="profile">
-                  <div class="col-auto">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                      <span class="navbar-toggler-icon"></span>
-                    </button>
+        <div class="row d-flex flex-column" id="notif">
+          <h4>Notificaciones</h4>
+          <ul class="list-group">
+            {% for notification in user.notifications.all %}
+            {% if not notification.is_read %}
+            <!-- Aquí puedes mostrar el contenido de la notificación -->
+            <a class="btn d-flex my-2 notifies" style="border-radius: 1rem;"
+              href="{% url 'scholarships:look_donors' %}">
+              <img src="/media/images/Notification_Icon.png" class="img-fluid" alt="noimage"
+                style="max-width: 3rem; max-height: 3rem; border-radius: 10px; margin-right: 0.5rem;">
+              {{ notification.content }}</a>
+            {% endif %}
+            {% endfor %}
+          </ul>
 
-                    <ul class="navbar-nav ml-auto">
-                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
-                          data-bs-toggle="dropdown" aria-expanded="false">
-                          {% if user.profilePicture != "" %}
-                          <img src="/media/{{ user.profilePicture }}" class="img-fluid" alt="noimage"
-                            style="max-width: 3rem; max-height: 3rem; border-radius: 10px; margin-right: 0.5rem;">
-                          {% else %}
-                          <img src="/media/users/profile_default.png" class="img-fluid" alt="noimage"
-                            style="max-width: 3rem; max-height: 3rem; border-radius: 10px; margin-right: 0.5rem;">
-                          {% endif %}
-                          {{ user.name|capfirst }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                          {% if user.is_authenticated and user.id %}
-                          {% if user.role == user.BENEFICIARY %}
-                          <li>
-                            <a class="dropdown-item"
-                              href="{% url 'scholarships:beneficiary_profile_update' pk=user.id %}">Editar perfil</a>
-                          </li>
-                          {% elif user.role == user.NATURALDONOR %}
-                          <li>
-                            <a class="dropdown-item"
-                              href="{% url 'scholarships:natural_donor_profile_update' pk=user.id %}">Editar perfil</a>
-                          </li>
-                          {% elif user.role == user.LEGALDONOR %}
-                          <li>
-                            <a class="dropdown-item"
-                              href="{% url 'scholarships:legal_donor_profile_update' pk=user.id %}">Editar perfil</a>
-                          </li>
-                          {% elif user.role == user.INSTITUTION %}
-                          <li>
-                            <a class="dropdown-item"
-                              href="{% url 'scholarships:institution_profile_update' pk=user.id %}">Editar perfil</a>
-                          </li>
-                          {% endif %}
-                          {% endif %}
-                          <li>
-                            <hr class="dropdown-divider">
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+          <style>
+            .notifies:hover {
 
-                <div class="row d-flex flex-column" id="notif">
-                  <h4>Notificaciones</h4>
-                  <ul class="list-group">
-                    {% for notification in user.notifications.all %}
-                    {% if not notification.is_read %}
-                    <!-- Aquí puedes mostrar el contenido de la notificación -->
-                    <a class="btn d-flex my-2 notifies" style="border-radius: 1rem;"
-                      href="{% url 'scholarships:look_donors' %}">
-                      <img src="/media/images/Notification_Icon.png" class="img-fluid" alt="noimage"
-                        style="max-width: 3rem; max-height: 3rem; border-radius: 10px; margin-right: 0.5rem;">
-                      {{ notification.content }}</a>
-                    {% endif %}
-                    {% endfor %}
+              background-color: rgba(255, 218, 109, 0.6);
+            }
+          </style>
+        </div>
 
+      </div>
+
+      <div class="row">
+        <div class="col-md-3"></div> <!-- Columna vacía -->
+        <div class="col-md-9">
+          <footer class="footer" style="background-color: #ffff;" id="foote">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <h5><i></i> Contacto</h5>
+                  <p>Para más información, contáctanos:</p>
+                  <ul class="list-unstyled">
+                    <li><i class="fas fa-phone"></i> Teléfono: +57 312 832 776</li>
+                    <li><i class="fas fa-envelope"></i> Email: knowledgePeople@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Dirección: Calle Principal, Ciudad, País</li>
                   </ul>
-
-                  <style>
-                    .notifies:hover {
-
-                      background-color: rgba(255, 218, 109, 0.6);
-                    }
-                  </style>
+                </div>
+                <div class="col-md-6">
+                  <h5>Síguenos en nuestras redes sociales</h5>
+                  <ul class="list-inline social-icons">
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
+                  </ul>
                 </div>
               </div>
-
-              <div class="row" id="notif">
-                <h4>Notificaciones</h4>
-                <ul class="list-group">
-                  {% for notification in notifications %}
-                  <li class="list-group-item{% if not notification.is_read %} font-weight-bold{% endif %}">
-                    {{ notification.content }}
-                    {% if not notification.is_read %}
-                    <span class="badge bg-primary rounded-pill">Nueva</span>
-                    {% endif %}
-                  </li>
-                  {% endfor %}
-                </ul>
-              </div>
-
-          </div>
-
-          <div class="row">
-            <div class="col-md-3"></div> <!-- Columna vacía -->
-            <div class="col-md-9">
-              <footer class="footer" style="background-color: #ffff;" id="foote">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <h5><i></i> Contacto</h5>
-                      <p>Para más información, contáctanos:</p>
-                      <ul class="list-unstyled">
-                        <li><i class="fas fa-phone"></i> Teléfono: +57 312 832 776</li>
-                        <li><i class="fas fa-envelope"></i> Email: knowledgePeople@gmail.com</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Dirección: Calle Principal, Ciudad, País</li>
-                      </ul>
-                    </div>
-                    <div class="col-md-6">
-                      <h5>Síguenos en nuestras redes sociales</h5>
-                      <ul class="list-inline social-icons">
-                        <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-md-12 text-center">
-                      <p>&copy; 2023 Dreams Bank - Knowledge People. Todos los derechos reservados.</p>
-                    </div>
-                  </div>
+              <hr>
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <p>&copy; 2023 Dreams Bank - Knowledge People. Todos los derechos reservados.</p>
                 </div>
-              </footer>
+              </div>
             </div>
-          </div>
-
-
+          </footer>
         </div>
       </div>
+
+
     </div>
+  </div>
+  </div>
   </div>
 
   <!-- jQuery y Bootstrap JS -->
