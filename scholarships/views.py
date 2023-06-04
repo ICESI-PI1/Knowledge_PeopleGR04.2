@@ -16,27 +16,37 @@ from users.views import BeneficiaryUpdateView,NaturalDonorUpdateView,LegalDonorU
 
 class ShowMenu(View):
     def get(self,request):
-        return render(request,'menu.html')
-    
-class ShowMenuList(View):
-    def get(self,request):
-        userInstitution = request.user
-        idInst = request.user.id
-        scholarshipList = []
-        allScholarships = Scholarship.objects.filter(institution = idInst, active = 'AC')
+            if request.user.role == 4:
+                userInstitution = request.user
+                idInst = request.user.id
+                scholarshipList = []
+                allScholarships = Scholarship.objects.filter(institution = idInst, active = 'AC')
 
-        for i in reversed(allScholarships):
-            if len(scholarshipList) <= 5:
-                scholarshipList.append(allScholarships.index(i))
+                for i in reversed(allScholarships):
+                    if len(scholarshipList) <= 5:
+                        scholarshipList.append(allScholarships.index(i))
 
-        context = {
-            'userInstitution': userInstitution,
-            'scholarshipList':scholarshipList
-        }
-        return render(request,'menu.html',context)
+                context = {
+                    'userInstitution': userInstitution,
+                    'scholarshipList':scholarshipList
+                }
+                return render(request,'menu.html',context)
+            elif request.user.role == 1:
+                id_ben = request.user.id
+                datos_solicitud = Scholarship.objects.filter(id_user = id_ben, active = 'AC')
+                solicitud = datos_solicitud.first()
+            
+                contexto = {
+                    'solicitud_activa': solicitud,
+                }
 
-
-        
+                return render(request, 'menu.html', contexto)
+            
+            elif request.user.role == 2:
+                id_ben = request.user.id
+                donationsMade = Transaction.objects.filter(donor_user_id=id_ben)
+                data = {"donations": donationsMade}
+                return render(request, 'menu.html', data) 
 
 
 class NewApplication(View):
@@ -79,10 +89,10 @@ class ActiveSolicitud(View):
 class InsertScholarship(View):
     def post(self,request):
         if request.method == 'POST':
-            name = request.POST['nombres']
+            '''name = request.POST['nombres']
             email = request.POST['correo']
             typedocument = request.POST['tipoid']
-            numdoc = request.POST['numdoc']
+            numdoc = request.POST['numdoc']'''
             institute = request.POST['instituc']
             institutionvalue = Institution.objects.get(name=institute)
             program = request.POST['programa']
@@ -107,19 +117,27 @@ class InsertScholarship(View):
             if not Scholarship.objects.filter(id_user=id_ben, active='AC').exists():
                 scolarship = Scholarship(stratum=levels,photocopy_id=picturedoc, motivational_letter=letter,
                                         certificate=picturecer,value_period=valuesem,icfes_score=icfes,period_current=timeA,
-                                        program_adm=program,application_type=optionnew,state='Pendiente',
+                                        program_adm=program,application_type=optionnew,state='P',
                                         total_periods=totalP,active='AC',date_application=now,id_user=ben,institution=institutionvalue)
                 scolarship.save()
 
-                return render(request,'menu.html')
+                contexto = {
+                    'solicitud_activa': scolarship,
+                }
+
+                return render(request, 'menu.html', contexto)
             else:
                 scolarship = Scholarship(stratum=levels,photocopy_id=picturedoc, motivational_letter=letter,
                                         certificate=picturecer,value_period=valuesem,icfes_score=icfes,period_current=timeA,
-                                        program_adm=program,application_type=optionnew,state='Pendiente',
+                                        program_adm=program,application_type=optionnew,state='P',
                                         total_periods=totalP,active='IN',date_application=now,id_user=ben)
                 scolarship.save()
   
-                return render(request,'menu.html')
+                contexto = {
+                    'solicitud_activa': scolarship,
+                }
+
+                return render(request, 'menu.html', contexto)
 
 class EditSolicitud(View):
     def get(self,request):
@@ -186,7 +204,11 @@ class EditSolicitud(View):
             scholarshipUpdated.institution = institution
 
             scholarshipUpdated.save()
-            return render(request, 'menu.html')
+            contexto = {
+                'solicitud_activa': scholarshipUpdated,
+            }
+
+            return render(request, 'menu.html',contexto)
 
 
 class LookBeneficiaries(ListView):
@@ -617,6 +639,20 @@ class InstitutionUpdateView(InstitutionUpdateView):
 
 class NewDonation(TemplateView):
     template_name= 'new_donation.html'
+
+class LookDonationHistory(View):
+    def get(self, request):
+
+        if request.user.id == 4:
+            idIns = request.user.id
+            donationsMade = Transaction.objects.filter(donor_user_id=idIns)
+            data = {"donations":donationsMade}
+        else:
+            id_ben = request.user.id
+            donationsMade = Transaction.objects.filter(donor_user_id = id_ben)
+            data = {"donations": donationsMade}
+        
+        return render(request, 'donationHistory.html', data)
 
 #Aliados
 
