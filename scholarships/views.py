@@ -484,6 +484,14 @@ class Payments(TemplateView):
         user = User.objects.get(id=id_user)
         partialTran = PartialTransaction(date_transaction=now,amount=value,donor_user=user,institution_donation=institution)
         partialTran.save()
+
+        amount = int(value)  
+
+        
+        institution.money_donation += amount
+        institution.save()
+
+
         data = {'institution':institution,'partialTransaction':partialTran,'Ins':True}
         return render(request, 'lookpayments.html',data)
 
