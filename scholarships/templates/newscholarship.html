@@ -52,11 +52,13 @@
           <div class="row mb-3">
             <div class="col-md-6" id="campo">
               <label for="nombres"><strong>Nombres</strong></label>
-              <input type="text" name="nombres" id="nombres" class="form-control" required>
+              <input type="text" name="nombres" id="nombres" class="form-control" value="{{ request.user.name }}"
+                disabled>
             </div>
             <div class="col-md-6" id="campo">
               <label for="email"><strong>Correo electrónico</strong></label>
-              <input type="text" name="correo" id="correo" class="form-control" required>
+              <input type="text" name="correo" id="correo" class="form-control" value="{{ request.user.email }}"
+                disabled>
             </div>
           </div>
         </fieldset>
@@ -64,16 +66,24 @@
           <div class="row mb-3">
             <div class="col-md-6" id="campo">
               <label for="tipodoc"><strong>Tipo de documento</strong></label>
-              <select id="tipodoc" class="form-control" name="tipoid" required>
-                <option selected disabled value="">Seleccione</option>
-                <option>Tarjeta de identidad</option>
-                <option>Cédula de ciudadania</option>
-                <option>Cédula extranjera</option>
+              <select id="tipodoc" class="form-control" name="tipoid" disabled>
+                <option selected>
+                  {% if request.user.idType == 1 %}
+                  Tarjeta identidad
+                  {% elif request.user.idType == 2 %}
+                  Cédula de Ciudadanía
+                  {% elif request.user.idType == 3 %}
+                  Cédula extranjera
+                  {% else %}
+                  NIT
+                  {% endif %}
+                </option>
               </select>
             </div>
             <div class="col-md-6" id="campo">
               <label for="numdoc"><strong>Número de documento</strong></label>
-              <input type="number" name="numdoc" id="numdoc" class="form-control" required>
+              <input type="number" name="numdoc" id="numdoc" class="form-control" value="{{ request.user.numID }}"
+                disabled>
             </div>
           </div>
         </fieldset>

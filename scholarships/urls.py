@@ -18,6 +18,7 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path("editSolicitudActiva/", views.EditSolicitud.as_view(), name='editSolicitudActiva'),
                 path("newdonation/", NewDonation.as_view(), name='newdonation'),
                 path("lookbeneficiaries/", views.LookBeneficiaries.as_view(), name='look_beneficiaries'),
+                path("lookdonors/", views.LookDonors.as_view(), name='look_donors'),
                 path('aliados/', InstitutionListView.as_view(), name='aliados'),
                 path("lookInstitutios/", views.LookInstitutions.as_view(), name='look_institutions'),
                 path("filtersemester/<int:id>/", views.FilterSemester.as_view(), name='filtersemester'),
@@ -46,9 +47,6 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path('scholarships/', ScholarshipListView.as_view(), name='scholarships'),
 
                 path('contact/', ContactView.as_view(), name='contact_view'),
-                
 
-                path("showmenu/", views.ShowMenuList.as_view(), name="showmenu"), 
-
-                
+                path("lookdonationsmade/", views.LookDonationHistory.as_view(), name="lookdonationsmade"),
                ]
