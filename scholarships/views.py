@@ -42,7 +42,7 @@ class ShowMenu(View):
 
                 return render(request, 'menu.html', contexto)
             
-            elif request.user.role == 2:
+            elif request.user.role == 2 or request.user.role == 3:
                 id_ben = request.user.id
                 donationsMade = Transaction.objects.filter(donor_user_id=id_ben)
                 data = {"donations": donationsMade}
@@ -484,6 +484,14 @@ class Payments(TemplateView):
         user = User.objects.get(id=id_user)
         partialTran = PartialTransaction(date_transaction=now,amount=value,donor_user=user,institution_donation=institution)
         partialTran.save()
+
+        amount = int(value)  
+
+        
+        institution.money_donation += amount
+        institution.save()
+
+
         data = {'institution':institution,'partialTransaction':partialTran,'Ins':True}
         return render(request, 'lookpayments.html',data)
 
