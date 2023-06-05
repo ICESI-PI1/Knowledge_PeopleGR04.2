@@ -216,12 +216,50 @@
         <div class="col-md-12 d-flex text-center align-items-center justify-content-center"
             style="height: 32rem; background-color: white;">
             {% if transactions %}
-            <ul>
-                {% for transaction in transactions %}
-                <li>{{ transaction.date_transaction }} - {{ transaction.amount }} - {{ transaction.payment }} - {{
-                    transaction.get_type_pay_display }}</li>
+
+            <table border="1" class="table text-center">
+                <tr style="background-color: white; color: #000000; font-weight: 500">
+                    <th>Datos del beneficiario</th>
+                    <th>Datos del donador</th>
+                    <th>Fecha donación</th>
+                    <th>Monto</th>
+                    <th>Método de pago</th>
+                </tr>
+
+                {% for x in transactions %}
+                <tr class="align-middle" style="font-weight: 600">
+                    <td>
+                        {% if x.scolarship_donation.id_user.name %}
+                        {{ x.scolarship_donation.id_user.name }}<br>
+                        {{ x.scolarship_donation.program_adm }}<br>
+                        {{ x.scolarship_donation.institution.name }}<br>
+
+                        {% else %}
+
+                        {{ x.institution_donation.name }}
+                        <br>
+                        {% endif %}
+                    </td>
+                    <td>
+
+                        {{ x.donor_user.name }}<br>
+                        {{ x.donor_user.numID }}<br>
+
+                    </td>
+                    <td>{{ x.date_transaction|date:"Y-m-d" }}</td>
+                    <td>$ {{ x.amount }}</td>
+                    <td>
+                        {% if x.type_pay == "PSE" %} PSE
+                        {% elif x.type_pay == "Cards" %} Tarjeta
+                        {% elif x.type_pay == "PayPal" %} Paypal
+                        {% else %} {{ x.type_pay }}
+                        {% endif %}
+                    </td>
+                </tr>
+
                 {% endfor %}
-            </ul>
+            </table>
+
             {% else %}
             <div class=" col-md-6 ">
                 <p style=" font-weight: 600; font-size:medium;" class="m-auto">
