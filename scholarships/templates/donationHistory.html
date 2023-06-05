@@ -19,6 +19,19 @@
     <link href="{% static 'newscholarship.css' %}" rel="stylesheet" />
 
     <div class="row mb-3 flex-sm-row" id="contTitulo">
+
+        {% if user.role == 4 %}
+        <div class="col-md-8">
+            <br />
+            <h1 id="titulo" class="mt-2" style="color: white">Mis aportes</h1>
+            <hr id="line" class="w-80" />
+        </div>
+        <div class="col-md-4">
+            <img src="../../media/icons/HigherEducation.png" alt="No Encontrada" class="img-fluid d-none d-md-block"
+                id="graduatedImg" />
+        </div>
+
+        {% else %}
         <div class="col-md-8">
             <br />
             <h1 id="titulo" class="mt-2" style="color: white">Mis aportes a beneficiarios</h1>
@@ -28,6 +41,7 @@
             <img src="../../media/icons/HigherEducation.png" alt="No Encontrada" class="img-fluid d-none d-md-block"
                 id="graduatedImg" />
         </div>
+        {% endif %}
     </div>
 
     <!--  Container -->

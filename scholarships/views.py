@@ -642,9 +642,16 @@ class NewDonation(TemplateView):
 
 class LookDonationHistory(View):
     def get(self, request):
-        id_ben = request.user.id
-        donationsMade = Transaction.objects.filter(donor_user_id = id_ben)
-        data = {"donations": donationsMade}
+
+        if request.user.id == 4:
+            idIns = request.user.id
+            donationsMade = Transaction.objects.filter(donor_user_id=idIns)
+            data = {"donations":donationsMade}
+        else:
+            id_ben = request.user.id
+            donationsMade = Transaction.objects.filter(donor_user_id = id_ben)
+            data = {"donations": donationsMade}
+        
         return render(request, 'donationHistory.html', data)
 
 #Aliados
