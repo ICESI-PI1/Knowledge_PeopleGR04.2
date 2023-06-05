@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+
+<link href="{% static 'signup.css' %}" rel="stylesheet">
+<link href="{% static 'base.css' %}" rel="stylesheet">
+<link href="{% static '/historyapplications.css' %}" rel="stylesheet" />
+<link href="{% static 'newscholarship.css' %}" rel="stylesheet" />
+<style>
+    #registersignup {
+  background-color: #F29F05;
+  color: white;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 42%;
+  border: none;
+}
+
+#registersignup:hover {
+  background-color: #A4D955;
+  color: white;
+}
+
+</style>
+
+<div class="row mb-3 flex-sm-row" id="contTitulo">
+    <div class="col-md-8">
+      <br />
+      <h1 id="titulo" class="mt-2" style="color: white">Registro de administrador</h1>
+      <hr id="line" class="w-80" />
+    </div>
+    <div class="col-md-4">
+      <img
+        src="../../media/icons/HigherEducation.png"
+        alt="No Encontrada"
+        class="img-fluid d-none d-md-block"
+        id="graduatedImg"
+      />
+    </div>
+  </div>
+
+ 
+  <div class="container1-lg">
+    <div class="row g-3 mt-3">
+      <div class="col-md-11">
+        <div class="row">
+          <div class="col-12" style="margin-left: 5%;">
+          </div>
+          <div class="col-6" style="margin-left: 5%;" >
+            <p id="mandatoryObligatory">
+              <img src="../../media/icons/Asterisk.png" alt="Asterisk image" width="10" height="10" id="AsteriskImg" />
+              Obligatorio
+            </p>
+          </div>
+        </div>
+        <form method="post" enctype="multipart/form-data" style="margin-left: 5%;">
+          {% csrf_token %}
+          <div class="row mt-3">
+            <div class="col-md-6">
+              {{ form.email.label_tag }}
+              {{ form.email }}
+              {% if field.errors %}
+                    <ul class="errorlist">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                {{ form.name.label_tag }}
+                {{ form.name }}
+              </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+              </div>
+              <div class="col-md-6">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+              </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+                {{ form.idType.label_tag }}
+                {{ form.idType }}
+              </div>
+              <div class="col-md-6">
+                {{ form.numID.label_tag }}
+                {{ form.numID }}
+              </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+                
+                {{ form.profilePicture.label_tag }}
+                {{ form.profilePicture }}
+              </div>
+          </div>
+          <div class="row mt-3">
+
+          </div>
+          <button type="submit" class="btn btn-outline-primary" id="registersignup">Registrarse</button>
+
+        </form>  
+
+      </div> 
+    </div>
+  </div>
+  
+{% endblock %}
+
+
+

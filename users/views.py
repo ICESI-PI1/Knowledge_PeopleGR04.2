@@ -1,5 +1,6 @@
 from django import forms
 from django.shortcuts import redirect
+from django.contrib import messages
 
 from django.views import View
 from django.views.generic.edit import CreateView
@@ -7,11 +8,12 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.views import LoginView
-from .forms import CustomUserCreationForm,CustomAuthenticationForm, CustomUserCreationBenForm, CustomInstitutionForm
+from .forms import CustomAdminForm, CustomUserCreationForm,CustomAuthenticationForm, CustomUserCreationBenForm, CustomInstitutionForm
 from .forms import LegalDonorForm
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from .models import Beneficiary, Institution, LegalDonor, NaturalDonor, User
+from django.db.models import Q
 
 
 
@@ -71,7 +73,6 @@ class SignUpLegalDon(CreateView):
 
 class SignUpIns(CreateView):
     form_class = CustomInstitutionForm
-    success_url = reverse_lazy("users:sigin")
     template_name = 'signup.html'
 
     def form_valid(self, form):
@@ -87,12 +88,31 @@ class SignUpIns(CreateView):
         
         return super().form_valid(form)
     
+class SignUpAdmin(CreateView):
+    form_class = CustomAdminForm
+    success_url = reverse_lazy("users:sigin")
+    template_name = 'signupAdmin.html'
 
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.role = User.ADMIN
+        user.save()
+
+        return super().form_valid(form)
     
 
 class SigIn(LoginView):
     authentication_form = CustomAuthenticationForm
     template_name = 'login.html'
+
+    def form_valid(self, form):
+        # Verificar si el usuario está activo
+        if not self.request.user.is_active:
+            self.request.session['account_suspended'] = True
+        else:
+            self.request.session['account_suspended'] = False
+
+        return super().form_valid(form)
 
 
 class BeneficiaryUpdateForm(forms.ModelForm):
@@ -214,11 +234,38 @@ class AllUserListView(View):
     def get(self, request):
         users = User.objects.all()
         role_filter = request.GET.get('role', None)
+        search_query = request.GET.get('inputsearch', '')  # Obtener el término de búsqueda
 
         if role_filter:
             users = users.filter(role=int(role_filter))
 
+        if search_query:
+            users = users.filter(Q(name__icontains=search_query) | Q(id__icontains=search_query))
+
         context = {
             'users': users,
+            'search_query': search_query,
         }
         return render(request, self.template_name, context)
+    
+class ShowDetailsUsers(TemplateView):
+    def get(self,request,id):
+        userr = User.objects.get(id=id)
+        data = {'userr':userr}
+        
+        return render(request, 'userDetails.html',data)
+    
+class InactiveUserView(View):
+    def get(self, request, pk):
+        userr = User.objects.get(pk=pk)
+        userr.is_active = False  # Cambiar estado de verificación a 'Aprobada'
+        userr.save()
+        return redirect('users:showUsers')  # Redirigir a la lista de instituciones
+
+class ActiveUserView(View):
+    def get(self, request, pk):
+        userr = User.objects.get(pk=pk)
+        userr.is_active = True  # Cambiar estado de verificación a 'Aprobada'
+        userr.save()
+        return redirect('users:showUsers')  # Redirigir a la lista de instituciones
+

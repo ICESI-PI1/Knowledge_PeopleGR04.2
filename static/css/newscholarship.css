@@ -3,56 +3,6 @@ body{
     background-color: #F0F7FF;
 }
 
-/*left bar style*/
-#leftspace, #leftbar, #navbarSupportedContent {
-    background-color: white;
-    opacity: 100%;
-}
-
-#imgLogo {
-    display: block;
-    margin: auto;
-    width: 50%;
-    margin-bottom: 1.25rem;
-}
-
-div.home,
-div.new_scolarship,
-div.donor_history,
-div.request_history,
-div.active_request,
-div.settings{
-    font-family: 'Open Sans', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 1.125rem;
-    line-height: 3.125rem;
-    color: #8A8A8A;
-    font-weight: bold;
-}
-
-.navbar-nav.flex-column a {
-    color: grey;
-  }
-
-.navbar-nav.flex-column .nav-link:hover {
-    color: #A4D955;
-}
-
-.navbar-nav.flex-column .nav-link.active {
-    color: #A4D955;
-    background-color: #F0F7FF;
-}
-
-.navbar-toggler.my-toggler {
-    border: 2px solid #558018;
-    border-radius: 10px;
-    background-color: white;
-    color:#558018;
-    font-weight: bold;
-  }
-
-/*center title style*/
 
 #contTitulo{
     background: #A4D955;
@@ -202,67 +152,6 @@ input[type=number]::-webkit-outer-spin-button {
     box-shadow: inset 2px 2px 2px rgba(0,0,0,0.2);
     text-shadow: none;
   }
-
-/*right bar style*/
-#rightbar{     
-    width: fit-content;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 43.75rem;
-    font-size: 1.25rem;
-    line-height: 1.688rem;
- 
-    background: #FFFFFF;
-    border-radius: 1.25rem 1.25rem 1.25rem 1.25rem;
-}
-
-
-#profiles{
-    margin-left: 4%;
-    
-    background: #FFDA6D;
-    border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
-}
-
-#profile_picture{
- 
-    width: min-content;
-    height: fit-content;
-    margin-left: 7%;
-    margin-top: 3%;
-    border-radius: 10px 10px 10px 10px;
-    background: #FFFFFF
-}
-
-#profile_names{
-
-   font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 37.5rem;
-    font-size: 0.938rem;
-    font-style: normal;
-    color: #333333;
-
-    margin-top: 5%;
-    
-}
-
-#perfil_dropdown{
-    margin-top: 4%;
-}
-
-#showed_notifications{
-    margin-left: 4%;
-    border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
-    background: #FFEEBD;
-}
-#notif{
-    font-family: 'Open Sans';
-    font-style: bold;
-    font-size: 1.25rem;
-    color: #333333;
-    margin-top: 9%;
-}
 
 
 #see_all a{

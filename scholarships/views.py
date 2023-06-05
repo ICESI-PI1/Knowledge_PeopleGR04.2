@@ -41,6 +41,11 @@ class ShowMenu(View):
                 donationsMade = Transaction.objects.filter(donor_user_id=id_ben)
                 data = {"donations": donationsMade}
                 return render(request, 'menu.html', data) 
+            
+            else: #para el admin
+                donationsMade = Transaction.objects.all()
+                data = {'transactions': donationsMade}
+                return render(request, 'menu.html', data) 
 
 
 class NewApplication(View):

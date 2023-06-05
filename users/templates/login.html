@@ -14,13 +14,23 @@
 
       <h3 class="text-center py-5 mt-5">Inicio de Sesión</h3>
 
-          <form class=" form-control-sm mt-5" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn" id="registerbtn">Iniciar sesión</a></button>
-        </form>
-
+      <!--{% if user.is_active == False %}
+      <div class="alert alert-danger" role="alert">
+        <ul class="mb-0">
+          
+          <li>Tu cuenta ha sido suspendida por el administrador.</li>
+          
+        </ul>
       </div>
+      {% endif %}-->
+
+      <form class=" form-control-sm mt-5" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn" id="registerbtn">Iniciar sesión</button>
+      </form>
+
+    </div>
   </div>
 </section>
 <div class="row" id="additional-row">
