@@ -118,6 +118,8 @@ class BeneficiaryUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy("scholarships:showmenu")
     
+    
+    
 
 class NaturalDonorUpdateForm(forms.ModelForm):
     class Meta:
