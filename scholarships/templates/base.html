@@ -69,14 +69,14 @@
                <span class="fs-4 m-1 d-none d-sm-inline my-custom-class"data-feather="new_scolarship"></span>
                &nbsp;Nueva donación
               </a>
-              {% elif user.role == user.INSTITUTION and user.INSTITUTION.verificationState == 'A' %}
-              <a href="" class="nav-link">
+              {% elif user.role == user.INSTITUTION and user.institution.verificationState == 'A' %}
+              <a href="{% url 'scholarships:scholarships' %}" class="nav-link">
                 <img src="../../../../media/images/IconPlus.png" alt="Icono nueva donación" class="img-fluid"
                 id="icon" />
                <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="new_scolarship"></span>
                &nbsp;Nueva donación
               </a>
-              {% elif user.role == user.INSTITUTION and user.INSTITUTION.verificationState == 'P' or user.INSTITUTION.verificationState == 'R' %}
+              {% elif user.role == user.INSTITUTION and user.institution.verificationState == 'P' or user.institution.verificationState == 'R' %}
               <a href="#" class="nav-link" id="inactive_account">
                 <img src="../../../../media/images/IconPlus.png" alt="Icono nueva donación" class="img-fluid"
                 id="icon" />
@@ -116,24 +116,21 @@
                       <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
                     &nbsp;Consultar beneficiarios
                 </a>
-                {% elif user.role == user.INSTITUTION and user.INSTITUTION.verificationState == 'A' %}
+                {% elif user.role == user.INSTITUTION and user.institution.verificationState == 'A' %}
                 <a href="{% url 'scholarships:look_beneficiaries' %}" class="nav-link">
                   <img src="../../../../media/images/DonorUser.png" alt="Icono consultar beneficiarios" class="img-fluid"
                         id="icon" />
-<<<<<<< HEAD
                       <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
                     &nbsp;Consultar beneficiarios
-                <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="new_scolarship"></span>
-                &nbsp;Nueva donación
+              
                 </a>
-                {% elif user.role == user.INSTITUTION and user.INSTITUTION.verificationState == 'P' or user.INSTITUTION.verificationState == 'R' %}
+                {% elif user.role == user.INSTITUTION and user.institution.verificationState == 'P' or user.institution.verificationState == 'R' %}
                 <a href="#" class="nav-link" id="inactive_account">
                   <img src="../../../../media/images/DonorUser.png" alt="Icono consultar beneficiarios" class="img-fluid"
                         id="icon" />
                       <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
                     &nbsp;Consultar beneficiarios
-                <span data-feather="new_scolarship"></span>
-                &nbsp;Nueva donación
+                
                 </a>
                 {% elif user.role == user.ADMIN %}
                 <a href="{% url 'scholarships:look_institutions' %}" class="nav-link">
@@ -168,7 +165,7 @@
                         <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
                       &nbsp;Consultar instituciones
                   </a>
-                  {% elif user.role == user.INSTITUTION and user.INSTITUTION.verificationState == 'A' %}
+                  {% elif user.role == user.INSTITUTION and user.institution.verificationState == 'A' %}
                   <a href="{% url 'scholarships:look_beneficiaries' %}" class="nav-link">
                     <img src="../../../../media/images/RequestHistory.png" alt="Icono consultar beneficiarios" class="img-fluid"
                           id="icon" />
@@ -176,7 +173,7 @@
                       &nbsp;Historial de aportes
                   
                   </a>
-                  {% elif user.role == user.INSTITUTION and user.INSTITUTION.verificationState == 'P' or user.INSTITUTION.verificationState == 'R' %}
+                  {% elif user.role == user.INSTITUTION and user.institution.verificationState == 'P' or user.institution.verificationState == 'R' %}
                   <a href="#" class="nav-link" id="inactive_account">
                     <img src="../../../../media/images/RequestHistory.png" alt="Icono consultar beneficiarios" class="img-fluid"
                           id="icon" />

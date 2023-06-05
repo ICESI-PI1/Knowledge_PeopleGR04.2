@@ -19,7 +19,7 @@ class ShowMenu(View):
             if request.user.role == 4:
                 userInstitution = request.user
                 idInst = request.user.id
-                scholarshipList = Scholarship.objects.filter(institution = idInst, active = 'AC').order_by('-id')[:5]
+                scholarshipList = Scholarship.objects.filter(institution = idInst, active = 'AC').order_by('-id')[:3]
                 context = {
                     'userInstitution': userInstitution,
                     'scholarshipList':scholarshipList
@@ -575,6 +575,8 @@ class PaymentsPse(TemplateView):
         if ptransaction.scolarship_donation!=None:
             data = {'partialTransaction':ptransaction,'psetrue':True,'Ben':True}
             return render(request, 'lookpayments.html',data)
+    
+    
 
 
 from io import BytesIO
