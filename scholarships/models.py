@@ -29,7 +29,7 @@ class Scholarship(models.Model):
     institution = models.ForeignKey(Institution,null=False,blank=False, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.state + ", icfes: " + str(self.icfes_score)
+        return f"{self.id_user} - {self.institution} - {self.period_current}"
     
 
 class Transaction(models.Model):
