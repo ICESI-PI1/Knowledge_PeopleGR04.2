@@ -19,13 +19,7 @@ class ShowMenu(View):
             if request.user.role == 4:
                 userInstitution = request.user
                 idInst = request.user.id
-                scholarshipList = []
-                allScholarships = Scholarship.objects.filter(institution = idInst, active = 'AC')
-
-                for i in reversed(allScholarships):
-                    if len(scholarshipList) <= 5:
-                        scholarshipList.append(allScholarships.index(i))
-
+                scholarshipList = Scholarship.objects.filter(institution = idInst, active = 'AC').order_by('-id')[:5]
                 context = {
                     'userInstitution': userInstitution,
                     'scholarshipList':scholarshipList
@@ -213,15 +207,28 @@ class EditSolicitud(View):
 
 class LookBeneficiaries(ListView):
     def get(self, request):
-        semester = []
-        for i in range(1,13):
-            semester.append(i)
 
-        intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
-        institutions = Institution.objects.all()
-        scholarships = Scholarship.objects.all()
-        data = {'semesters':semester,'scholarships':scholarships,'institutions':institutions,'intervals':intervals}
-        return render(request, 'lookbeneficiaries.html',data)
+        if request.user.id == 4:
+            semester = []
+            for i in range(1,13):
+                semester.append(i)
+
+            intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
+            idIns = request.user.id
+            institutions = request.user.name
+            scholarships = Scholarship.objects.filter(scolarship_donation__id_user=idIns)
+            data = {'semesters':semester,'scholarships':scholarships,'institutions':institutions,'intervals':intervals}
+            return render(request, 'lookbeneficiaries.html',data)
+        else: 
+            semester = []
+            for i in range(1,13):
+                semester.append(i)
+
+            intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
+            institutions = Institution.objects.all()
+            scholarships = Scholarship.objects.all()
+            data = {'semesters':semester,'scholarships':scholarships,'institutions':institutions,'intervals':intervals}
+            return render(request, 'lookbeneficiaries.html',data)
 
 
 class LookDonors(ListView):
