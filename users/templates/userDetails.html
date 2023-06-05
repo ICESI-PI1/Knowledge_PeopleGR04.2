@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Descripción de institución para aportar</title>
+    <title>Descripción de usuario</title>
     <link href="{% static '/beneficiaryToDonate.css' %}" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css" />
     <!-- Bootstrap CSS -->
@@ -23,7 +23,7 @@
     <div class="row mb-3 flex-sm-row" id="contTitulo">
         <div class="col-md-9">
             <br />
-            <h3 id="titulo" class="mt-2">Detalle de Institución</h3>
+            <h3 id="titulo" class="mt-2">Detalle de usuario</h3>
             <hr id="line" class="w-80" />
         </div>
         <div class="col-md-3 text-center">
@@ -39,86 +39,76 @@
     <div class="form" style="background-color: white; margin-left: 2%; border-radius: 3%;">
         <div class="row mt-3" style="margin-left: 5%;">
             <div class="col-lg-5 d-flex flex-column align-items-center mt-4" >
-                <img src="/media/{{ institution.profilePicture }}" class="img-fluid" alt="noimage"
-                  style="max-width: 15rem; height: 13rem; border-radius: 10px; margin-right: 0.5rem;">
-
-
-                
-               
+                <img src="/media/{{ userr.profilePicture }}" class="img-fluid" alt="noimage"
+                  style="max-width: 15rem; height: 13rem; border-radius: 10px; margin-right: 0.5rem;">               
             </div>
 
             <div class="col-lg-7 mt-4">
                 <div class="d-flex ">
-                    <h5 style="color: #F29F05;">Institución: </h5>
+                    <h5 style="color: #F29F05;">Usuario: </h5>
                     <h5 class="mx-2"> 
-                    {{ institution.name|capfirst }}
+                    {{ userr.name|capfirst }}
                     </h5>
                 </div>
                 <div class="d-flex ">
-                    <h5 style="color: #F29F05;">Carreras: </h5>
+                    <h5 style="color: #F29F05;">ID de usuario: </h5>
                     <h5 class="mx-2">
-                    {% for choice in institution.TYPE_CHOICES %}
-                        {% if choice.0 in institution.type_institution %}
-                         {{ choice.1 }},
-                        {% endif %}
-                        {% endfor %}
-
+                        {{ userr.id }}
                     </h5>
                 </div>
                 <div class="d-flex ">
-                    <h5 style="color: #F29F05;">Ciudad: </h5>
+                    <h5 style="color: #F29F05;">Role: </h5>
                     <h5 class="mx-2"> 
-                    {{ institution.city }}
+                        {% if userr.role == 1 %}Beneficiario {% elif userr.role == 2 %}Donante natural{% elif userr.role == 3 %}Donante jurídico{% elif userr.role == 4 %}Institución aliada{% elif userr.role == 5 %}Administrador{% endif %}
                     </h5>
                 </div>
                 <div class="d-flex ">
                     <h5 style="color: #F29F05;">Email: </h5>
                     <h5 class="mx-2"> 
-                    {{ institution.email }}
+                    {{ userr.email }}
                     </h5>
                 </div>
                 <div class="d-flex ">
-                    <h5 style="color: #F29F05;">Dirección: </h5>
+                    <h5 style="color: #F29F05;">Identificación: </h5>
                     <h5 class="mx-2"> 
-                    {{ institution.address }}
+                        {% if userr.idType == 1 %}TI {% elif userr.idType == 2 %}CC{% elif userr.idType == 3 %}CE{% elif userr.idType == 4 %}NIT{% endif %} {{ userr.numID }}
                     </h5>
                 </div>
                 <div class="d-flex ">
-                    <h5 style="color: #F29F05;">Contacto: </h5>
+                    <h5 style="color: #F29F05;">Estado : </h5>
                     <h5 class="mx-2"> 
-                    {{ institution.contact }}
+                        {% if userr.is_active %} Usuario activo {% else %} Usuario inactivo {% endif %}
                     </h5>
                 </div>
+                                
+                <div class="d-flex ">
+                    <h5 style="color: #F29F05;">Último ingreso : </h5>
+                     
+                    {{ userr.last_login }}
+                    
+                </div>
+                <div class="d-flex ">
+                    <h5 style="color: #F29F05;">Fecha de registro : </h5>
+                    
+                    {{ userr.date_joined }}
+                    
+                </div>
+
+
+  
                 
             </div>
         </div>
         <div class="row justify-content-center mt-5 mb-4">
-            <div class="col-lg-10 d-flex flex-column align-items-center">
-              <h5 style="text-align: left; color: #F29F05;">Descripción</h5>
-              <textarea class="form-control " rows="13" id="cartaMotivacional"
-                        maxlength="2000" value="" readonly style="border: 1.5px solid gray; border-radius:1rem">{{ institution.description }}</textarea>
-            </div>
-            {% if user.role == user.NATURALDONOR or  user.role == user.LEGALDONOR  %}
-            <a type="submit" href="{% url 'scholarships:donationIns' institution.id %}" class="btn custom btn col-md-5 mt-4 mb-5" id="botonDonar">
-                 Aportar
-            </a>
-
-            {% elif user.role == 5 %}
-            {% if institution.verificationState == 'P' %}
-                <div class="col-12">
-                    <a href="{% url 'users:verify_institution' pk=institution.pk %}" class="btn custom btn col-md-5 mt-4 mb-5" id="verificarBTN">Verificar</a>
-                    <a href="{% url 'users:reject_verification' pk=institution.pk %}" class="btn custom btn col-md-5 mt-4 mb-5" id="rechazarBTN">Rechazar Verificación</a>
-                </div>
-            {% elif institution.verificationState == 'R' %}
+            {% if userr.is_active %}
             <div class="col-12">
-                <a href="{% url 'users:verify_institution' pk=institution.pk %}" class="btn custom btn col-md-5 mt-4 mb-5" id="verificarBTN">Verificar cuenta</a>
+                <a href="{% url 'users:inactive_user' pk=userr.pk %}" class="btn custom btn col-md-5 mt-4 mb-5" id="rechazarBTN">Inactivar usuario</a>
             </div>
-            {% elif institution.verificationState == 'A' %}
-            <div class="col-12">
-                <a href="{% url 'users:reject_verification' pk=institution.pk %}" class="btn custom btn col-md-5 mt-4 mb-5" id="rechazarBTN">Quitar verificación</a>
-            </div>
-            {% endif %} 
-            {% endif %}
+            {% else %}
+        <div class="col-12">
+            <a href="{% url 'users:active_user' pk=userr.pk %}" class="btn custom btn col-md-5 mt-4 mb-5" id="verificarBTN">Activar usuario</a>
+        </div>
+        {% endif %} 
           </div>
     </div>
     </div>

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 
-from .models import NaturalDonor, Beneficiary, User, Institution, LegalDonor
+from .models import NaturalDonor, Beneficiary, User, Institution, LegalDonor, Admin
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -72,6 +72,15 @@ class CustomUserCreationForm(UserCreationForm):
         if self.instance:
             if isinstance(self.instance, NaturalDonor):
                 role = forms.CharField(widget=forms.HiddenInput(), initial=User.NATURALDONOR)
+        
+        if self.instance:
+            if isinstance(self.instance, Admin):
+                self.fields['idType'].choices = [
+                    (User.CC, 'Cédula de Ciudadanía'),
+                    (User.CE, 'Cédula extranjera')
+                ]
+
+
 
 
     class Meta:
@@ -170,6 +179,15 @@ class CustomInstitutionForm(CustomUserCreationForm):
         model = Institution
         fields = ("name", "email", "password1", "password2", "idType", 'numID', 'profilePicture',
                   'city', 'address', 'type_institution', 'description')
+        
+
+
+class CustomAdminForm(CustomUserCreationForm):
+
+    role=User.ADMIN
+    class Meta:
+        model = Admin
+        fields = ("name", "email", "password1", "password2", "idType", 'numID', 'profilePicture')
 
 
 class CustomUserChangeForm(UserChangeForm):

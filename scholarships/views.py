@@ -160,7 +160,7 @@ class EditSolicitud(View):
                 scholarshipToInactivate = solicitud.first()
 
                 scholarshipToInactivate.active = 'IN'
-                scholarshipToInactivate.state = 'Rechazada'
+                scholarshipToInactivate.state = 'R'
                 scholarshipToInactivate.save()
                 print(f"Solicitud del usuario {scholarshipToInactivate.id_user.name} ha sido inactivada.")
                 return render(request, 'menu.html')
@@ -331,8 +331,14 @@ class FilterProgram(ListView):
 
 class LookInstitutions(ListView):
     def get(self, request):
+        state_filter = request.GET.get('verificationState', '')
         institutions = Institution.objects.all()
         cities = []
+
+        verificationStates = []
+        verificationStates.append('A')
+        verificationStates.append('R')
+        verificationStates.append('P')
 
         types = []
         types.append('Tecnica')
@@ -344,9 +350,11 @@ class LookInstitutions(ListView):
             if city not in cities:
                 cities.append(city)
 
-        data = {'institutions':institutions,'cities':cities,'types':types}
+        if state_filter:
+            institutions = institutions.filter(verificationState__startswith=state_filter)
+        data = {'institutions':institutions,'cities':cities,'types':types, 'verificationStates':verificationStates, 'state_filter': state_filter}
         return render(request, 'lookinstitution.html',data)
-
+    
 class FilterCity(ListView):
     def get(self, request,city):
         institutions = Institution.objects.all()
@@ -355,6 +363,12 @@ class FilterCity(ListView):
             cit = i.city
             if cit not in cities:
                 cities.append(cit)
+        
+        verificationStates = []
+        verificationStates.append('A')
+        verificationStates.append('R')
+        verificationStates.append('P')
+
 
         types = []
         types.append('Tecnica')
@@ -362,7 +376,7 @@ class FilterCity(ListView):
         types.append('Pregrado')
         types.append('Posgrado')
         institutions_f = Institution.objects.filter(city=city)
-        data = {'institutions':institutions_f,'cities':cities,'types':types}
+        data = {'institutions':institutions_f,'cities':cities,'types':types, 'verificationStates':verificationStates}
         return render(request, 'lookinstitution.html',data)
 
 class FilterTypeI(ListView):
@@ -380,8 +394,13 @@ class FilterTypeI(ListView):
         types.append('Pregrado')
         types.append('Posgrado')
 
+        verificationStates = []
+        verificationStates.append('A')
+        verificationStates.append('R')
+        verificationStates.append('P')
+
         institutions_f = Institution.objects.filter(type_institution__contains=typeI)
-        data = {'institutions':institutions_f,'cities':cities,'types':types}
+        data = {'institutions':institutions_f,'cities':cities,'types':types, 'verificationStates':verificationStates}
         return render(request, 'lookinstitution.html',data)
     
 
@@ -562,23 +581,29 @@ class PaymentsPse(TemplateView):
             data = {'partialTransaction':ptransaction,'psetrue':True,'Ben':True}
             return render(request, 'lookpayments.html',data)
 
+
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from django.views.generic import TemplateView
+from xhtml2pdf import pisa
+from .models import PartialTransaction, Transaction
+from django.utils import timezone
+
 class Pay1(TemplateView):
-    def post(self,request,id):
+    def post(self, request, id):
         ptransaction = PartialTransaction.objects.get(id=id)
         datenow = datetime.now()
-        if ptransaction.institution_donation != None:
-            transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,institution_donation=ptransaction.institution_donation,
-                                      payment='Paypal',type_pay='PayPal')
-            transaction.save()
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
-            notification = Notification(content=message,is_read=False,timestamp=datenow)
-            notification.save()
-            usernot = ptransaction.institution_donation
-            usernot.notifications.add(notification)
-        
-        elif ptransaction.scolarship_donation != None:
-            transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,scolarship_donation=ptransaction.scolarship_donation,
-                                      payment='Paypal',type_pay='PayPal')
+        if ptransaction.institution_donation is not None:
+            institution = ptransaction.institution_donation
+            transaction = Transaction(
+                date_transaction=timezone.now(),
+                amount=ptransaction.amount,
+                donor_user=ptransaction.donor_user,
+                institution_donation=ptransaction.institution_donation,
+                payment='Paypal',
+                type_pay='PayPal'
+            )
             transaction.save()
 
             message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
@@ -587,16 +612,70 @@ class Pay1(TemplateView):
             usernot = ptransaction.scolarship_donation.id_user
             usernot.notifications.add(notification)
 
-        data = {'Transaction':transaction}
-        return render(request, 'report.html',data)
+            data = {'Transaction': transaction, 'Institution': institution}
+        elif ptransaction.scolarship_donation is not None:
+            scholarship = ptransaction.scolarship_donation
+            transaction = Transaction(
+                date_transaction=timezone.now(),
+                amount=ptransaction.amount,
+                donor_user=ptransaction.donor_user,
+                scolarship_donation=ptransaction.scolarship_donation,
+                payment='Paypal',
+                type_pay='PayPal'
+            )
+            transaction.save()
+
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(content=message,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.scolarship_donation.id_user
+            usernot.notifications.add(notification)
+
+            data = {'Transaction': transaction, 'Scholarship': scholarship}
+        else:
+            transaction = None
+            data = {'Transaction': transaction}
+
+            
+
+        # Renderizar el HTML del informe
+        template = get_template('report.html')
+        html = template.render(data)
+
+        # Crear el PDF con xhtml2pdf
+        result = BytesIO()
+        pdf = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), dest=result)
+        
+        # Verificar si la conversión a PDF fue exitosa
+        if not pdf.err:
+            # Finalizar y cerrar el archivo PDF
+            pdf_data = result.getvalue()
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+            response.write(pdf_data)
+            return response
+        else:
+            # Manejar el error en la conversión a PDF
+            return HttpResponse('Error al generar el PDF')
+
+
+
+
 
 class Pay2(TemplateView):
-    def post(self,request,id):
+    def post(self, request, id):
         ptransaction = PartialTransaction.objects.get(id=id)
         datenow = datetime.now()
-        if ptransaction.institution_donation != None:
-            transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,institution_donation=ptransaction.institution_donation,
-                                      payment='Card',type_pay='Cards')
+        if ptransaction.institution_donation is not None:
+            institution = ptransaction.institution_donation
+            transaction = Transaction(
+                date_transaction=ptransaction.date_transaction,
+                amount=ptransaction.amount,
+                donor_user=ptransaction.donor_user,
+                institution_donation=ptransaction.institution_donation,
+                payment='Card',
+                type_pay='Cards'
+            )
             transaction.save()
             message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
             notification = Notification(user=ptransaction.institution_donation,content=message,is_read=False,timestamp=datenow)
@@ -604,37 +683,87 @@ class Pay2(TemplateView):
 
             usernot = ptransaction.institution_donation
             usernot.notifications.add(notification)
-        
-        elif ptransaction.scolarship_donation != None:
-            transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,scolarship_donation=ptransaction.scolarship_donation,
-                                      payment='Card',type_pay='Cards')
+
+            data = {'Transaction': transaction, 'Institution': institution}
+        elif ptransaction.scolarship_donation is not None:
+            scholarship = ptransaction.scolarship_donation
+            transaction = Transaction(
+                date_transaction=ptransaction.date_transaction,
+                amount=ptransaction.amount,
+                donor_user=ptransaction.donor_user,
+                scolarship_donation=ptransaction.scolarship_donation,
+                payment='Card',
+                type_pay='Cards'
+            )
             transaction.save()
+
             message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
             notification = Notification(user=ptransaction.scolarship_donation.id_user,content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
             usernot.notifications.add(notification)
 
-        data = {'Transaction':transaction}
-        return render(request, 'report.html',data)
+            data = {'Transaction': transaction, 'Scholarship': scholarship}
+        else:
+            transaction = None
+            data = {'Transaction': transaction}
+
+        # Renderizar el HTML del informe
+        template = get_template('report.html')
+        html = template.render(data)
+
+        # Crear el PDF con xhtml2pdf
+        result = BytesIO()
+        pdf = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), dest=result)
+
+        # Verificar si la conversión a PDF fue exitosa
+        if not pdf.err:
+            # Finalizar y cerrar el archivo PDF
+            pdf_data = result.getvalue()
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+            response.write(pdf_data)
+            return response
+        else:
+            # Manejar el error en la conversión a PDF
+            return HttpResponse('Error al generar el PDF')
+
+        
+
 
 class Pay3(TemplateView):
-    def post(self,request,id):
+    def post(self, request, id):
         ptransaction = PartialTransaction.objects.get(id=id)
         datenow = datetime.now()
-        if ptransaction.institution_donation != None:
-            transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,institution_donation=ptransaction.institution_donation,
-                                      payment='Pse',type_pay='PSE')
+        if ptransaction.institution_donation is not None:
+            institution = ptransaction.institution_donation
+            transaction = Transaction(
+                date_transaction=ptransaction.date_transaction,
+                amount=ptransaction.amount,
+                donor_user=ptransaction.donor_user,
+                institution_donation=ptransaction.institution_donation,
+                payment='Pse',
+                type_pay='PSE'
+            )
             transaction.save()
             message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
             notification = Notification(user=ptransaction.institution_donation,content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.institution_donation
             usernot.notifications.add(notification)
-        
-        elif ptransaction.scolarship_donation != None:
-            transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,scolarship_donation=ptransaction.scolarship_donation,
-                                      payment='Pse',type_pay='PSE')
+
+            data = {'Transaction': transaction, 'Institution': institution}
+        elif ptransaction.scolarship_donation is not None:
+            scholarship = ptransaction.scolarship_donation
+            transaction = Transaction(
+                date_transaction=ptransaction.date_transaction,
+                amount=ptransaction.amount,
+                donor_user=ptransaction.donor_user,
+                scolarship_donation=ptransaction.scolarship_donation,
+                payment='Pse',
+                type_pay='PSE'
+            )
+
             transaction.save()
 
             message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
@@ -643,8 +772,32 @@ class Pay3(TemplateView):
             usernot = ptransaction.scolarship_donation.id_user
             usernot.notifications.add(notification)
 
-        data = {'Transaction':transaction}
-        return render(request, 'report.html',data)
+            data = {'Transaction': transaction, 'Scholarship': scholarship}
+        else:
+            transaction = None
+            data = {'Transaction': transaction}
+
+        # Renderizar el HTML del informe
+        template = get_template('report.html')
+        html = template.render(data)
+
+        # Crear el PDF con xhtml2pdf
+        result = BytesIO()
+        pdf = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), dest=result)
+
+        # Verificar si la conversión a PDF fue exitosa
+        if not pdf.err:
+            # Finalizar y cerrar el archivo PDF
+            pdf_data = result.getvalue()
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+            response.write(pdf_data)
+            return response
+        else:
+            # Manejar el error en la conversión a PDF
+            return HttpResponse('Error al generar el PDF')
+
+
 
 class BeneficiaryUpdateView(BeneficiaryUpdateView):
     pass 
@@ -701,9 +854,25 @@ class TransactionListView(TemplateView):
 class DonationsListView(TemplateView):
     template_name = 'donationsList.html'
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # Obtén los parámetros de filtro de la URL (si los hay)
+        min_amount = self.request.GET.get('min_amount')
+        max_amount = self.request.GET.get('max_amount')
+
+        # Realiza la consulta con los filtros
         transactions = Transaction.objects.all()
+
+        # Filtra por cantidad mínima
+        if min_amount is not None:
+            transactions = transactions.filter(amount__gte=min_amount)
+
+        # Filtra por cantidad máxima
+        if max_amount is not None:
+            transactions = transactions.filter(amount__lte=max_amount)
+
         context['transactions'] = transactions
         return context
 
@@ -736,7 +905,7 @@ class ScholarshipListView(View):
         if action == 'publicar':
             scholarship.state = 'Aceptada'
         elif action == 'rechazar':
-            scholarship.state = 'Rechazada'
+            scholarship.state = 'R'
 
         scholarship.save()
 
@@ -751,10 +920,11 @@ from django.conf import settings
 from .forms import ContactForm
 
 from django.contrib import messages
+from django.urls import reverse_lazy
 class ContactView(FormView):
     template_name = 'contact.html'
     form_class = ContactForm  
-    success_url = '/contact/'  
+    success_url = reverse_lazy('contact')  
 
     def form_valid(self, form):
         name = form.cleaned_data['name']
