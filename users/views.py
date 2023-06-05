@@ -14,6 +14,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy
 from .models import Beneficiary, Institution, LegalDonor, NaturalDonor, User
 from django.db.models import Q
+from .models import Notification
+
 
 
 
@@ -68,14 +70,13 @@ class SignUpLegalDon(CreateView):
         # Guarda el usuario en la base de datos
         user.save()
 
-       
         return super().form_valid(form)        
 
 class SignUpIns(CreateView):
     form_class = CustomInstitutionForm
     success_url = reverse_lazy("users:sigin")
     template_name = 'signup.html'
-
+    
     def form_valid(self, form):
         # Crea una instancia del modelo User con los datos del formulario
         user = form.save(commit=False)
@@ -86,6 +87,14 @@ class SignUpIns(CreateView):
         # Guarda el usuario en la base de datos
         user.save()
 
+        admin_users = User.objects.filter(role=User.ADMIN)
+
+        for admin_user in admin_users:
+            message = '¡Hay una nueva institución aliada! Nombre: {}'.format(user.name)
+            notification = Notification(content=message, is_read=False)
+            notification.save()
+
+            admin_user.notifications.add(notification)
         
         return super().form_valid(form)
     
