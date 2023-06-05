@@ -36,9 +36,9 @@
 
 
     <!--- fields form-->
-    <div class="form">
-        <div class="row">
-            <div class="col-lg-5 d-flex flex-column align-items-center " >
+    <div class="form" style="background-color: white; margin-left: 2%; border-radius: 3%;">
+        <div class="row mt-3" style="margin-left: 5%;">
+            <div class="col-lg-5 d-flex flex-column align-items-center mt-4" >
                 <img src="/media/{{ institution.profilePicture }}" class="img-fluid" alt="noimage"
                   style="max-width: 15rem; height: 13rem; border-radius: 10px; margin-right: 0.5rem;">
 
@@ -47,7 +47,7 @@
                
             </div>
 
-            <div class="col-lg-7">
+            <div class="col-lg-7 mt-4">
                 <div class="d-flex ">
                     <h5 style="color: #F29F05;">Institución: </h5>
                     <h5 class="mx-2"> 
@@ -98,9 +98,27 @@
               <textarea class="form-control " rows="13" id="cartaMotivacional"
                         maxlength="2000" value="" readonly style="border: 1.5px solid gray; border-radius:1rem">{{ institution.description }}</textarea>
             </div>
+            {% if user.role == user.NATURALDONOR or  user.role == user.LEGALDONOR  %}
             <a type="submit" href="{% url 'scholarships:donationIns' institution.id %}" class="btn custom btn col-md-5 mt-4 mb-5" id="botonDonar">
                  Aportar
             </a>
+
+            {% elif user.role == 5 %}
+            {% if institution.verificationState == 'P' %}
+                <div class="col-12">
+                    <a href="{% url 'users:verify_institution' pk=institution.pk %}" class="btn custom btn col-md-5 mt-4 mb-5" id="verificarBTN">Verificar</a>
+                    <a href="{% url 'users:reject_verification' pk=institution.pk %}" class="btn custom btn col-md-5 mt-4 mb-5" id="rechazarBTN">Rechazar Verificación</a>
+                </div>
+            {% elif institution.verificationState == 'R' %}
+            <div class="col-12">
+                <a href="{% url 'users:verify_institution' pk=institution.pk %}" class="btn custom btn col-md-5 mt-4 mb-5" id="verificarBTN">Verificar cuenta</a>
+            </div>
+            {% elif institution.verificationState == 'A' %}
+            <div class="col-12">
+                <a href="{% url 'users:reject_verification' pk=institution.pk %}" class="btn custom btn col-md-5 mt-4 mb-5" id="rechazarBTN">Quitar verificación</a>
+            </div>
+            {% endif %} 
+            {% endif %}
           </div>
     </div>
     </div>

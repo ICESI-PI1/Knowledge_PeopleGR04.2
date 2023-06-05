@@ -207,7 +207,7 @@
       <div class="col-lg-4 align-self-end d-flex justify-content-end" >
 
         <button class="btn itemall" type="button" aria-expanded="false">
-          <a class="text-center itemn " href="{% url 'scholarships:look_institutions' %}"> Ver todos </a>
+          <a class="text-center itemn " href="{% url 'scholarships:look_institutions' %}"> Ver todas </a>
         </button>
 
       </div>
@@ -347,13 +347,13 @@
             </tr>
             <tr style="margin-top: -1rem;">
               <td colspan="5" style="text-align: center;">
-                {%if  user.role == 5 and x.verificationState == 'P' %}
-                  <div class="col-12">
-                          <button type="submit" name="action" id="verificarBTN" value="rechazar" class="btn custom btn col-md-4"><a href="{% url 'users:verify_institution' pk=x.pk %}" class="button-link"></a>Verificar cuenta</a></button>
-                          <button type="submit" name="action" id="rechazarBTN" value="publicar" class="btn custom btn col-md-4"><a href="{% url 'users:reject_verification' pk=x.pk%}" class="button-link"></a>Rechazar verificación</a></button>
-                  </div>
-                  
-                  {% endif %} 
+                {% if user.role == 5 and x.verificationState == 'P' %}
+                <div class="col-12">
+                  <a href="{% url 'users:verify_institution' pk=x.pk %}" class="btn custom btn col-md-4" id="verificarBTN">Verificar cuenta</a>
+                  <a href="{% url 'users:reject_verification' pk=x.pk %}" class="btn custom btn col-md-4" id="rechazarBTN">Rechazar Verificación</a>
+                </div>
+                {% endif %}
+
               </td>
           </tr>
             {% endfor %}
