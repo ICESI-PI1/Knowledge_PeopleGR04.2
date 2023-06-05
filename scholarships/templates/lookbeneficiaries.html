@@ -24,7 +24,7 @@
     <form class="d-flex col=lg-12" action="{% url 'scholarships:searchBen' %}" method="post">
         {% csrf_token %}
       <div class="input-group">
-      <input type="text" name="inputsearch"  class="form-control custom-input" placeholder="Buscar Institucion" aria-label="Buscar"
+      <input type="text" name="inputsearch"  class="form-control custom-input" placeholder="Buscar beneficiario" aria-label="Buscar"
       style="font-weight: bolder;" >
     
       <div class="input-group-append">
@@ -55,7 +55,9 @@
           </ul>
         </div>
       </div>
+      {% if user.role != 4 %}
       <div class="d-flex justify-content-center mt-3" style="width: auto;">
+
         <div class="dropdown text-center">
           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
             style="background-color: white; border: 0.5px solid #A4D955;">
@@ -68,7 +70,7 @@
           </ul>
         </div>
       </div>
-
+      {% endif %}
       <div class="d-flex justify-content-center mt-3" style=" width: auto;">
         <div class="dropdown text-center">
           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
