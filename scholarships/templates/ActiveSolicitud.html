@@ -23,21 +23,24 @@
   {% block content %}
 
   {% if solicitud_activa %}
-  <div class="row mb-3 flex-sm-row" id="contTitulo">
-    <div class="col-md-8">
-      <br>
-      <h1 id="titulo" class="mt-2">Solicitud activa</h1>
-      <hr id="line" class="w-80">
+  <div class="row mb-3 flex-sm-row" style="background-color: #A4D955; border-radius: 0.8rem; margin-left: 0.07rem;">
+    <div class="col-md-8 mt-2 mb-2">
+      <br />
+      <h1 id="titulo" class="mt-2" style="color: white; margin-left: 2rem;">Solicitud activa</h1>
+      <hr id="line" class="w-80 " style="height: 0.15rem;
+      opacity: 100%;
+      border: 0.094rem solid #ffffff;
+      background-color: #ffffff;" />
     </div>
     <div class="col-md-4">
       <img src="../../media/icons/HigherEducation.png" alt="No Encontrada" class="img-fluid d-none d-md-block"
         id="graduatedImg" />
     </div>
   </div>
-  <div class="row" id="fofo">
-    <div class="row">
+  <div class="row" id="fofo" style="margin-left: 0.07rem; border-radius: 0.8rem; margin-bottom: 0.7rem;">
+    <div class="row" style="padding-top: 1rem;">
       <label for="subtitulo" id="subtitulo"><strong>Datos</strong></label>
-      <hr id="line2">
+      <hr style="margin-left: 0.7rem;">
     </div>
 
     <form class="mt-3" id="container" id="cont2" action="/scholarships/editSolicitudActiva/" method="get"
@@ -189,8 +192,7 @@
           <div class="row mb-3">
             <div class="col-md-12" id="campo">
               <label><strong>Documento de identidad</strong></label>
-              <a href="{{ solicitud_activa.photocopy_id.url }}" target="_blank">{{ solicitud_activa.photocopy_id.name
-                }}</a>
+              <a href="{{ solicitud_activa.photocopy_id.url }}" target="_blank"> Documento (archivo) </a>
               <!--<div class="custom-file">
                     <input type="file" class="form-control " name="src-file1" accept=".pdf" id="docIdFile" 
                     value="{{ solicitud_activa.photocopy_id.url }}" disabled="">
@@ -200,8 +202,7 @@
           <div class="row mb-3">
             <div class="col-md-12" id="campo">
               <label><strong>Certificado de admisión</strong></label>
-              <a href="{{ solicitud_activa.certificate.url }}" target="_blank">{{ solicitud_activa.certificate.name
-                }}</a>
+              <a href="{{ solicitud_activa.certificate.url }}" target="_blank"> Certificado (archivo) </a>
               <!--<div class="custom-file">
                     <input type="file" class="form-control" name="src-file2" accept=".pdf" id="certificadoFile"
                     value="{{ solicitud_activa.certificate.url }}" disabled="">

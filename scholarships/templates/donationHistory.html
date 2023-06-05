@@ -45,16 +45,15 @@
     </div>
 
     <!--  Container -->
-    <div class="row" id="fofo">
+    <div class="row" id="fofo" style="margin-left: 0.2rem;">
         {% if donations %}
-        <div class="table-responsive" style="margin-top: 5px;">
-            <table border="1" class="table text-center">
+        <div class="table-responsive" style="margin-top: 5px; overflow-y: scroll;">
+            <table border="1" class="table text-center" style="margin-top: 5px;">
                 <tr style="background-color: white; color: #f29f05; font-weight: 500">
                     <th>Datos del beneficiario</th>
                     <th>Fecha donación</th>
                     <th>Monto</th>
                     <th>Método de pago</th>
-
                 </tr>
 
                 {% for x in donations %}
