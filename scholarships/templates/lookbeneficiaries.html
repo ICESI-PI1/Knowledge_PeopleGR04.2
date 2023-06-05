@@ -50,7 +50,7 @@
           <ul class="dropdown-menu ">
             {% for interval in intervals %}
             <li><a class="dropdown-item text-center itemnumberp"
-                href="{% url 'scholarships:filtervalue' interval.0 interval.1 %}">$ {{ interval.0 }} - $ {{ interval.1 }}</a></li>
+                href="{% url 'scholarships:filtervalue' interval.0 interval.1 %}">$ {{ interval.0 }} - $ {{ interval.1}}</a></li>
             {% endfor %}
           </ul>
         </div>
@@ -130,6 +130,7 @@
         background-color: white;
         border: 1px solid #F29F05;
         border-radius: 1rem;
+        margin-right: 10%;
       }
 
       .itemn {
@@ -149,12 +150,36 @@
         border: 1px solid #a4d955;
         border-radius: 1rem;
       }
+      .search-icon {
+        background-color: #A4D955;
+        border: none;
+        color: white;
+        border-top-right-radius: 30%;
+        border-bottom-right-radius: 30%;
+        cursor: pointer;
+        height: 50px;
+    }
+    
+    .search-icon i {
+        padding: 5px;
+    }
+
+    .custom-input {
+        height: 50px; /* Ajusta la altura según tus necesidades */
+        font-family: 'Open Sans', sans-serif;
+        border-radius: 1rem;
+    }
+
+    .row-spacing {
+    margin-bottom: 1rem; /* Puedes ajustar el valor para obtener el espaciado deseado */
+  }
+
     </style>
 
     <!-- Beneficiaries -->
-    <div class="row " style="background-color: white; margin-top:2rem">
+    <div class="row " style="background-color: white;margin-top:1rem; border-radius: 3%; margin-left: 0.2%;">
       <div class="col-lg-8 d-flex">
-        <h4 style="color: #F29F05; font-weight: bolder; margin-top: 2rem;">Consultar Beneficiarios</h4>
+        <h4 style="color: #F29F05; font-weight: bolder; margin-top: 2rem; margin-left: 5%;">Consultar Beneficiarios</h4>
       </div>
       <div class="col-lg-4 align-self-end d-flex justify-content-end">
 
@@ -163,8 +188,10 @@
         </button>
 
       </div>
-      <div class="table-responsive" >
-        <table class="table">
+      <hr style="border: 2px solid #ECECEC;
+      transform: matrix(1, 0.01, 0, 1, 0, 0); width: 90%; margin-left: 5%;">
+      <div class="table-responsive" style="width: 95%; margin-left: 2.5%;" >
+        <table class="table" style="border: transparent;">
           <thead>
             <tr>
               <th></th>
@@ -177,7 +204,7 @@
           <tbody>
             {% if scholarships %}
             {% for x in scholarships %}
-            <tr class="mt-3 align-middle">
+            <tr class="row-spacing align-middle"style="height: 7rem; box-shadow:0px 1px 4px rgba(0, 0, 0, 0.25); border-radius: 10px;" >
               <td class="align-middle" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
                 {% if x.id_user.profilePicture != "" %}
                 <img src="/media/{{ x.id_user.profilePicture }}" class="img-fluid" alt="noimage"

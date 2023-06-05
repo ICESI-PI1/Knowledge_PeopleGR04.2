@@ -120,6 +120,7 @@
                 <a href="{% url 'scholarships:look_beneficiaries' %}" class="nav-link">
                   <img src="../../../../media/images/DonorUser.png" alt="Icono consultar beneficiarios" class="img-fluid"
                         id="icon" />
+<<<<<<< HEAD
                       <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
                     &nbsp;Consultar beneficiarios
                 <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="new_scolarship"></span>
@@ -135,7 +136,7 @@
                 &nbsp;Nueva donación
                 </a>
                 {% elif user.role == user.ADMIN %}
-                <a href="{% url 'users:user_list' %}" class="nav-link">
+                <a href="{% url 'scholarships:look_institutions' %}" class="nav-link">
                   <img src="../../media/images/ucampus.png" alt="Icono gestión de solicitudes" class="img-fluid"
                           id="icon" />
                         <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="request_history"></span>
