@@ -57,6 +57,31 @@
     .btn-primary:hover {
         background-color: #A4D955;
     }
+
+    .itemall {
+        background-color: white;
+        border: 1px solid #F29F05;
+        border-radius: 1rem;
+        margin-right: 10%;
+      }
+
+      .itemn {
+        color: #F29F05;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .itemn:hover {
+        color: black;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .itemall:hover {
+        background-color: white;
+        border: 1px solid #a4d955;
+        border-radius: 1rem;
+      }
 </style>
 
 <link href="{% static '/historyapplications.css' %}" rel="stylesheet"/>
@@ -81,16 +106,24 @@
       </div>
     </div>
 
-<div class="row mb-3 flex-sm-row" style=" background-color: white; border-radius: 3%;">
+<div class="row mb-3 flex-sm-row" style=" background-color: white; margin-top:1rem; border-radius: 3%;  margin-left: 2%; width: 98%;">
 <!-- Container -->
 <div class="col-lg-8 d-flex">
-    <h4 style="color: #F29F05; font-weight: bolder; margin-top: 2rem; margin-left: 10%;">Solicitudes de beca</h4>
+    <h4 style="color: #F29F05; font-weight: bolder; margin-top: 2rem; margin-left:5%;">Solicitudes de beca</h4>
+  </div>
+     
+  <div class="col-lg-4 align-self-end d-flex justify-content-end" >
+
+    <button class="btn itemall" type="button" aria-expanded="false">
+      <a class="text-center itemn " href="{% url 'scholarships:scholarships' %}"> Ver todas </a>
+    </button>
+
   </div>
   <hr style="border: 2px solid #ECECEC;
   transform: matrix(1, 0.01, 0, 1, 0, 0); width: 90%; margin-left: 5%;">
 <!-- Mostrar siempre el formulario de filtrado -->
 
-<form method="get" class="d-flex col=lg-12" style="width: 90%; margin-left: 5%;" action="{% url 'scholarships:scholarships' %}">
+<form method="get" class="d-flex col=lg-12" style="width: 96%; margin-left: 2.5%;" action="{% url 'scholarships:scholarships' %}">
     <div class="input-group mb-3">
         <input type="text"  id="inputs" class="form-control custom-input" placeholder="Buscar solicitud de beca" name="search"   style="font-weight: bolder;">
         <div class="input-group-append">
@@ -104,7 +137,7 @@
     </div>
 </form>
 
-<form method="get" style="width: 50%; margin-left: 5%;" action="{% url 'scholarships:scholarships' %}">
+<form method="get" style="width: 50%; margin-left: 2.5%;" action="{% url 'scholarships:scholarships' %}">
     <div class="input-group mb-3">
         <label for="state_filter" class="input-group-text" style="background-color: #fff;">Publicación:</label>
         <select name="state" id="state_filter" class="form-select">
@@ -118,7 +151,7 @@
 </form>
 
 
-<div class="table-responsive " style="width: 90%; margin-left: 5%;" >
+<div class="table-responsive " style="width: 95%; margin-left: 2.5%;" >
     <table class="table" style="border: transparent;">
       <thead>
         <tr>
@@ -149,7 +182,7 @@
                 </div>
                 <div class="col-12">{{ scholarship.institution.name }}</div>
                 <div class="col-12">{{ scholarship.institution.city }}</div>
-                <div class="col-12">Estado de publicación: {{ scholarship.state }}</div>
+                <div class="col-12">Estado de publicación: {% if scholarship.state == 'R' %} Rechazada {% elif scholarship.state == 'A'%} Aceptada {% elif scholarship.state == 'P'%} Pendiente {% else %}{{ scholarship.state }}{% endif %}</div>
               </div>
             </td>
             <td>

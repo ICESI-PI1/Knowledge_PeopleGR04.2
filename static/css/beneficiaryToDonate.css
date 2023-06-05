@@ -14,20 +14,24 @@ form{
   font-family: 'Open Sans', sans-serif;
 }
 /*center title style*/
-
-#contTitulo {
-  background: #a4d955;
+#contTitulo{
+  background: #A4D955;
   border-radius: 20px;
   height: 9rem;
+  width: 98%;
+  margin-left: 2%;
 }
 
+
 #titulo {
-  color: #ffffff;
+  color: #FFFFFF;
   opacity: 100%;
-  font-family: "Open Sans";
+  font-family:'Open Sans';
+  font-size: 2rem;
   font-weight: bold;
   margin-left: 3rem;
-}
+
+} 
 
 #line {
   height: 0.15rem;
@@ -49,7 +53,7 @@ form{
 /*form style*/
 
 
-#botonDonar, #rechazarBTN, #publicarBTN  {
+#botonDonar, #rechazarBTN, #publicarBTN, #verificarBTN  {
   background-color: #f29f05;
   border-color: #f29f05;
   color: #fff;
@@ -59,11 +63,24 @@ form{
   font-size: 1em;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+#rechazarBTN, #publicarBTN, #verificarBTN  {
+  background-color: #f29f05;
+  border-color: #f29f05;
+  color: #fff;
+
+  margin-top: 5%;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-size: 1em;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   margin-left: 30%;
 }
 
 
-#botonDonar:hover, #rechazarBTN:hover, #publicarBTN:hover {
+#botonDonar:hover, #rechazarBTN:hover, #publicarBTN:hover, #verificarBTN:hover {
   background-color: #a4d955;
   border-color: #a4d955;
   color: #fff;
