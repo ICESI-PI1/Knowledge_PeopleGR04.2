@@ -42,7 +42,7 @@ class ShowMenu(View):
 
                 return render(request, 'menu.html', contexto)
             
-            elif request.user.role == 2:
+            elif request.user.role == 2 or request.user.role == 3:
                 id_ben = request.user.id
                 donationsMade = Transaction.objects.filter(donor_user_id=id_ben)
                 data = {"donations": donationsMade}
