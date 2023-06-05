@@ -10,6 +10,7 @@ urlpatterns = [path("signupBen/", views.SignUpBen.as_view(), name="signupb"),
                path("signupDon/", views.SignUpDon.as_view(), name="signupd"),
                path("signupLegalDon/", views.SignUpLegalDon.as_view(), name="signupld"),  
                path("signupIns/", views.SignUpIns.as_view(), name="signupi"),
+               path("signupAdm/", views.SignUpAdmin.as_view(), name="signupAdm"),
                path("sigin/", views.SigIn.as_view(),name="sigin"), 
                path("menu/", views.SigIn.as_view(),name="menu"), 
                 path('beneficiaries/<int:pk>/update/', views.BeneficiaryUpdateView.as_view(), name='beneficiary_update'),
@@ -19,5 +20,8 @@ urlpatterns = [path("signupBen/", views.SignUpBen.as_view(), name="signupb"),
                 path('institutions/', UserListView.as_view(), name='user_list'),
                 path('users/institutions/<int:pk>/verify/', InstitutionVerifyView.as_view(), name='verify_institution'),
                 path('users/institutions/<int:pk>/reject-verification/', InstitutionRejectVerificationView.as_view(), name='reject_verification'),
-                path('users/', AllUserListView.as_view(), name='showUsers'),]   
+                path('users/<int:pk>/activar/', views.ActiveUserView.as_view(), name='active_user'),
+                path('users/<int:pk>/inactivar/', views.InactiveUserView.as_view(), name='inactive_user'),
+                path('users/', AllUserListView.as_view(), name='showUsers'),
+                path('users/showDetails/<int:id>/', views.ShowDetailsUsers.as_view(), name='showdetailsusers'),]   
                 
