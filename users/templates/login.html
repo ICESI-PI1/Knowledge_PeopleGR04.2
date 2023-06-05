@@ -14,15 +14,15 @@
 
       <h3 class="text-center py-5 mt-5">Inicio de Sesión</h3>
 
-      <!--{% if user.is_active == False %}
+      {% if messages %}
       <div class="alert alert-danger" role="alert">
         <ul class="mb-0">
-          
-          <li>Tu cuenta ha sido suspendida por el administrador.</li>
-          
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
         </ul>
       </div>
-      {% endif %}-->
+      {% endif %}
 
       <form class=" form-control-sm mt-5" method="post">
         {% csrf_token %}

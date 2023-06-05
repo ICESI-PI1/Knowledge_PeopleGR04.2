@@ -715,9 +715,25 @@ class TransactionListView(TemplateView):
 class DonationsListView(TemplateView):
     template_name = 'donationsList.html'
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # Obtén los parámetros de filtro de la URL (si los hay)
+        min_amount = self.request.GET.get('min_amount')
+        max_amount = self.request.GET.get('max_amount')
+
+        # Realiza la consulta con los filtros
         transactions = Transaction.objects.all()
+
+        # Filtra por cantidad mínima
+        if min_amount is not None:
+            transactions = transactions.filter(amount__gte=min_amount)
+
+        # Filtra por cantidad máxima
+        if max_amount is not None:
+            transactions = transactions.filter(amount__lte=max_amount)
+
         context['transactions'] = transactions
         return context
 

@@ -73,6 +73,7 @@ class SignUpLegalDon(CreateView):
 
 class SignUpIns(CreateView):
     form_class = CustomInstitutionForm
+    success_url = reverse_lazy("users:sigin")
     template_name = 'signup.html'
 
     def form_valid(self, form):
@@ -90,7 +91,7 @@ class SignUpIns(CreateView):
     
 class SignUpAdmin(CreateView):
     form_class = CustomAdminForm
-    success_url = reverse_lazy("users:sigin")
+    success_url = reverse_lazy("users:showUsers")
     template_name = 'signupAdmin.html'
 
     def form_valid(self, form):
