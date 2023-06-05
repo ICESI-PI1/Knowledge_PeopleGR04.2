@@ -63,6 +63,8 @@ class User(AbstractBaseUser, PermissionsMixin):
        return self.is_superuser
     def has_perm(self, perm, obj=None):
        return self.is_superuser
+    def get_full_name(self):
+        return self.name
     
 class Admin(User):
     pass

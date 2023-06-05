@@ -484,53 +484,170 @@ class PaymentsPse(TemplateView):
         data = {'partialTransaction':ptransaction,'psetrue':True}
         return render(request, 'lookpayments.html',data)
 
-class Pay1(TemplateView):
-    def post(self,request,id):
-        ptransaction = PartialTransaction.objects.get(id=id)
-        if ptransaction.institution_donation != None:
-            transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,institution_donation=ptransaction.institution_donation,
-                                      payment='Paypal',type_pay='PayPal')
-            transaction.save()
-        
-        elif ptransaction.scolarship_donation != None:
-            transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,scolarship_donation=ptransaction.scolarship_donation,
-                                      payment='Paypal',type_pay='PayPal')
-            transaction.save()
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from django.views.generic import TemplateView
+from xhtml2pdf import pisa
+from .models import PartialTransaction, Transaction
+from django.utils import timezone
 
-        data = {'Transaction':transaction}
-        return render(request, 'report.html',data)
+class Pay1(TemplateView):
+    def post(self, request, id):
+        ptransaction = PartialTransaction.objects.get(id=id)
+        if ptransaction.institution_donation is not None:
+            institution = ptransaction.institution_donation
+            transaction = Transaction(
+                date_transaction=timezone.now(),
+                amount=ptransaction.amount,
+                donor_user=ptransaction.donor_user,
+                institution_donation=ptransaction.institution_donation,
+                payment='Paypal',
+                type_pay='PayPal'
+            )
+            transaction.save()
+            data = {'Transaction': transaction, 'Institution': institution}
+        elif ptransaction.scolarship_donation is not None:
+            scholarship = ptransaction.scolarship_donation
+            transaction = Transaction(
+                date_transaction=timezone.now(),
+                amount=ptransaction.amount,
+                donor_user=ptransaction.donor_user,
+                scolarship_donation=ptransaction.scolarship_donation,
+                payment='Paypal',
+                type_pay='PayPal'
+            )
+            transaction.save()
+            data = {'Transaction': transaction, 'Scholarship': scholarship}
+        else:
+            transaction = None
+            data = {'Transaction': transaction}
+
+        # Renderizar el HTML del informe
+        template = get_template('report.html')
+        html = template.render(data)
+
+        # Crear el PDF con xhtml2pdf
+        result = BytesIO()
+        pdf = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), dest=result)
+        
+        # Verificar si la conversión a PDF fue exitosa
+        if not pdf.err:
+            # Finalizar y cerrar el archivo PDF
+            pdf_data = result.getvalue()
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+            response.write(pdf_data)
+            return response
+        else:
+            # Manejar el error en la conversión a PDF
+            return HttpResponse('Error al generar el PDF')
+
+
 
 class Pay2(TemplateView):
-    def post(self,request,id):
+    def post(self, request, id):
         ptransaction = PartialTransaction.objects.get(id=id)
-        if ptransaction.institution_donation != None:
-            transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,institution_donation=ptransaction.institution_donation,
-                                      payment='Card',type_pay='Cards')
+        if ptransaction.institution_donation is not None:
+            institution = ptransaction.institution_donation
+            transaction = Transaction(
+                date_transaction=ptransaction.date_transaction,
+                amount=ptransaction.amount,
+                donor_user=ptransaction.donor_user,
+                institution_donation=ptransaction.institution_donation,
+                payment='Card',
+                type_pay='Cards'
+            )
             transaction.save()
-        
-        elif ptransaction.scolarship_donation != None:
-            transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,scolarship_donation=ptransaction.scolarship_donation,
-                                      payment='Card',type_pay='Cards')
+            data = {'Transaction': transaction, 'Institution': institution}
+        elif ptransaction.scolarship_donation is not None:
+            scholarship = ptransaction.scolarship_donation
+            transaction = Transaction(
+                date_transaction=ptransaction.date_transaction,
+                amount=ptransaction.amount,
+                donor_user=ptransaction.donor_user,
+                scolarship_donation=ptransaction.scolarship_donation,
+                payment='Card',
+                type_pay='Cards'
+            )
             transaction.save()
+            data = {'Transaction': transaction, 'Scholarship': scholarship}
+        else:
+            transaction = None
+            data = {'Transaction': transaction}
 
-        data = {'Transaction':transaction}
-        return render(request, 'report.html',data)
+        # Renderizar el HTML del informe
+        template = get_template('report.html')
+        html = template.render(data)
+
+        # Crear el PDF con xhtml2pdf
+        result = BytesIO()
+        pdf = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), dest=result)
+
+        # Verificar si la conversión a PDF fue exitosa
+        if not pdf.err:
+            # Finalizar y cerrar el archivo PDF
+            pdf_data = result.getvalue()
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+            response.write(pdf_data)
+            return response
+        else:
+            # Manejar el error en la conversión a PDF
+            return HttpResponse('Error al generar el PDF')
+
 
 class Pay3(TemplateView):
-    def post(self,request,id):
+    def post(self, request, id):
         ptransaction = PartialTransaction.objects.get(id=id)
-        if ptransaction.institution_donation != None:
-            transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,institution_donation=ptransaction.institution_donation,
-                                      payment='Pse',type_pay='PSE')
+        if ptransaction.institution_donation is not None:
+            institution = ptransaction.institution_donation
+            transaction = Transaction(
+                date_transaction=ptransaction.date_transaction,
+                amount=ptransaction.amount,
+                donor_user=ptransaction.donor_user,
+                institution_donation=ptransaction.institution_donation,
+                payment='Pse',
+                type_pay='PSE'
+            )
             transaction.save()
-        
-        elif ptransaction.scolarship_donation != None:
-            transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,scolarship_donation=ptransaction.scolarship_donation,
-                                      payment='Pse',type_pay='PSE')
+            data = {'Transaction': transaction, 'Institution': institution}
+        elif ptransaction.scolarship_donation is not None:
+            scholarship = ptransaction.scolarship_donation
+            transaction = Transaction(
+                date_transaction=ptransaction.date_transaction,
+                amount=ptransaction.amount,
+                donor_user=ptransaction.donor_user,
+                scolarship_donation=ptransaction.scolarship_donation,
+                payment='Pse',
+                type_pay='PSE'
+            )
             transaction.save()
+            data = {'Transaction': transaction, 'Scholarship': scholarship}
+        else:
+            transaction = None
+            data = {'Transaction': transaction}
 
-        data = {'Transaction':transaction}
-        return render(request, 'report.html',data)
+        # Renderizar el HTML del informe
+        template = get_template('report.html')
+        html = template.render(data)
+
+        # Crear el PDF con xhtml2pdf
+        result = BytesIO()
+        pdf = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), dest=result)
+
+        # Verificar si la conversión a PDF fue exitosa
+        if not pdf.err:
+            # Finalizar y cerrar el archivo PDF
+            pdf_data = result.getvalue()
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+            response.write(pdf_data)
+            return response
+        else:
+            # Manejar el error en la conversión a PDF
+            return HttpResponse('Error al generar el PDF')
+
 
 class BeneficiaryUpdateView(BeneficiaryUpdateView):
     pass 
@@ -623,10 +740,11 @@ from django.conf import settings
 from .forms import ContactForm
 
 from django.contrib import messages
+from django.urls import reverse_lazy
 class ContactView(FormView):
     template_name = 'contact.html'
     form_class = ContactForm  
-    success_url = '/contact/'  
+    success_url = reverse_lazy('contact')  
 
     def form_valid(self, form):
         name = form.cleaned_data['name']
