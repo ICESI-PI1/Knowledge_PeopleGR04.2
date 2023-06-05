@@ -27,14 +27,13 @@
             <p>Selecciona el tipo de donación que deseas hacer.</p>
         
             <div class="row">
-                <div class=" col text-center">
-                <button class="btn btn-primary custom-button ">Donación cerrada</button>
-                </div>
-        
-                <div class=" col text-center">
-                    <button class="btn btn-secondary custom-button">Donación abierta</button>
-             </div>
-            </div>
+              <div class="col text-center">
+                  <a href="{% url 'scholarships:look_beneficiaries' %}" class="btn btn-primary custom-button">Donación cerrada</a>
+              </div>
+              <div class="col text-center">
+                  <a href="{% url 'scholarships:look_institutions' %}" class="btn btn-secondary custom-button">Donación abierta</a>
+              </div>
+          </div>
         </div>
     </div>
     <div class="row mb-4 justify-content-between" id="informationSection_3">
