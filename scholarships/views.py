@@ -518,14 +518,8 @@ class Payments(TemplateView):
 
         amount = int(value)  
 
-        
         institution.money_donation += amount
         institution.save()
-
-        scholarship = institution.scholarship_donation
-        if amount >= scholarship.value_period or amount >= scholarship.total_periods * scholarship.value_period:
-            scholarship.active = 'IN'
-            scholarship.save()
 
         data = {'institution':institution,'partialTransaction':partialTran,'Ins':True}
         return render(request, 'lookpayments.html',data)
