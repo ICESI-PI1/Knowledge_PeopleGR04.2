@@ -30,230 +30,206 @@
               aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav flex-column w-100">
-                <img id="imgLogo" src="../../../../media/images/logoInicio.png" class="img-fluid" alt="No Encontrada"
-                  id="imgLogo" />
-                <div class="home">
-                  <!-- HOME -->
-                  <li class="nav-item mt-3" id="home-link">
-                    <a class="nav-link" href="{% url 'scholarships:showmenu' %}">
-                      <img src="../../../../media/images/Home.png" alt="Icono Inicio" class="img-fluid" id="icon" />
-                      <span data-feather="home"></span>
+              
+               <ul class="nav flex-column">
+                <div id="logo-leftbar">
+                  <a class="d-flex align-items-center" href="#"><img src="../../media/icons/logoInicio.png" width="194" height="140" ></a>
+                </div>
+             <!--Primero-->
+            <li class="nav-item">
+            <a href="{% url 'scholarships:showmenu' %}" class="nav-link">
+              <img src="../../../../media/images/Home.png" alt="Icono Inicio" class="img-fluid" id="icon" />
+                      <span class="fs-4 m-1 d-none d-sm-inline my-custom-class"></span>
                       &nbsp;Inicio
-                    </a>
-                  </li>
-                </div>
-                <div class="new_scolarship">
-                  <!-- Scholarships -->
-                  <li class="nav-item mt-3" id="new_scolarshipps">
-                    {% if user.role == user.BENEFICIARY %}
-                    <!-- El usuario es Beneficiario -->
-                    <a class="nav-link" href="../newapplication/">
-                      <img src="../../../../media/images/IconPlus.png" alt="Icono nueva solicitud" class="img-fluid"
+            </a>
+            </li>
+            <!--Segundo-->
+            <li class="nav-item">
+              {% if user.role == user.BENEFICIARY %}
+              <a href="../newapplication/" class="nav-link">
+                <img src="../../../../media/images/IconPlus.png" alt="Icono nueva solicitud" class="img-fluid"
+                id="icon" />
+               <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="new_scolarship"></span>
+               &nbsp;Nueva solicitud de beca
+              </a>
+              
+              {% elif user.role == user.NATURALDONOR %}
+              <a href="../newdonation/" class="nav-link">
+                <img src="../../../../media/images/IconPlus.png" alt="Icono nueva donación" class="img-fluid"
+                id="icon" />
+               <span  class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="new_scolarship"></span>
+               &nbsp;Nueva donación
+              </a>
+              {% elif user.role == user.LEGALDONOR %}
+              <a href="../newdonation/" class="nav-link">
+                <img src="../../../../media/images/IconPlus.png" alt="Icono nueva donación" class="img-fluid"
+                id="icon" />
+               <span class="fs-4 m-1 d-none d-sm-inline my-custom-class"data-feather="new_scolarship"></span>
+               &nbsp;Nueva donación
+              </a>
+              {% elif user.role == user.INSTITUTION and user.INSTITUTION.verificationState == 'A' %}
+              <a href="" class="nav-link">
+                <img src="../../../../media/images/IconPlus.png" alt="Icono nueva donación" class="img-fluid"
+                id="icon" />
+               <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="new_scolarship"></span>
+               &nbsp;Nueva donación
+              </a>
+              {% elif user.role == user.INSTITUTION and user.INSTITUTION.verificationState == 'P' or user.INSTITUTION.verificationState == 'R' %}
+              <a href="#" class="nav-link" id="inactive_account">
+                <img src="../../../../media/images/IconPlus.png" alt="Icono nueva donación" class="img-fluid"
+                id="icon" />
+              <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="new_scolarship"></span>
+              &nbsp;Nueva donación
+              </a>
+              {% elif user.role == user.ADMIN %}
+              <a href="{% url 'scholarships:scholarships' %}" class="nav-link">
+                <img src="../../media/images/RequestHistory.png" alt="Icono gestión de solicitudes" class="img-fluid"
                         id="icon" />
-                      <span data-feather="new_scolarship"></span>
-                      &nbsp;Nueva solicitud de beca
-                    </a>
-                    {% elif user.role == user.NATURALDONOR or user.role == user.LEGALDONOR %}
-                    <!-- El usuario es Donante natural -->
-                    <a class="nav-link" href="../newdonation/">
-                      <img src="../../../../media/images/IconPlus.png" alt="Icono nueva solicitud" class="img-fluid"
-                        id="icon" />
-                      <span data-feather="new_scolarship"></span> &nbsp; Nueva donación
-                    </a>
-                    {% elif user.role == user.LEGALDONOR %}
-                    <!-- El usuario es Donante jurídico o Institución -->
-                    <a class="nav-link" href="../newdonation/">
-                      <img src="../../../../media/images/IconPlus.png" alt="Icono nueva solicitud" class="img-fluid"
-                        id="icon" />
-                      <span data-feather="new_scolarship"></span>
-                      &nbsp;Nueva donación
-                    </a>
-                    {% elif user.role == 5%}
-                    <a class="nav-link" href="{% url 'scholarships:scholarships' %}">
-                      <img src="../../../../media/images/RequestHistory.png" alt="Icono historial solicitudes"
-                        class="img-fluid" id="icon" />
-                      <span data-feather="request_history"></span>
+                      <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="request_history"></span>
                       &nbsp;Gestión de solicitudes
-                    </a>
-                    {% endif %}
-                  </li>
-                </div>
-                <div class="donor_history">
-                  <li class="nav-item mt-3" id="donor_history-link">
-                    {% if user.role == user.BENEFICIARY %}
-                    <!-- El usuario es Beneficiario -->
-                    <a class="nav-link" href="{% url 'scholarships:look_donors' %}">
-                      <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid"
+              </a>
+              {% endif %}
+              </li>
+              <!--Tercero-->
+              <li class="nav-item">
+                {% if user.role == user.BENEFICIARY %}
+                <a href="{% url 'scholarships:look_donors' %}" class="nav-link">
+                  <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid"
                         id="icon" />
-                      <span data-feather="donor_history"></span>
-                      &nbsp;Historial de donantes
-                    </a>
-
-                    {% elif user.role == user.NATURALDONOR or user.role == user.LEGALDONOR %}
-
-                    <!-- El usuario es Donante natural -->
-                    <a class="nav-link" href="{% url 'scholarships:look_beneficiaries' %}">
-                      <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid"
+                      <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
+                    &nbsp;Historial de donantes
+             
+                </a>
+                {% elif user.role == user.NATURALDONOR %}
+                <a href="{% url 'scholarships:look_beneficiaries' %}" class="nav-link">
+                  <img src="../../../../media/images/DonorUser.png" alt="Icono consultar beneficiarios" class="img-fluid"
                         id="icon" />
-                      <span data-feather="donor_history"></span>
-                      &nbsp;Consultar Beneficiarios
-                    </a>
-
-                    {% elif user.role == user.INSTITUTION and user.institution.verificationState == 'P'%}
-                    <!-- El usuario es Donante natural -->
-                    <a class="nav-link" href="{% url 'scholarships:look_beneficiaries' %}">
-                      <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid"
+                      <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
+                    &nbsp;Consultar beneficiarios
+                </a>
+                {% elif user.role == user.LEGALDONOR %}
+                <a href="{% url 'scholarships:look_beneficiaries' %}" class="nav-link">
+                  <img src="../../../../media/images/DonorUser.png" alt="Icono consultar beneficiarios" class="img-fluid"
                         id="icon" />
-                      <span data-feather="donor_history"></span>
-                      &nbsp;Consultar Beneficiarios
-                    </a>
-                    {% elif user.role == user.LEGALDONOR %}
-
-                    <!-- El usuario es Donante jurídico o Institución -->
-                    <a class="nav-link" href="#">
-                      <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid"
+                      <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
+                    &nbsp;Consultar beneficiarios
+                </a>
+                {% elif user.role == user.INSTITUTION and user.INSTITUTION.verificationState == 'A' %}
+                <a href="{% url 'scholarships:look_beneficiaries' %}" class="nav-link">
+                  <img src="../../../../media/images/DonorUser.png" alt="Icono consultar beneficiarios" class="img-fluid"
                         id="icon" />
-                      <span data-feather="donor_history"></span>
-                      &nbsp;Historial de donantes
-                    </a>
-
-                    {% elif user.role == 5 %}
-
-                    <a class="nav-link" href="{% url 'scholarships:look_institutions' %}">
-                      <img src="../../../../media/images/ucampus.png" alt="Icono historial donantes" class="img-fluid"
+<<<<<<< HEAD
+                      <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
+                    &nbsp;Consultar beneficiarios
+                <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="new_scolarship"></span>
+                &nbsp;Nueva donación
+                </a>
+                {% elif user.role == user.INSTITUTION and user.INSTITUTION.verificationState == 'P' or user.INSTITUTION.verificationState == 'R' %}
+                <a href="#" class="nav-link" id="inactive_account">
+                  <img src="../../../../media/images/DonorUser.png" alt="Icono consultar beneficiarios" class="img-fluid"
                         id="icon" />
-                      <span data-feather="donor_history" style="margin-left: 0.1rem;"></span>
-                      &nbsp;Gestión de instituciones
-                    </a>
-                    {% endif %}
-                  </li>
-                </div>
-                <div class="request_history">
-                  <li class="nav-item mt-3" id="request_history-link">
-                    {% if user.role == user.BENEFICIARY %}
-                    <!-- El usuario es Beneficiario -->
-                    <a class="nav-link" href="{% url 'scholarships:lookapplication' %}">
-                      <img src="../../../../media/images/RequestHistory.png" alt="Icono historial solicitudes"
-                        class="img-fluid" id="icon" />
-                      <span data-feather="request_history"></span>
+                      <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
+                    &nbsp;Consultar beneficiarios
+                <span data-feather="new_scolarship"></span>
+                &nbsp;Nueva donación
+                </a>
+                {% elif user.role == user.ADMIN %}
+                <a href="{% url 'scholarships:look_institutions' %}" class="nav-link">
+                  <img src="../../media/images/ucampus.png" alt="Icono gestión de solicitudes" class="img-fluid"
+                          id="icon" />
+                        <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="request_history"></span>
+                        &nbsp;Gestión de instituciones
+                </a>
+                {% endif %}
+                </li>
+                <!--Cuarto-->
+                <li class="nav-item">
+                  {% if user.role == user.BENEFICIARY %}
+                  <a href="{% url 'scholarships:lookapplication' %}" class="nav-link">
+                    <img src="../../../../media/images/RequestHistory.png" alt="Icono historial donantes" class="img-fluid"
+                          id="icon" />
+                        <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
                       &nbsp;Historial de solicitudes
-                    </a>
-                    {% elif user.role == user.NATURALDONOR or user.role == user.LEGALDONOR %}
-                    <!-- El usuario es Donante -->
-                    <a class="nav-link d-flex" href="{% url 'scholarships:look_institutions' %}">
-                      <img src="../../../../media/images/ucampus.png" alt="Icono historial donantes" class="img-fluid"
-                        id="icon" />
-                      <span data-feather="donor_history" style="margin-left: 0.1rem;"></span>
-                      &nbsp;Consultar Instituciones
-                    </a>
-                    {% elif user.role == user.LEGALDONOR %}
-                    <!-- El usuario es Donante jurídico o Institución -->
-                    <a class="nav-link" href="#">
-                      <img src="../../../../media/images/RequestHistory.png" alt="Icono historial solicitudes"
-                        class="img-fluid" id="icon" />
-                      <span data-feather="request_history"></span>
+               
+                  </a>
+                  {% elif user.role == user.NATURALDONOR %}
+                  <a href="{% url 'scholarships:look_institutions' %}" class="nav-link">
+                    <img src="../../../../media/images/ucampus.png" alt="Icono consultar beneficiarios" class="img-fluid"
+                          id="icon" />
+                        <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
+                      &nbsp;Consultar instituciones
+                  </a>
+                  {% elif user.role == user.LEGALDONOR %}
+                  <a href="{% url 'scholarships:look_institutions' %}" class="nav-link">
+                    <img src="../../../../media/images/ucampus.png" alt="Icono consultar beneficiarios" class="img-fluid"
+                          id="icon" />
+                        <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
+                      &nbsp;Consultar instituciones
+                  </a>
+                  {% elif user.role == user.INSTITUTION and user.INSTITUTION.verificationState == 'A' %}
+                  <a href="{% url 'scholarships:look_beneficiaries' %}" class="nav-link">
+                    <img src="../../../../media/images/RequestHistory.png" alt="Icono consultar beneficiarios" class="img-fluid"
+                          id="icon" />
+                        <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
                       &nbsp;Historial de aportes
-                    </a>
-                    {% elif user.role == user.INSTITUTION and user.institution.verificationState == 'A' %}
-
-                    <!-- El usuario es Donante jurídico o Institución -->
-                    <a class="nav-link" href="#">
-                      <img src="../../../../media/images/RequestHistory.png " alt="Icono historial solicitudes"
-                        class="img-fluid" id="icon" />
-                      <span data-feather="request_history"></span>
+                  
+                  </a>
+                  {% elif user.role == user.INSTITUTION and user.INSTITUTION.verificationState == 'P' or user.INSTITUTION.verificationState == 'R' %}
+                  <a href="#" class="nav-link" id="inactive_account">
+                    <img src="../../../../media/images/RequestHistory.png" alt="Icono consultar beneficiarios" class="img-fluid"
+                          id="icon" />
+                        <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
                       &nbsp;Historial de aportes
-                    </a>
-                    {% elif user.role == 5%}
-                    <a class="nav-link" href="{% url 'scholarships:donationslist' %}">
-                      <img src="../../media/images/dollar.png" alt="Icono historial solicitudes" class="img-fluid"
-                        id="icon" />
-                      <span data-feather="request_history"></span>
-                      &nbsp;Control de donaciones
-                    </a>
-                    {% endif %}
+                  
+                  </a>
+                  {% elif user.role == user.ADMIN %}
+                  <a href="{% url 'users:user_list' %}" class="nav-link">
+                    <img src="../../media/images/dollar.png" alt="Icono gestión de solicitudes" class="img-fluid"
+                            id="icon" />
+                          <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="request_history"></span>
+                          &nbsp;Control de donaciones
+                  </a>
+                  {% endif %}
                   </li>
-                </div>
-                <div class="active_request">
-                  <li class="nav-item mt-3" id="active_request-link">
+                  <!--Quinto-->
+                  <li class="nav-item">
                     {% if user.role == user.BENEFICIARY %}
-                    <!-- El usuario es Beneficiario -->
-                    <a class="nav-link" href="{% url 'scholarships:soli_Activa' %}">
-                      <img src="../../../../media/images/IconActive.png" alt="Icono solicitud activa" class="img-fluid"
-                        id="icon" />
-                      <span data-feather="active_request"></span>
-                      &nbsp;Solicitud activa
+                    <a href="{% url 'scholarships:soli_Activa' %}" class="nav-link">
+                      <img src="../../../../media/images/IconActive.png" alt="Icono historial donantes" class="img-fluid"
+                            id="icon" />
+                          <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="active_request"></span>
+                        &nbsp;Solicitud activa
+                 
                     </a>
-                    {% elif user.role == user.NATURALDONOR or user.role == user.LEGALDONOR %}
-                    <!-- El usuario es Donante -->
-                    <a class="nav-link" href="{% url 'scholarships:lookdonationsmade' %}">
-                      <img src="../../../../media/images/RequestHistory.png" alt="Icono historial solicitudes"
-                        class="img-fluid" id="icon" />
-                      <span data-feather="request_history"></span>
-                      &nbsp;Historial de aportes
+                    {% elif user.role == user.NATURALDONOR %}
+                    <a href="{% url 'scholarships:lookdonationsmade' %}" class="nav-link">
+                      <img src="../../../../media/images/RequestHistory.png" alt="Icono consultar beneficiarios" class="img-fluid"
+                            id="icon" />
+                          <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
+                        &nbsp;Historial de aportes
                     </a>
-                    {% elif user.role == user.INSTITUTION and user.institution.verificationState  == 'A' %}
-                    <!-- El usuario es Donante -->
-                    <a class="nav-link" href="#">
-                      <img src="../../../../media/images/RequestHistory.png" alt="Icono historial solicitudes" class="img-fluid" id="icon" />
-                      <span data-feather="request_history"></span>
-                      &nbsp;Historial de aportes
                     {% elif user.role == user.LEGALDONOR %}
-                    <!-- El usuario es Donante jurídico o Institución -->
-                    <a class="nav-link" href="#">
-                      <img src="../../../../media/images/setting.png" alt="Icono ajustes" class="img-fluid" id="icon" />
-                      <span data-feather="settings"></span>
-                      &nbsp;Ajustes
+                    <a href="{% url 'scholarships:lookdonationsmade' %}" class="nav-link">
+                      <img src="../../../../media/images/RequestHistory.png" alt="Icono consultar beneficiarios" class="img-fluid"
+                            id="icon" />
+                          <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="donor_history"></span>
+                        &nbsp;Historial de aportes
+                    
                     </a>
-                    {% elif user.role == user.INSTITUTION and user.institution.verificationState == 'A'%}
-
-                    <!-- El usuario es Donante jurídico o Institución -->
-                    <a class="nav-link" href="#">
-                      <img src="../../../../media/images/setting.png" alt="Icono ajustes" class="img-fluid" id="icon" />
-                      <span data-feather="settings"></span>
-                      &nbsp;Ajustes
-                    </a>
-                    {% elif user.role == 5%}
-                    <a class="nav-link" href="{% url 'users:showUsers' %}">
-                      <img src="../../../../media/images/DonorUser.png" alt="Icono historial donantes" class="img-fluid"
-                        id="icon" />
-                      <span data-feather="donor_history"></span>
-                      &nbsp;Gestión de usuarios
+                    
+                    {% elif user.role == user.ADMIN %}
+                    <a href="{% url 'users:showUsers' %}" class="nav-link">
+                      <img src="../../media/images/DonorUser.png" alt="Icono gestión de usuarios" class="img-fluid"
+                              id="icon" />
+                            <span class="fs-4 m-1 d-none d-sm-inline my-custom-class" data-feather="request_history"></span>
+                            &nbsp;Gestión de usuarios
                     </a>
                     {% endif %}
+                    
                   </li>
-                </div>
-                <div class="settings">
-                  <!--Settings solo para beneficiario y donante-->
-                  <li class="nav-item mt-3" id="settings-link">
-                    {% if user.role == user.BENEFICIARY or user.role == user.NATURALDONOR %}
-                    <!-- El usuario es Beneficiario o Donante -->
-                    <a class="nav-link" href="#">
-                      <img src="../../../../media/images/setting.png" alt="Icono ajustes" class="img-fluid" id="icon" />
-                      <span data-feather="settings"></span>
-                      &nbsp;Ajustes
-                    </a>
-
-                    {% elif user.role == user.LEGALDONOR %}
-
-                    <!-- El usuario es Donante jurídico o Institución -->
-                    <!--Institución ya tiene settings-->
-                    <a class="nav-link" href="#">
-                      <img src="../../../../media/images/setting.png" alt="Icono ajustes" class="img-fluid" id="icon" />
-                      <span data-feather="settings"></span>
-                      &nbsp;Ajustes
-                    </a>
-                    {% elif user.role == 5%}
-                    <a class="nav-link" href="#">
-                      <img src="../../../../media/images/setting.png" alt="Icono ajustes" class="img-fluid" id="icon" />
-                      <span data-feather="settings"></span>
-                      &nbsp;Ajustes
-                    </a>
-                    {% endif %}
-                  </li>
-                </div>
-              </ul>
+                </ul>
             </div>
           </div>
         </nav>

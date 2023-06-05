@@ -12,6 +12,9 @@ body{
     opacity: 100%;
 
 }
+#leftbar{
+    padding-right: 2%;
+}
 
 #imgLogo {
     display: block;
@@ -20,28 +23,28 @@ body{
     margin-bottom: 1.25rem;
 }
 
-div.home,
-div.new_scolarship,
-div.donor_history,
-div.request_history,
-div.active_request,
-div.settings{
-    font-family: 'Open Sans', sans-serif;
+
+
+.my-custom-class {
+    
+    font-size: 20px;
+    color: #8a8a8a;
+    font-family: 'Open Sans';
     font-style: normal;
     
-    line-height: 3.125rem;
-    color: #8A8A8A;
-    font-weight: bold;
-}
-
+  }
+  
 .navbar-nav.flex-column a {
     color: grey;
   }
 
-.navbar-nav.flex-column .nav-link:hover  {
+.navbar-nav.flex-column .nav-link a:hover  {
     color: #A4D955;
 }
 
+.nav-link a{
+    color:#8A8A8A
+}
 
 .navbar-toggler.my-toggler {
     border: 2px solid #558018;
@@ -146,10 +149,14 @@ div.settings{
     background-color: #F0F7FF;
 }
 
-ok {
-    margin-bottom: 80px;
+#x2 {
+   
+    margin-right:10px;
 }
 
+.nav-link a:hover{
+
+}
 
 #fofo{
     background-color: #fff;
@@ -176,8 +183,5 @@ ok {
 
 }
 
-.badge.bg-primary {
-    background-color: #007bff;
-    
-}
+
 
