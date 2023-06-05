@@ -22,10 +22,10 @@
   <body>
     {% block content %}
     <link href="{% static '/historyapplications.css' %}" rel="stylesheet" />
-    <link href="{% static 'newscholarship.css' %}" rel="stylesheet" />
-
-    <div class="row mb-3 flex-sm-row" id="contTitulo">
-      <div class="col-md-8">
+   
+    <div class="container-fluid">
+    <div class="row mb-3 flex-sm-row" style="background-color: #A4D955; border-radius: 0.8rem;">
+      <div class="col-md-8 mt-2 mb-2">
         <br />
         <h1 id="titulo" class="mt-2" style="color: white">Mis Solicitudes</h1>
         <hr id="line" class="w-80" />
@@ -80,7 +80,7 @@
     </div>
 
     {% endif %}
-
+  </div>
     <!--   {% if scholarships %}
       {% for sc in scholarships %}
 

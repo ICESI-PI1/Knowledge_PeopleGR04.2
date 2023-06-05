@@ -6,6 +6,7 @@
 
 {% block content %}
 <link href="{% static 'home.css' %}" rel="stylesheet">
+<link href="{% static '_base.css' %}" rel="stylesheet">
 {% if user.is_authenticated %}
   Welcome, {{ user.email }}!
   <script>

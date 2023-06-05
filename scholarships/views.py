@@ -1,38 +1,46 @@
 from django.views import View
 from django.shortcuts import get_object_or_404, render
-from users.models import Beneficiary, Institution, User
+from users.models import Beneficiary, Institution, User, Notification
 from .models import Scholarship,Transaction, PartialTransaction
 from datetime import datetime
 from django.db.models import Q
+
+from django.views.generic import TemplateView, ListView,DetailView
+
 from django.views.generic import TemplateView, ListView
 from django.shortcuts import redirect
+
 
 
 from users.views import BeneficiaryUpdateView,NaturalDonorUpdateView,LegalDonorUpdateView,InstitutionUpdateView
 
 class ShowMenu(View):
     def get(self,request):
-        return render(request,'menu.html')
-    
-class ShowMenuList(View):
-    def get(self,request):
-        userInstitution = request.user
-        idInst = request.user.id
-        scholarshipList = []
-        allScholarships = Scholarship.objects.filter(institution = idInst, active = 'AC')
+            if request.user.role == 4:
+                userInstitution = request.user
+                idInst = request.user.id
+                scholarshipList = Scholarship.objects.filter(institution = idInst, active = 'AC').order_by('-id')[:5]
+                context = {
+                    'userInstitution': userInstitution,
+                    'scholarshipList':scholarshipList
+                }
+                return render(request,'menu.html',context)
+            elif request.user.role == 1:
+                id_ben = request.user.id
+                datos_solicitud = Scholarship.objects.filter(id_user = id_ben, active = 'AC')
+                solicitud = datos_solicitud.first()
+            
+                contexto = {
+                    'solicitud_activa': solicitud,
+                }
 
-        for i in reversed(allScholarships):
-            if len(scholarshipList) <= 5:
-                scholarshipList.append(allScholarships.index(i))
-
-        context = {
-            'userInstitution': userInstitution,
-            'scholarshipList':scholarshipList
-        }
-        return render(request,'menu.html',context)
-
-
-        
+                return render(request, 'menu.html', contexto)
+            
+            elif request.user.role == 2 or request.user.role == 3:
+                id_ben = request.user.id
+                donationsMade = Transaction.objects.filter(donor_user_id=id_ben)
+                data = {"donations": donationsMade}
+                return render(request, 'menu.html', data) 
 
 
 class NewApplication(View):
@@ -75,10 +83,10 @@ class ActiveSolicitud(View):
 class InsertScholarship(View):
     def post(self,request):
         if request.method == 'POST':
-            name = request.POST['nombres']
+            '''name = request.POST['nombres']
             email = request.POST['correo']
             typedocument = request.POST['tipoid']
-            numdoc = request.POST['numdoc']
+            numdoc = request.POST['numdoc']'''
             institute = request.POST['instituc']
             institutionvalue = Institution.objects.get(name=institute)
             program = request.POST['programa']
@@ -107,7 +115,11 @@ class InsertScholarship(View):
                                         total_periods=totalP,active='AC',date_application=now,id_user=ben,institution=institutionvalue)
                 scolarship.save()
 
-                return render(request,'menu.html')
+                contexto = {
+                    'solicitud_activa': scolarship,
+                }
+
+                return render(request, 'menu.html', contexto)
             else:
                 scolarship = Scholarship(stratum=levels,photocopy_id=picturedoc, motivational_letter=letter,
                                         certificate=picturecer,value_period=valuesem,icfes_score=icfes,period_current=timeA,
@@ -115,7 +127,11 @@ class InsertScholarship(View):
                                         total_periods=totalP,active='IN',date_application=now,id_user=ben)
                 scolarship.save()
   
-                return render(request,'menu.html')
+                contexto = {
+                    'solicitud_activa': scolarship,
+                }
+
+                return render(request, 'menu.html', contexto)
 
 class EditSolicitud(View):
     def get(self,request):
@@ -182,21 +198,53 @@ class EditSolicitud(View):
             scholarshipUpdated.institution = institution
 
             scholarshipUpdated.save()
-            return render(request, 'menu.html')
+            contexto = {
+                'solicitud_activa': scholarshipUpdated,
+            }
+
+            return render(request, 'menu.html',contexto)
 
 
 class LookBeneficiaries(ListView):
     def get(self, request):
-        semester = []
-        for i in range(1,13):
-            semester.append(i)
 
-        intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
-        institutions = Institution.objects.all()
-        scholarships = Scholarship.objects.all()
-        data = {'semesters':semester,'scholarships':scholarships,'institutions':institutions,'intervals':intervals}
-        return render(request, 'lookbeneficiaries.html',data)
+        if request.user.id == 4:
+            semester = []
+            for i in range(1,13):
+                semester.append(i)
 
+            intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
+            idIns = request.user.id
+            institutions = request.user.name
+            scholarships = Scholarship.objects.filter(scolarship_donation__id_user=idIns)
+            data = {'semesters':semester,'scholarships':scholarships,'institutions':institutions,'intervals':intervals}
+            return render(request, 'lookbeneficiaries.html',data)
+        else: 
+            semester = []
+            for i in range(1,13):
+                semester.append(i)
+
+            intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
+            institutions = Institution.objects.all()
+            scholarships = Scholarship.objects.all()
+            data = {'semesters':semester,'scholarships':scholarships,'institutions':institutions,'intervals':intervals}
+            return render(request, 'lookbeneficiaries.html',data)
+
+
+class LookDonors(ListView):
+    def get(self, request):
+        id_ben = request.user.id
+        donations = Transaction.objects.filter(scolarship_donation__id_user=id_ben)
+
+        user = User.objects.get(id=id_ben)
+        notifications = user.notifications.all()
+
+        for notification in notifications:
+            notification.is_read = True
+            notification.save()
+
+        data = {'donations':donations}
+        return render(request, 'lookdonors.html',data)
 
 
 class FilterSemester(ListView):
@@ -441,6 +489,8 @@ class ShowDetailsIns(TemplateView):
         data = {'institution':institution}
         return render(request, 'institutionDetails.html',data)
 ## Edit Profile
+    
+## Edit Profile
 
 class DonationIns(TemplateView):
     def get(self,request,id):
@@ -460,7 +510,15 @@ class Payments(TemplateView):
         user = User.objects.get(id=id_user)
         partialTran = PartialTransaction(date_transaction=now,amount=value,donor_user=user,institution_donation=institution)
         partialTran.save()
-        data = {'institution':institution,'partialTransaction':partialTran}
+
+        amount = int(value)  
+
+        
+        institution.money_donation += amount
+        institution.save()
+
+
+        data = {'institution':institution,'partialTransaction':partialTran,'Ins':True}
         return render(request, 'lookpayments.html',data)
 
 class PaymentsBen(TemplateView):
@@ -474,7 +532,7 @@ class PaymentsBen(TemplateView):
         user = User.objects.get(id=id_user)
         partialTran = PartialTransaction(date_transaction=now,amount=value,donor_user=user,scolarship_donation=scholarship)
         partialTran.save()
-        data = {'institution':scholarship,'partialTransaction':partialTran,'value':value}
+        data = {'institution':scholarship,'partialTransaction':partialTran,'Ben':True}
         return render(request, 'lookpayments.html',data)
 
 
@@ -482,33 +540,61 @@ class PaymentsBen(TemplateView):
 class PaymentsPaypal(TemplateView):
     def get(self,request,id):
         ptransaction = PartialTransaction.objects.get(id=id)
-        data = {'partialTransaction':ptransaction,'paypal':True}
-        return render(request, 'lookpayments.html',data)
+        if ptransaction.institution_donation!=None:
+            data = {'partialTransaction':ptransaction,'paypal':True,'Ins':True}
+            return render(request, 'lookpayments.html',data)
+        
+        if ptransaction.scolarship_donation!=None:
+            data = {'partialTransaction':ptransaction,'paypal':True,'Ben':True}
+            return render(request, 'lookpayments.html',data)
+        
     
 class PaymentsCard(TemplateView):
     def get(self,request,id):
         ptransaction = PartialTransaction.objects.get(id=id)
-        data = {'partialTransaction':ptransaction,'card':True}
-        return render(request, 'lookpayments.html',data)
+        if ptransaction.institution_donation!=None:
+            data = {'partialTransaction':ptransaction,'card':True,'Ins':True}
+            return render(request, 'lookpayments.html',data)
+        
+        if ptransaction.scolarship_donation!=None:
+            data = {'partialTransaction':ptransaction,'card':True,'Ben':True}
+            return render(request, 'lookpayments.html',data)
 
 class PaymentsPse(TemplateView):
     def get(self,request,id):
         ptransaction = PartialTransaction.objects.get(id=id)
-        data = {'partialTransaction':ptransaction,'psetrue':True}
-        return render(request, 'lookpayments.html',data)
+        if ptransaction.institution_donation!=None:
+            data = {'partialTransaction':ptransaction,'psetrue':True,'Ins':True}
+            return render(request, 'lookpayments.html',data)
+        
+        if ptransaction.scolarship_donation!=None:
+            data = {'partialTransaction':ptransaction,'psetrue':True,'Ben':True}
+            return render(request, 'lookpayments.html',data)
 
 class Pay1(TemplateView):
     def post(self,request,id):
         ptransaction = PartialTransaction.objects.get(id=id)
+        datenow = datetime.now()
         if ptransaction.institution_donation != None:
             transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,institution_donation=ptransaction.institution_donation,
                                       payment='Paypal',type_pay='PayPal')
             transaction.save()
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(content=message,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.institution_donation
+            usernot.notifications.add(notification)
         
         elif ptransaction.scolarship_donation != None:
             transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,scolarship_donation=ptransaction.scolarship_donation,
                                       payment='Paypal',type_pay='PayPal')
             transaction.save()
+
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(content=message,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.scolarship_donation.id_user
+            usernot.notifications.add(notification)
 
         data = {'Transaction':transaction}
         return render(request, 'report.html',data)
@@ -516,15 +602,27 @@ class Pay1(TemplateView):
 class Pay2(TemplateView):
     def post(self,request,id):
         ptransaction = PartialTransaction.objects.get(id=id)
+        datenow = datetime.now()
         if ptransaction.institution_donation != None:
             transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,institution_donation=ptransaction.institution_donation,
                                       payment='Card',type_pay='Cards')
             transaction.save()
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(user=ptransaction.institution_donation,content=message,is_read=False,timestamp=datenow)
+            notification.save()
+
+            usernot = ptransaction.institution_donation
+            usernot.notifications.add(notification)
         
         elif ptransaction.scolarship_donation != None:
             transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,scolarship_donation=ptransaction.scolarship_donation,
                                       payment='Card',type_pay='Cards')
             transaction.save()
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(user=ptransaction.scolarship_donation.id_user,content=message,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.scolarship_donation.id_user
+            usernot.notifications.add(notification)
 
         data = {'Transaction':transaction}
         return render(request, 'report.html',data)
@@ -532,15 +630,27 @@ class Pay2(TemplateView):
 class Pay3(TemplateView):
     def post(self,request,id):
         ptransaction = PartialTransaction.objects.get(id=id)
+        datenow = datetime.now()
         if ptransaction.institution_donation != None:
             transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,institution_donation=ptransaction.institution_donation,
                                       payment='Pse',type_pay='PSE')
             transaction.save()
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(user=ptransaction.institution_donation,content=message,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.institution_donation
+            usernot.notifications.add(notification)
         
         elif ptransaction.scolarship_donation != None:
             transaction = Transaction(date_transaction=ptransaction.date_transaction,amount=ptransaction.amount,donor_user=ptransaction.donor_user,scolarship_donation=ptransaction.scolarship_donation,
                                       payment='Pse',type_pay='PSE')
             transaction.save()
+
+            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            notification = Notification(user=ptransaction.scolarship_donation.id_user,content=message,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.scolarship_donation.id_user
+            usernot.notifications.add(notification)
 
         data = {'Transaction':transaction}
         return render(request, 'report.html',data)
@@ -563,6 +673,20 @@ class InstitutionUpdateView(InstitutionUpdateView):
 
 class NewDonation(TemplateView):
     template_name= 'new_donation.html'
+
+class LookDonationHistory(View):
+    def get(self, request):
+
+        if request.user.id == 4:
+            idIns = request.user.id
+            donationsMade = Transaction.objects.filter(donor_user_id=idIns)
+            data = {"donations":donationsMade}
+        else:
+            id_ben = request.user.id
+            donationsMade = Transaction.objects.filter(donor_user_id = id_ben)
+            data = {"donations": donationsMade}
+        
+        return render(request, 'donationHistory.html', data)
 
 #Aliados
 
@@ -626,3 +750,37 @@ class ScholarshipListView(View):
         scholarship.save()
 
         return redirect('scholarships:scholarships')  # Redirigir a la lista de becas
+
+
+##Contacto
+
+from django.views.generic import FormView
+from django.core.mail import send_mail
+from django.conf import settings
+from .forms import ContactForm
+
+from django.contrib import messages
+class ContactView(FormView):
+    template_name = 'contact.html'
+    form_class = ContactForm  
+    success_url = '/contact/'  
+
+    def form_valid(self, form):
+        name = form.cleaned_data['name']
+        email = form.cleaned_data['email']
+        message = form.cleaned_data['message']
+
+        # Lógica para enviar el mensaje de contacto
+        send_mail(
+            'Mensaje de contacto',
+            f'Nombre: {name}\nEmail: {email}\nMensaje: {message}',
+            email,
+            [settings.CONTACT_EMAIL],
+            fail_silently=False,
+        )
+
+       
+        messages.success(self.request, 'Se ha enviado la solicitud de contacto.')
+
+        return super().form_valid(form)
+

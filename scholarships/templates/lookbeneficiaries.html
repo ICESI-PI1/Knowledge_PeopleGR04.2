@@ -55,7 +55,9 @@
           </ul>
         </div>
       </div>
+      {% if user.role != 4 %}
       <div class="d-flex justify-content-center mt-3" style="width: auto;">
+
         <div class="dropdown text-center">
           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
             style="background-color: white; border: 0.5px solid #A4D955;">
@@ -68,7 +70,7 @@
           </ul>
         </div>
       </div>
-
+      {% endif %}
       <div class="d-flex justify-content-center mt-3" style=" width: auto;">
         <div class="dropdown text-center">
           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
@@ -105,8 +107,7 @@
           </button>
           <ul class="dropdown-menu w-100">
             {% for i in semesters %}
-            <li><a class="dropdown-item text-center itemnumber " href="{% url 'scholarships:filtersemester' i %}"> {{ i
-                }}</a></li>
+            <li><a class="dropdown-item text-center itemnumber " href="{% url 'scholarships:filtersemester' i %}"> {{ i }}</a></li>
             {% endfor %}
           </ul>
         </div>

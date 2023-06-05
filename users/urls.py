@@ -7,7 +7,8 @@ from .views import InstitutionRejectVerificationView
 app_name = 'users'
 
 urlpatterns = [path("signupBen/", views.SignUpBen.as_view(), name="signupb"), 
-               path("signupDon/", views.SignUpDon.as_view(), name="signupd"), 
+               path("signupDon/", views.SignUpDon.as_view(), name="signupd"),
+               path("signupLegalDon/", views.SignUpLegalDon.as_view(), name="signupld"),  
                path("signupIns/", views.SignUpIns.as_view(), name="signupi"),
                path("sigin/", views.SigIn.as_view(),name="sigin"), 
                path("menu/", views.SigIn.as_view(),name="menu"), 
