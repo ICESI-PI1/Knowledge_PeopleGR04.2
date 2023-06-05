@@ -37,9 +37,9 @@
     </div>
 
 
-    <div class="row mb-3 flex-sm-row" style=" background-color: white;">
+    <div class="row mb-3 flex-sm-row" style=" background-color: white; border-radius: 20px;">
         {% if user.role == 1 %}
-        <div class="text-center d-flex align-items-center">
+        <div class="text-center d-flex align-items-center mb-3">
             <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;" class="m-auto">
                 Solicitud de beca activa
             </p>
@@ -80,14 +80,17 @@
             </div>
             {% endif %}
         </div>
+
+        <!-- ---------------------------------------------------------------------  -->
+
         {% elif user.role == 2 or user.role == 3%}
-        <div class="text-center d-flex ">
+        <div class="text-center d-flex mb-3">
             <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;" class="m-auto">
                 Últimos aportes
             </p>
         </div>
         <div class="col-md-12 d-flex text-center align-items-center justify-content-center"
-            style="height: 13rem; background-color: white;">
+            style="height: 13rem; background-color: white; overflow-y: scroll; margin-top: 2px;">
             {% if donations %}
 
             <table border="1" class="table text-center">
@@ -96,9 +99,10 @@
                     <th>Fecha donación</th>
                     <th>Monto</th>
                     <th>Método de pago</th>
+
                 </tr>
 
-                {% for x in donations|slice(-2) %}
+                {% for x in donations %}
                 <tr class="align-middle" style="font-weight: 600">
                     <td>
                         {% if x.scolarship_donation.id_user.name %}
@@ -106,6 +110,7 @@
                         {{ x.scolarship_donation.program_adm }}<br>
                         {{ x.scolarship_donation.institution.name }}<br>
                         {% else %}
+
                         {{ x.institution_donation.name }}
                         <br>
                         {% endif %}
@@ -120,9 +125,9 @@
                         {% endif %}
                     </td>
                 </tr>
+
                 {% endfor %}
             </table>
-
 
             {% else %}
             <div class=" col-md-6 ">
@@ -132,19 +137,19 @@
             </div>
             {% endif %}
         </div>
+
+        <!-- --------------------------------------------------------------------- -->
+
         {% elif user.role == 4 %}
-
         {% if user.institution.verificationState == 'A'%}
-
-
-        <div class="text-center d-flex ">
-            <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;" class="m-auto">
+        <div class="text-center d-flex mb-3">
+            <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;  margin-bottom: 5px;" class="m-auto">
                 Últimas solicitudes
 
             </p>
         </div>
         <div class="col-md-12 d-flex text-center align-items-center justify-content-center"
-            style="height: 32rem; background-color: white;">
+            style="height: 32rem; background-color: white; overflow-y: scroll; margin-top: 2px;">
 
             {% if scholarshipList %}
             <ul>
@@ -212,7 +217,7 @@
             </p>
         </div>
         <div class="col-md-12 d-flex text-center align-items-center justify-content-center"
-            style="height: 32rem; background-color: white;">
+            style="height: 32rem; background-color: white; overflow-y: scroll; margin-top: 2px;">
             {% if transactions %}
 
             <table border="1" class="table text-center">
@@ -331,7 +336,8 @@
                 <div class="col-lg-12 d-flex mt-2 " style="border-radius: 1rem; ">
                     <img src="../../media/images/Alert_Orange.png" alt="No Encontrada" width="40" height="40"
                         id="icon_check4" />
-                    <p class="mx-3"> <strong> Institución </strong> <br> Debes revisar que la <br> institución en la que
+                    <p class="mx-3"> <strong> Institución </strong> <br> Debes revisar que la <br> institución en la
+                        que
                         estás
                         <br> admitido sea una de nuestras <br> instituciones aliadas.
                     </p>
@@ -408,7 +414,8 @@
                 <div class="col-lg-12 d-flex mt-2 " style="border-radius: 1rem; ">
                     <img src="../../media/images/Univerc.png" alt="No Encontrada" width="40" height="40"
                         id="icon_check4" />
-                    <p class="mx-3"> <strong> Instituciones </strong> <br> Escuelas que buscan recursos para innovacción
+                    <p class="mx-3"> <strong> Instituciones </strong> <br> Escuelas que buscan recursos para
+                        innovacción
                         academica. </p>
                 </div>
 

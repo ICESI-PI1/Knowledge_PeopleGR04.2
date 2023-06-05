@@ -23,16 +23,20 @@
 <body>
   {% block content %}
 
+  <div class="row mb-3 flex-sm-row"
+    style=" background-color: white; border-radius: 20px; padding: 1rem; margin-left: 0.15rem;">
+    <h2 style="margin-top: 1px;">¡Error! No hay una solicitud activa.</h2>
 
 
-  <h1>¡Error! No hay una solicitud activa.</h1>
+    <p>Actualmente no hay solicitudes activas. Si deseas solicitar una beca, haz clic en el botón de abajo.</p>
+
+    <div class="d-flex justify-content-center mt-3 mb-3">
+      <button type="submit" class="btn custom btn col-md-5" id="create-solicitud-btn">Crear solicitud</button>
+    </div>
 
 
-  <p>Actualmente no hay solicitudes activas. Si deseas solicitar una beca, haz clic en el botón de abajo.</p>
-
-  <div class="d-flex justify-content-center mt-3 mb-3">
-    <button type="submit" class="btn custom btn col-md-5" id="create-solicitud-btn">Crear solicitud</button>
   </div>
+
 
   <!--<button id="create-solicitud-btn">Crear solicitud</button>-->
 
