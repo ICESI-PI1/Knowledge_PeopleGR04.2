@@ -303,7 +303,7 @@ class FilterInterval(ListView):
             semester.append(i)
         
         intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
-        scholarships = Scholarship.objects.filter(value_period__gte=min_value, value_period__lte=max_value)
+        scholarships = Scholarship.objects.filter(value_period__gte=min_value, value_period__lte=max_value, active='AC')
         institutions = Institution.objects.all()
         data = {'scholarships':scholarships,'semesters':semester,'institutions':institutions,'intervals':intervals}
         return render(request,'lookbeneficiaries.html',data)
@@ -326,10 +326,10 @@ class FilterProgram(ListView):
                                                    | Q(program_adm__icontains='enfermeria') | Q(program_adm__icontains='cirujano'))
         elif program_name == 'ingenieria-civil':
             scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='constructor')
-                                                   | Q(program_adm__icontains='arquitecto') | Q(program_adm__icontains='operario'))
+                                                   | Q(program_adm__icontains='arquitecto') | Q(program_adm__icontains='operario'), active='AC')
         elif program_name == 'psicologia':
             scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='terapeuta')
-                                                | Q(program_adm__icontains='antropologia')    )
+                                                | Q(program_adm__icontains='antropologia'), active='AC')
         elif program_name == 'derecho':
             scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='juez')
                                                    | Q(program_adm__icontains='fiscal') | Q(program_adm__icontains='investigador'))
@@ -545,10 +545,8 @@ class Payments(TemplateView):
 
         amount = int(value)  
 
-        
         institution.money_donation += amount
         institution.save()
-
 
         data = {'institution':institution,'partialTransaction':partialTran,'Ins':True}
         return render(request, 'lookpayments.html',data)

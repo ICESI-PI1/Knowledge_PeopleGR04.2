@@ -23,15 +23,19 @@
 <body>
     {% block content %}
 
+    <div class="row mb-3 flex-sm-row"
+        style=" background-color: white; border-radius: 20px; padding: 1rem; margin-left: 0.08rem;">
 
-    <h2>¡Error! Ya tienes una solicitud activa.</h2>
+        <h2>¡Error! Ya tienes una solicitud activa.</h2>
 
-    <p>No puedes crear una nueva solicitud de beca. Ya tienes una solicitud activa, puedes inactivarla y crear otra.</p>
+        <p>No puedes crear una nueva solicitud de beca. Ya tienes una solicitud activa, puedes inactivarla y crear otra.
+        </p>
 
-    <div class="d-flex justify-content-center mt-3 mb-3">
-        <button type="submit" class="btn custom btn col-md-5" id="inactivarSoliBtn">Inactivar solicitud activa</button>
+        <div class="d-flex justify-content-center mt-3 mb-3">
+            <button type="submit" class="btn custom btn col-md-5" id="inactivarSoliBtn">Inactivar solicitud
+                activa</button>
+        </div>
     </div>
-
 
     <script>
         // Obtener el botón de crear solicitud
