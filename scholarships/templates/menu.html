@@ -7,7 +7,8 @@
 <link href="{% static '/consultBeneficiario.css' %}" rel="stylesheet" />
 
 <div class="container-fluid">
-    <div class="row mb-3 flex-sm-row " style="background-color: #A4D955; border-radius: 20px; height: 10.5rem; width: 99%; margin-left: 1%;">
+    <div class="row mb-3 flex-sm-row "
+        style="background-color: #A4D955; border-radius: 20px; height: 10.5rem; width: 99%; margin-left: 1%;">
         <div class="col-md-8 ">
             <h2 class="mt-2 text-left" style="color: white">Hola de nuevo,</h2>
             <h2 style="color: white;">
@@ -83,60 +84,84 @@
 
         <!-- ---------------------------------------------------------------------  -->
 
-        {% elif user.role == 2 or user.role == 3%}
+        {% elif user.role == 2 or user.role == 3 %}
         <div class="text-center d-flex mb-3">
-            <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;" class="m-auto">
+            <p style="color: #F29F05; font-weight: bold; font-size: 1.2rem;" class="m-auto">
                 Últimos aportes
             </p>
         </div>
         <div class="col-md-12 d-flex text-center align-items-center justify-content-center"
             style="height: 13rem; background-color: white; overflow-y: scroll; margin-top: 2px;">
             {% if donations %}
-
-            <table border="1" class="table text-center">
-                <tr style="background-color: white; color: #000000; font-weight: 500">
-                    <th>Datos del beneficiario</th>
-                    <th>Fecha donación</th>
-                    <th>Monto</th>
-                    <th>Método de pago</th>
-
-                </tr>
-
-                {% for x in donations %}
-                <tr class="align-middle" style="font-weight: 600">
-                    <td>
-                        {% if x.scolarship_donation.id_user.name %}
-                        {{ x.scolarship_donation.id_user.name }}<br>
-                        {{ x.scolarship_donation.program_adm }}<br>
-                        {{ x.scolarship_donation.institution.name }}<br>
-                        {% else %}
-
-                        {{ x.institution_donation.name }}
-                        <br>
-                        {% endif %}
-                    </td>
-                    <td>{{ x.date_transaction|date:"Y-m-d" }}</td>
-                    <td>$ {{ x.amount }}</td>
-                    <td>
-                        {% if x.type_pay == "PSE" %} PSE
-                        {% elif x.type_pay == "Cards" %} Tarjeta
-                        {% elif x.type_pay == "PayPal" %} Paypal
-                        {% else %} {{ x.type_pay }}
-                        {% endif %}
-                    </td>
-                </tr>
-
-                {% endfor %}
-            </table>
-
+            <div class="table-container">
+                <table border="1" class="table text-center">
+                    <thead>
+                        <tr style="background-color: white; color: #000000; font-weight: 500">
+                            <th>Datos del beneficiario</th>
+                            <th>Fecha donación</th>
+                            <th>Monto</th>
+                            <th>Método de pago</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for x in donations %}
+                        <tr class="align-middle" style="font-weight: 600">
+                            <td>
+                                {% if x.scolarship_donation.id_user.name %}
+                                {{ x.scolarship_donation.id_user.name }}<br>
+                                {{ x.scolarship_donation.program_adm }}<br>
+                                {{ x.scolarship_donation.institution.name }}<br>
+                                {% else %}
+                                {{ x.institution_donation.name }}
+                                <br>
+                                {% endif %}
+                            </td>
+                            <td>{{ x.date_transaction|date:"Y-m-d" }}</td>
+                            <td>$ {{ x.amount }}</td>
+                            <td>
+                                {% if x.type_pay == "PSE" %} PSE
+                                {% elif x.type_pay == "Cards" %} Tarjeta
+                                {% elif x.type_pay == "PayPal" %} Paypal
+                                {% else %} {{ x.type_pay }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             {% else %}
-            <div class=" col-md-6 ">
-                <p style=" font-weight: 600; font-size:medium;" class="m-auto">
+            <div class="col-md-6">
+                <p style="font-weight: 600; font-size: medium;" class="m-auto">
                     No has realizado aportes aún.
                 </p>
             </div>
             {% endif %}
         </div>
+        <style>
+            .table-container {
+                position: relative;
+                height: 100%;
+            }
+
+            .table-container thead {
+                position: sticky;
+                top: 0;
+                background-color: white;
+                color: #000000;
+                font-weight: 500;
+            }
+        </style>
+        <script>
+            window.addEventListener('DOMContentLoaded', function () {
+                const tableContainer = document.querySelector('.table-container');
+                tableContainer.addEventListener('scroll', function () {
+                    const thead = tableContainer.querySelector('thead');
+                    thead.style.transform = `translateY(${tableContainer.scrollTop}px)`;
+                });
+            });
+        </script>
+
 
         <!-- --------------------------------------------------------------------- -->
 
@@ -213,6 +238,8 @@
             </div>
         </div>
         {% endif %}
+
+        <!--------------------------------------------------------------------------------->
 
         {% elif user.role == 5%}
         <div class="text-center d-flex ">
@@ -321,7 +348,8 @@
             </div>
         </div>
 
-        <div class="col-md-6" style="background-color: white;  border-radius: 1rem; width: 48%; margin-left:3%;margin-right: 0.2%;">
+        <div class="col-md-6"
+            style="background-color: white;  border-radius: 1rem; width: 48%; margin-left:3%;margin-right: 0.2%;">
             <div class="rememberletter">
                 <p style="color: #F29F05;font-size: 1.2rem;font-weight: bold;">
                     Recuerda...
