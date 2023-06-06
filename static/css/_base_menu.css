@@ -1,5 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=Roboto+Condensed&display=swap');
 
+
+#left-bar{
+background-color: white;
+border-radius: 0px 30px 30px 0px;
+padding-right: 2%;
+}
+
+
+
+.nav-link a{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 27px;
+
+}
+
+.nav-link a:hover  {
+    color: #A4D955;
+}
+
+/*  a*/
+
 body{
     background-color: #F0F7FF;
 }
@@ -7,33 +31,24 @@ body{
 
 
 /*left bar style*/
-#leftspace, #leftbar, #navbarSupportedContent {
-    background-color: white;
-    opacity: 100%;
 
-}
-#leftbar{
-    padding-right: 2%;
-}
 
-#imgLogo {
+
+
+
+#logo-leftbar {
     display: block;
     margin: auto;
     width: 50%;
     margin-bottom: 1.25rem;
+    
+}
+
+li{
+    margin-bottom: 15px;
 }
 
 
-
-.my-custom-class {
-    
-    font-size: 20px;
-    color: #8a8a8a;
-    font-family: 'Open Sans';
-    font-style: normal;
-    
-  }
-  
 .navbar-nav.flex-column a {
     color: grey;
   }
@@ -46,13 +61,7 @@ body{
     color:#8A8A8A
 }
 
-.navbar-toggler.my-toggler {
-    border: 2px solid #558018;
-    border-radius: 10px;
-    background-color: white;
-    color:#558018;
-    font-weight: bold;
-  }
+
 
 
 .nav-link{
@@ -62,66 +71,50 @@ body{
 
 
 #profiles{
-    margin-left: 4%;
-    
+
     background: #FFDA6D;
     border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
 }
 
-#profile_picture{
-    
-    height: fit-content;
-    margin-left: 7%;
-    margin-top: 3%;
-    border-radius: 10px 10px 10px 10px;
-    background: #FFFFFF
-}
+
 
 #profile_picture {
     height: fit-content;
-    margin-left: 4%;
-    margin-top: 3%;
+    margin-left: 8%;
+    margin-top: 5%;
     border-radius: 10px;
     background: #FFFFFF;
   }
   
 
-#profile_names{
-
-   font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 37.5rem;
-    font-size: 0.938rem;
-    font-style: normal;
-    color: #333333;
-
-    margin-top: 5%;
-    
-}
-
-  .username {
+.username {
     font-size: 1.5rem;
-  }
+
+}
 
 #perfil_dropdown{
-    margin-top: 4%;
+    margin-top: 3%;
 }
 
 
-#notif {
-    height: calc(100vh - 200px); /* Establece la altura para ocupar el espacio restante de la ventana */
-    overflow-y: auto; /* Agrega una barra de desplazamiento vertical si hay demasiado contenido */
-    background-color:black;
+#rightbar{
+    top: 0; /* Ubica el elemento en la parte superior */
+    right: 0; /* Ubica el elemento en la parte derecha */
+    height: 100vh; /* Establece la altura al 100% de la ventana */
+    background-color: white;
+    width: 20%;
+    position:sticky;
+    border-radius: 30px 0px 0px 30px;
+}
 
-  }
-
-  #scrollBtn {
+#scrollBtn {
     position: fixed;
     bottom: 20px;
     right: 20px;
     display: none; /* Oculta el botón de desplazamiento inicialmente */
     z-index: 999;
-  }
+}
+
 #notif h4{
     font-family: 'Open Sans';
     font-style: bold;
@@ -139,10 +132,7 @@ body{
     margin-left: 30%;
 }
 
-#leftspace{
-    background-color: #fff;
-    opacity: 100%;
-}
+
 
 
 #ok,#x2,#new{
@@ -154,9 +144,6 @@ body{
     margin-right:10px;
 }
 
-.nav-link a:hover{
-
-}
 
 #fofo{
     background-color: #fff;
@@ -168,20 +155,33 @@ body{
 
 #notif {
     background: rgba(255, 218, 109, 0.46);
-    border-radius: 15px;
-    padding: 10px;
-}
-
-.list-group-item {
-    margin-bottom: 10px;
-    
-}
-
-.list-group-item.font-weight-bold {
-    background-color: rgba(255, 255, 255, 0.5);
-    
+    border-radius: 10px;
+    padding: 5px;
+    position:sticky;
+    height: calc(100vh - 200px); /* Establece la altura para ocupar el espacio restante de la ventana */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical si hay demasiado contenido */
 
 }
+
+#profile .nav-link {
+    font-family: Arial, sans-serif;
+  }
+  
+  #profile img {
+    max-width: 4rem;
+    max-height: 4rem;
+    border-radius: 10px;
+    margin-right: 0.5rem;
+  }
+  
+  #profileDropdown .dropdown-item {
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+  }
+  
+
+
+
 
 
 

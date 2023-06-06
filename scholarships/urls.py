@@ -2,7 +2,7 @@ from django.urls import path
 from users.views import BeneficiaryUpdateView
 from . import views
 from .views import NewDonation, TransactionListView,ScholarshipListView,DonationsListView, ContactView 
-from .views import InstitutionListView
+from .views import InstitutionListView, AboutUsView
 
 app_name = 'scholarships'
 
@@ -49,4 +49,6 @@ urlpatterns = [path("showmenu/", views.ShowMenu.as_view(), name="showmenu"),
                 path('contact/', ContactView.as_view(), name='contact_view'),
 
                 path("lookdonationsmade/", views.LookDonationHistory.as_view(), name="lookdonationsmade"),
+                path('aboutUs/', AboutUsView.as_view(), name='about_us'),
+
                ]

@@ -16,9 +16,13 @@
   <link href="{% static '/lookbeneficiaries.css' %}" rel="stylesheet" />
   <link href="{% static '/historyapplications.css' %}" rel="stylesheet"/>
   <link href="{% static 'newscholarship.css' %}" rel="stylesheet"/>
+  <link href="{% static '_base_menu.css' %}" rel="stylesheet" />
+
 </head>
 
 <body>
+ 
+
 {% if user.role == 5 %}
   <div class="row mb-3 flex-sm-row" id="contTitulo">
     <div class="col-md-8">
