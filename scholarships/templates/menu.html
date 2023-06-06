@@ -7,7 +7,7 @@
 <link href="{% static '/consultBeneficiario.css' %}" rel="stylesheet" />
 
 <div class="container-fluid">
-    <div class="row mb-3 flex-sm-row " style="background-color: #A4D955; border-radius: 20px; height: 10.5rem; ">
+    <div class="row mb-3 flex-sm-row " style="background-color: #A4D955; border-radius: 20px; height: 10.5rem; width: 99%; margin-left: 1%;">
         <div class="col-md-8 ">
             <h2 class="mt-2 text-left" style="color: white">Hola de nuevo,</h2>
             <h2 style="color: white;">
@@ -37,7 +37,7 @@
     </div>
 
 
-    <div class="row mb-3 flex-sm-row" style=" background-color: white; border-radius: 20px;">
+    <div class="row mb-3 flex-sm-row" style=" background-color: white; margin-left: 1%; width: 99%; border-radius: 3%;">
         {% if user.role == 1 %}
         <div class="text-center d-flex align-items-center mb-3">
             <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;" class="m-auto">
@@ -277,8 +277,8 @@
     </div>
 
     {% if user.role == 1 %}
-    <div class="row mb-3 flex-sm-row mt-2">
-        <div class="col-md-6" style="background-color: white;  border-radius: 1rem;">
+    <div class="row mb-3 flex-sm-row mt-2" style="margin-left: 1%;">
+        <div class="col-md-6 " style="background-color: white;  border-radius: 1rem; width: 48%; margin-left: 0.2%;">
             <div class="howreqletter mt-2">
                 <p>
                     ¿Cómo hacer una solicitud de <br> beca satisfactoria?
@@ -317,7 +317,7 @@
             </div>
         </div>
 
-        <div class="col-md-6 mt-3 mb-3" style="background-color: white;  border-radius: 1rem;">
+        <div class="col-md-6" style="background-color: white;  border-radius: 1rem; width: 48%; margin-left:3%;margin-right: 0.2%;">
             <div class="rememberletter">
                 <p style="color: #F29F05;font-size: 1.2rem;font-weight: bold;">
                     Recuerda...

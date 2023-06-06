@@ -14,6 +14,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy
 from .models import Beneficiary, Institution, LegalDonor, NaturalDonor, User
 from django.db.models import Q
+from .models import Notification
+
 
 
 
@@ -68,14 +70,13 @@ class SignUpLegalDon(CreateView):
         # Guarda el usuario en la base de datos
         user.save()
 
-       
         return super().form_valid(form)        
 
 class SignUpIns(CreateView):
     form_class = CustomInstitutionForm
     success_url = reverse_lazy("users:sigin")
     template_name = 'signup.html'
-
+    
     def form_valid(self, form):
         # Crea una instancia del modelo User con los datos del formulario
         user = form.save(commit=False)
@@ -86,6 +87,14 @@ class SignUpIns(CreateView):
         # Guarda el usuario en la base de datos
         user.save()
 
+        admin_users = User.objects.filter(role=User.ADMIN)
+
+        for admin_user in admin_users:
+            message = '¡Hay una nueva institución aliada! Nombre: {}'.format(user.name)
+            notification = Notification(content=message, is_read=False)
+            notification.save()
+
+            admin_user.notifications.add(notification)
         
         return super().form_valid(form)
     
@@ -120,6 +129,16 @@ class BeneficiaryUpdateForm(forms.ModelForm):
     class Meta:
         model = Beneficiary
         fields = ['email', 'name', 'idType', 'numID', 'birth_date', 'gender','profilePicture']
+        labels = {
+            'email': 'Correo electrónico',
+            'name': 'Nombre',
+            'idType': 'Tipo de identificación',
+            'numID': 'Número de identificación',
+            'birth_date': 'Fecha de nacimiento',
+            'gender': 'Género',
+            'profilePicture': 'Foto de perfil',
+        }
+
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -146,6 +165,14 @@ class NaturalDonorUpdateForm(forms.ModelForm):
     class Meta:
         model = NaturalDonor
         fields = ['email', 'name', 'idType', 'numID', 'profilePicture']
+        labels = {
+            'email': 'Correo electrónico',
+            'name': 'Nombre',
+            'idType': 'Tipo de identificación',
+            'numID': 'Número de identificación',
+            'profilePicture': 'Foto de perfil',
+        }
+
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -166,6 +193,14 @@ class LegalDonorUpdateForm(forms.ModelForm):
     class Meta:
         model = LegalDonor
         fields = ['email', 'name', 'idType', 'numID','description', 'profilePicture']
+        labels = {
+            'email': 'Correo electrónico',
+            'name': 'Nombre',
+            'idType': 'Tipo de identificación',
+            'numID': 'Número de identificación',
+            'description': 'Descripción',
+            'profilePicture': 'Foto de perfil',
+        }
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -188,6 +223,18 @@ class InstitutionUpdateForm(forms.ModelForm):
     class Meta:
         model = Institution
         fields = ['email', 'name', 'idType', 'numID','description', 'profilePicture']
+        labels = {
+            'email': 'Correo electrónico',
+            'name': 'Razón social',
+            'idType': 'Tipo de identificación',
+            'numID': 'Número de identificación',
+            'type_institution': 'Tipo de institución',
+            'city': 'Ciudad',
+            'address': 'Dirección',
+            'description': 'Descripción',
+            'profilePicture': 'Foto de perfil',
+        }
+
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
