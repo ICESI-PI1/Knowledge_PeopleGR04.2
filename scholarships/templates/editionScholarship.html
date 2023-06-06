@@ -16,13 +16,16 @@
 
   {% block header %}
   <link href="{% static '/solicitudActiva.css' %}" rel="stylesheet">
+  <link href="{% static '_base_menu.css' %}" rel="stylesheet" />
+  <link href="{% static '_base_menu.css' %}" rel="stylesheet" />
+
   {% endblock %}
 </head>
 
-<body>
-  {% block content %}
+{% block content %}
   {% if solicitud_activa %}
   <!-- Formulario en el centro -->
+<div class="container-fluid">
   <div class="row mb-3 flex-sm-row" id="contTitulo">
     <div class="col-md-8">
       <br>
@@ -245,13 +248,12 @@
   </form>
   </div>
   {% endif %}
-  {% endblock %}
+  
   <!-- jQuery y Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
     crossorigin="anonymous"></script>
 
 
-</body>
-
-</html>
+</div>
+{% endblock %}

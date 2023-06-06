@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% load static %}
+{% extends 'base.html' %} 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -22,6 +23,8 @@
   <body>
     {% block content %}
     <link href="{% static '/historyapplications.css' %}" rel="stylesheet" />
+    <link href="{% static '_base_menu.css' %}" rel="stylesheet" />
+
    
     <div class="container-fluid">
     <div class="row mb-3 flex-sm-row" style="background-color: #A4D955; border-radius: 0.8rem;">

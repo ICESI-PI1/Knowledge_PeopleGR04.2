@@ -16,6 +16,7 @@
     <link href="{% static '/beneficiaryToDonate.css' %}" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-fhf8PvcXpGw3Z9wC1fdjPIK33VUz8/KVXgrNzn8nK1jZjmYd1eDCqlpgzH2s3Qr7i1qxSf/Nx08IHNifJin+GA==" crossorigin="anonymous" />
+    <link href="{% static '_base_menu.css' %}" rel="stylesheet" />
 
     {% endblock %}
 </head>
@@ -127,7 +128,7 @@
                 <div class="dropdown text-center w-100">
                     <button class="btn dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false"
                       style="background-color: white; border: 0.5px solid #A4D955;">
-                        Tipo de Aporte que deseas Realizar
+                        Tipo de aporte que deseas realizar
                     </button>
                     <ul class="dropdown-menu w-100">
                       <li><a class="dropdown-item itemcomplete " href="{% url 'scholarships:typeSch' scholarship.id 1 %}">
