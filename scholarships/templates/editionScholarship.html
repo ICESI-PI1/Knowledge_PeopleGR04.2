@@ -114,7 +114,7 @@
                 {% endif %}
 
                 {% for x in institutions %}
-                {% if x != solicitud_activa.institution %}
+                {% if x != solicitud_activa.institution and x.verificationState == 'A' %}
                 <option value="{{ x.id }}">{{ x.name }}</option>
                 {% endif %}
                 {% endfor %}
@@ -209,8 +209,7 @@
                 <input type="file" class="form-control " name="src-file1" accept=".pdf" id="docIdFile"
                   value="{{ solicitud_activa.photocopy_id.url }}">
               </div>
-              <a href="{{ solicitud_activa.photocopy_id.url }}" target="_blank">{{ solicitud_activa.photocopy_id.name
-                }}</a>
+              <a href="{{ solicitud_activa.photocopy_id.url }}" target="_blank">Documento (archivo)</a>
             </div>
           </div>
           <div class="row mb-3">
@@ -220,8 +219,7 @@
                 <input type="file" class="form-control" name="src-file2" accept=".pdf" id="certificadoFile"
                   value="{{ solicitud_activa.certificate.url }}">
               </div>
-              <a href="{{ solicitud_activa.certificate.url }}" target="_blank">{{ solicitud_activa.certificate.name
-                }}</a>
+              <a href="{{ solicitud_activa.certificate.url }}" target="_blank">Certificado (archivo)</a>
             </div>
           </div>
         </fieldset>

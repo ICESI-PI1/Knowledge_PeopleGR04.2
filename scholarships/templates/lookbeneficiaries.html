@@ -24,19 +24,19 @@
 
   <div class="container-fluid">
     <form class="d-flex col=lg-12" action="{% url 'scholarships:searchBen' %}" method="post">
-        {% csrf_token %}
+      {% csrf_token %}
       <div class="input-group">
-      <input type="text" name="inputsearch"  class="form-control custom-input" placeholder="Buscar beneficiario" aria-label="Buscar"
-      style="font-weight: bolder;" >
-    
-      <div class="input-group-append">
-      <button style="
+        <input type="text" name="inputsearch" class="form-control custom-input" placeholder="Buscar beneficiario"
+          aria-label="Buscar" style="font-weight: bolder;">
+
+        <div class="input-group-append">
+          <button style="
       border: none; background-color: transparent;" type="submit">
-      <span class="input-group-text search-icon">
-        <i class="fas fa-search"></i>
-      </span>
-      </button>
-      </div>
+            <span class="input-group-text search-icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </button>
+        </div>
       </div>
     </form>
 
@@ -52,7 +52,8 @@
           <ul class="dropdown-menu ">
             {% for interval in intervals %}
             <li><a class="dropdown-item text-center itemnumberp"
-                href="{% url 'scholarships:filtervalue' interval.0 interval.1 %}">$ {{ interval.0 }} - $ {{ interval.1}}</a></li>
+                href="{% url 'scholarships:filtervalue' interval.0 interval.1 %}">$ {{ interval.0 }} - $ {{
+                interval.1}}</a></li>
             {% endfor %}
           </ul>
         </div>
@@ -67,7 +68,8 @@
           </button>
           <ul class="dropdown-menu">
             {% for institution in institutions %}
-            <li><a class="dropdown-item itemnumberp" href="{% url 'scholarships:filterinstitution' institution.id %}">{{institution.name }}</a></li>
+            <li><a class="dropdown-item itemnumberp"
+                href="{% url 'scholarships:filterinstitution' institution.id %}">{{institution.name }}</a></li>
             {% endfor %}
           </ul>
         </div>
@@ -109,7 +111,8 @@
           </button>
           <ul class="dropdown-menu w-100">
             {% for i in semesters %}
-            <li><a class="dropdown-item text-center itemnumber " href="{% url 'scholarships:filtersemester' i %}"> {{ i }}</a></li>
+            <li><a class="dropdown-item text-center itemnumber " href="{% url 'scholarships:filtersemester' i %}"> {{ i
+                }}</a></li>
             {% endfor %}
           </ul>
         </div>
@@ -152,6 +155,7 @@
         border: 1px solid #a4d955;
         border-radius: 1rem;
       }
+
       .search-icon {
         background-color: #A4D955;
         border: none;
@@ -160,22 +164,23 @@
         border-bottom-right-radius: 30%;
         cursor: pointer;
         height: 50px;
-    }
-    
-    .search-icon i {
-        padding: 5px;
-    }
+      }
 
-    .custom-input {
-        height: 50px; /* Ajusta la altura según tus necesidades */
+      .search-icon i {
+        padding: 5px;
+      }
+
+      .custom-input {
+        height: 50px;
+        /* Ajusta la altura según tus necesidades */
         font-family: 'Open Sans', sans-serif;
         border-radius: 1rem;
-    }
+      }
 
-    .row-spacing {
-    margin-bottom: 1rem; /* Puedes ajustar el valor para obtener el espaciado deseado */
-  }
-
+      .row-spacing {
+        margin-bottom: 1rem;
+        /* Puedes ajustar el valor para obtener el espaciado deseado */
+      }
     </style>
 
     <!-- Beneficiaries -->
@@ -192,7 +197,7 @@
       </div>
       <hr style="border: 2px solid #ECECEC;
       transform: matrix(1, 0.01, 0, 1, 0, 0); width: 90%; margin-left: 5%;">
-      <div class="table-responsive" style="width: 95%; margin-left: 2.5%;" >
+      <div class="table-responsive" style="width: 95%; margin-left: 2.5%;">
         <table class="table" style="border: transparent;">
           <thead>
             <tr>
@@ -206,7 +211,9 @@
           <tbody>
             {% if scholarships %}
             {% for x in scholarships %}
-            <tr class="row-spacing align-middle"style="height: 7rem; box-shadow:0px 1px 4px rgba(0, 0, 0, 0.25); border-radius: 10px;" >
+            {% if x.active == 'AC' %}
+            <tr class="row-spacing align-middle"
+              style="height: 7rem; box-shadow:0px 1px 4px rgba(0, 0, 0, 0.25); border-radius: 10px;">
               <td class="align-middle" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
                 {% if x.id_user.profilePicture != "" %}
                 <img src="/media/{{ x.id_user.profilePicture }}" class="img-fluid" alt="noimage"
@@ -243,13 +250,14 @@
                   <button type="submit" class="btn btn-link p-0" style=" border: none;" name="viewBeneficiaryDetails"
                     data-scholarship-id="{{ x.id_user.name }}">
                     <a href="{% url 'scholarships:showdetailsbeneficiary' id=x.id %}">
-                    <img src="/media/images/Forward.png" class="img-fluid" alt="noimage"
-                      style="max-width: 3rem; max-height: 3rem;">
+                      <img src="/media/images/Forward.png" class="img-fluid" alt="noimage"
+                        style="max-width: 3rem; max-height: 3rem;">
                     </a>
                   </button>
                 </div>
               </td>
             </tr>
+            {% endif %}
             {% endfor %}
             {% endif %}
 

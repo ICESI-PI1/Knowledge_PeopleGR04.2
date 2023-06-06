@@ -8,7 +8,7 @@
 <link href="{% static '_base_menu.css' %}" rel="stylesheet" />
 
 <div class="container-fluid">
-    <div class="row mb-3 flex-sm-row " style="background-color: #A4D955; border-radius: 20px; height: 10.5rem; ">
+    <div class="row mb-3 flex-sm-row " style="background-color: #A4D955; border-radius: 20px; height: 10.5rem; width: 99%; margin-left: 1%;">
         <div class="col-md-8 ">
             <h2 class="mt-2 text-left" style="color: white">Hola de nuevo,</h2>
             <h2 style="color: white;">
@@ -38,9 +38,9 @@
     </div>
 
 
-    <div class="row mb-3 flex-sm-row" style=" background-color: white;">
+    <div class="row mb-3 flex-sm-row" style=" background-color: white; margin-left: 1%; width: 99%; border-radius: 3%;">
         {% if user.role == 1 %}
-        <div class="text-center d-flex align-items-center">
+        <div class="text-center d-flex align-items-center mb-3">
             <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;" class="m-auto">
                 Solicitud de beca activa
             </p>
@@ -81,14 +81,17 @@
             </div>
             {% endif %}
         </div>
+
+        <!-- ---------------------------------------------------------------------  -->
+
         {% elif user.role == 2 or user.role == 3%}
-        <div class="text-center d-flex ">
+        <div class="text-center d-flex mb-3">
             <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;" class="m-auto">
                 Últimos aportes
             </p>
         </div>
         <div class="col-md-12 d-flex text-center align-items-center justify-content-center"
-            style="height: 13rem; background-color: white;">
+            style="height: 13rem; background-color: white; overflow-y: scroll; margin-top: 2px;">
             {% if donations %}
 
             <table border="1" class="table text-center">
@@ -135,66 +138,70 @@
             </div>
             {% endif %}
         </div>
+
+        <!-- --------------------------------------------------------------------- -->
+
         {% elif user.role == 4 %}
-
         {% if user.institution.verificationState == 'A'%}
-
-
-        <div class="text-center d-flex ">
-            <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;" class="m-auto">
+        <div class="text-center d-flex mb-3">
+            <p style="color: #F29F05; font-weight: bold; font-size:1.2rem;  margin-bottom: 5px;" class="m-auto">
                 Últimas solicitudes
 
             </p>
         </div>
         <div class="col-md-12 d-flex text-center align-items-center justify-content-center"
-            style="height: 32rem; background-color: white;">
+        style="height: 13rem; background-color: white; overflow-y: scroll; margin-top: 2px;">
 
-            {% if scholarshipList %}
-            <ul>
+            <table border="1" class="table text-center">
+
+                {% if scholarshipList %}
                 {% for scholarship in scholarshipList %}
-                <tr class="mt-3 align-middle">
-                    <td class="align-middle" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
-                        {% if scholarship.id_user.profilePicture != "" %}
-                        <img src="/media/{{ x.id_user.profilePicture }}" class="img-fluid" alt="noimage"
-                            style="max-width: 3rem; max-height: 3rem; border-radius: 10px; margin-right: 0.5rem;">
-                        {% else %}
-                        <img src="/media/users/profile_default.png" class="img-fluid" alt="noimage"
-                            style="max-width: 3rem; max-height: 3rem; border-radius: 10px; margin-right: 0.5rem;">
-                        {% endif %}
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-12" style="font-weight: bolder; font-size: larger;">{{
-                                x.id_user.name|capfirst }}
+                    <tr class="mt-3 align-middle">
+                        <td class="align-middle" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
+                            {% if scholarship.id_user.profilePicture != "" %}
+                            <img src="../../media/{{ scholarship.id_user.profilePicture }}" class="img-fluid" alt="noimage"
+                                style="max-width: 3rem; max-height: 3rem; border-radius: 10px; margin-right: 0.5rem;">
+                            {% else %}
+                            <img src="../../media/users/profile_default.png" class="img-fluid" alt="noimage"
+                                style="max-width: 3rem; max-height: 3rem; border-radius: 10px; margin-right: 0.5rem;">
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-12" style="font-weight: bolder; font-size: larger;">
+                                    {{scholarship.id_user.name}}
+                                </div>
+                                <div class="col-12">{{ scholarship.institution.name }}</div>
+                                <div class="col-12">{{ scholarship.institution.city }}</div>
                             </div>
-                            <div class="col-12">{{ scholarship.institution.name }}</div>
-                            <div class="col-12">{{ scholarship.institution.city }}</div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row ">
-                            <div class="col-12" style="font-weight: 700;">{{ scholarship.period_current }}º</div>
-                            <div class="col-12">{{ scholarship.program_adm }}</div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row my-auto">
-                            <div class="col-12 text-center">Valor semestral</div>
-                            <div class="col-12 text-center">$ {{ scholarship.value_period }}</div>
-                        </div>
-                    </td>
+                        </td>
+                        <td>
+                            <div class="row ">
+                                <div class="col-12" style="font-weight: 700;">{{ scholarship.period_current }}º</div>
+                                <div class="col-12">{{ scholarship.program_adm }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row my-auto">
+                                <div class="col-12 text-center">Valor semestral</div>
+                                <div class="col-12 text-center">$ {{ scholarship.value_period }}</div>
+                            </div>
+                        </td>
 
-                </tr>
+                    </tr>
                 {% endfor %}
-            </ul>
-            {% else %}
-            <div class=" col-md-6 ">
-                <p style=" font-weight: 600; font-size:medium;" class="m-auto">
-                    No se han realizado solicitudes aún.
-                </p>
-            </div>
-            {% endif %}
+                {% else %}
+                <div class=" col-md-6 ">
+                    <p style=" font-weight: 600; font-size:medium;" class="m-auto">
+                        No has realizado solicitudes aún.
+                    </p>
+                </div>
+                {% endif %}
+
+
+            </table>
         </div>
+        
         {% else %}
 
         <div class="col-md-12 d-flex text-center align-items-center justify-content-center"
@@ -215,7 +222,7 @@
             </p>
         </div>
         <div class="col-md-12 d-flex text-center align-items-center justify-content-center"
-            style="height: 32rem; background-color: white;">
+            style="height: 32rem; background-color: white; overflow-y: scroll; margin-top: 2px;">
             {% if transactions %}
 
             <table border="1" class="table text-center">
@@ -275,8 +282,8 @@
     </div>
 
     {% if user.role == 1 %}
-    <div class="row mb-3 flex-sm-row mt-2">
-        <div class="col-md-6" style="background-color: white;  border-radius: 1rem;">
+    <div class="row mb-3 flex-sm-row mt-2" style="margin-left: 1%;">
+        <div class="col-md-6 " style="background-color: white;  border-radius: 1rem; width: 48%; margin-left: 0.2%;">
             <div class="howreqletter mt-2">
                 <p>
                     ¿Cómo hacer una solicitud de <br> beca satisfactoria?
@@ -315,7 +322,7 @@
             </div>
         </div>
 
-        <div class="col-md-6 mt-3 mb-3" style="background-color: white;  border-radius: 1rem;">
+        <div class="col-md-6" style="background-color: white;  border-radius: 1rem; width: 48%; margin-left:3%;margin-right: 0.2%;">
             <div class="rememberletter">
                 <p style="color: #F29F05;font-size: 1.2rem;font-weight: bold;">
                     Recuerda...
@@ -334,7 +341,8 @@
                 <div class="col-lg-12 d-flex mt-2 " style="border-radius: 1rem; ">
                     <img src="../../media/images/Alert_Orange.png" alt="No Encontrada" width="40" height="40"
                         id="icon_check4" />
-                    <p class="mx-3"> <strong> Institución </strong> <br> Debes revisar que la <br> institución en la que
+                    <p class="mx-3"> <strong> Institución </strong> <br> Debes revisar que la <br> institución en la
+                        que
                         estás
                         <br> admitido sea una de nuestras <br> instituciones aliadas.
                     </p>
@@ -411,7 +419,8 @@
                 <div class="col-lg-12 d-flex mt-2 " style="border-radius: 1rem; ">
                     <img src="../../media/images/Univerc.png" alt="No Encontrada" width="40" height="40"
                         id="icon_check4" />
-                    <p class="mx-3"> <strong> Instituciones </strong> <br> Escuelas que buscan recursos para innovacción
+                    <p class="mx-3"> <strong> Instituciones </strong> <br> Escuelas que buscan recursos para
+                        innovacción
                         academica. </p>
                 </div>
 

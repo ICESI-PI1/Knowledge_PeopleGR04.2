@@ -1,14 +1,22 @@
-
-#contTitulo{
-    background: #A4D955;
-    border-radius: 20px;
-    height: 9rem;
+#contTitulo {
+  background: #a4d955;
+  border-radius: 20px;
+  height: 9rem;
 }
 
-.fields{
-    margin-left: 3.5rem;
+.fields {
+  margin-left: 3.5rem;
 }
 
-h2{
-    font-size:1rem;
+h2 {
+  font-size: 1rem;
+}
+
+#line {
+  height: 0.15rem;
+  opacity: 100%;
+  border: 0.094rem solid #ffffff;
+  background-color: #ffffff;
+  transform: matrix(1, 0, 0, 1, 0, 0);
+  margin-left: 2rem;
 }

@@ -10,7 +10,7 @@ from django.views.generic import TemplateView, ListView,DetailView
 from django.views.generic import TemplateView, ListView
 from django.shortcuts import redirect
 
-
+from django.http import HttpResponseRedirect
 
 from users.views import BeneficiaryUpdateView,NaturalDonorUpdateView,LegalDonorUpdateView,InstitutionUpdateView
 
@@ -19,7 +19,7 @@ class ShowMenu(View):
             if request.user.role == 4:
                 userInstitution = request.user
                 idInst = request.user.id
-                scholarshipList = Scholarship.objects.filter(institution = idInst, active = 'AC').order_by('-id')[:5]
+                scholarshipList = Scholarship.objects.filter(institution = idInst, active = 'AC').order_by('-id')[:3]
                 context = {
                     'userInstitution': userInstitution,
                     'scholarshipList':scholarshipList
@@ -119,7 +119,15 @@ class InsertScholarship(View):
                                         program_adm=program,application_type=optionnew,state='P',
                                         total_periods=totalP,active='AC',date_application=now,id_user=ben,institution=institutionvalue)
                 scolarship.save()
+                
+                admin_us = User.objects.filter(role=User.ADMIN)
 
+                for admin_u in admin_us:
+                    message = '¡Nueva solicitud de beca recibida! Beneficiario: {}'.format(ben.get_full_name())
+                    notification = Notification(content=message, is_read=False)
+                    notification.save()
+
+                    admin_u.notifications.add(notification)
                 contexto = {
                     'solicitud_activa': scolarship,
                 }
@@ -131,12 +139,22 @@ class InsertScholarship(View):
                                         program_adm=program,application_type=optionnew,state='P',
                                         total_periods=totalP,active='IN',date_application=now,id_user=ben)
                 scolarship.save()
-  
+
+                admin_users = User.objects.filter(role=User.ADMIN)
+
+                for admin_user in admin_users:
+                    message = '¡Nueva solicitud de beca recibida! Beneficiario: {}'.format(ben.get_full_name())
+                    notification = Notification(content=message, is_read=False)
+                    notification.save()
+
+                    admin_user.notifications.add(notification)
+
                 contexto = {
                     'solicitud_activa': scolarship,
                 }
 
                 return render(request, 'menu.html', contexto)
+                
 
 class EditSolicitud(View):
     def get(self,request):
@@ -285,7 +303,7 @@ class FilterInterval(ListView):
             semester.append(i)
         
         intervals = [(0,2000000),(2000001,5000000),(5000001,10000000),(10000001,20000000),(20000000,50000000)]
-        scholarships = Scholarship.objects.filter(value_period__gte=min_value, value_period__lte=max_value)
+        scholarships = Scholarship.objects.filter(value_period__gte=min_value, value_period__lte=max_value, active='AC')
         institutions = Institution.objects.all()
         data = {'scholarships':scholarships,'semesters':semester,'institutions':institutions,'intervals':intervals}
         return render(request,'lookbeneficiaries.html',data)
@@ -308,10 +326,10 @@ class FilterProgram(ListView):
                                                    | Q(program_adm__icontains='enfermeria') | Q(program_adm__icontains='cirujano'))
         elif program_name == 'ingenieria-civil':
             scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='constructor')
-                                                   | Q(program_adm__icontains='arquitecto') | Q(program_adm__icontains='operario'))
+                                                   | Q(program_adm__icontains='arquitecto') | Q(program_adm__icontains='operario'), active='AC')
         elif program_name == 'psicologia':
             scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='terapeuta')
-                                                | Q(program_adm__icontains='antropologia')    )
+                                                | Q(program_adm__icontains='antropologia'), active='AC')
         elif program_name == 'derecho':
             scholarships = Scholarship.objects.filter(Q(program_adm__icontains=program_name) | Q(program_adm__icontains='juez')
                                                    | Q(program_adm__icontains='fiscal') | Q(program_adm__icontains='investigador'))
@@ -352,6 +370,15 @@ class LookInstitutions(ListView):
 
         if state_filter:
             institutions = institutions.filter(verificationState__startswith=state_filter)
+
+        user = User.objects.get(id=request.user.id)
+        notifications = user.notifications.all()
+
+        for notification in notifications:
+            if 'institución' in notification.content:
+                notification.is_read = True
+                notification.save()
+
         data = {'institutions':institutions,'cities':cities,'types':types, 'verificationStates':verificationStates, 'state_filter': state_filter}
         return render(request, 'lookinstitution.html',data)
     
@@ -518,10 +545,8 @@ class Payments(TemplateView):
 
         amount = int(value)  
 
-        
         institution.money_donation += amount
         institution.save()
-
 
         data = {'institution':institution,'partialTransaction':partialTran,'Ins':True}
         return render(request, 'lookpayments.html',data)
@@ -575,6 +600,8 @@ class PaymentsPse(TemplateView):
         if ptransaction.scolarship_donation!=None:
             data = {'partialTransaction':ptransaction,'psetrue':True,'Ben':True}
             return render(request, 'lookpayments.html',data)
+    
+    
 
 
 from io import BytesIO
@@ -601,7 +628,8 @@ class Pay1(TemplateView):
             )
             transaction.save()
 
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
+
             notification = Notification(content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
@@ -620,7 +648,7 @@ class Pay1(TemplateView):
             )
             transaction.save()
 
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
             notification = Notification(content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
@@ -672,7 +700,7 @@ class Pay2(TemplateView):
                 type_pay='Cards'
             )
             transaction.save()
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
             notification = Notification(user=ptransaction.institution_donation,content=message,is_read=False,timestamp=datenow)
             notification.save()
 
@@ -692,7 +720,7 @@ class Pay2(TemplateView):
             )
             transaction.save()
 
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
             notification = Notification(user=ptransaction.scolarship_donation.id_user,content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
@@ -718,11 +746,12 @@ class Pay2(TemplateView):
             response = HttpResponse(content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="report.pdf"'
             response.write(pdf_data)
-            return response
+            return  response
         else:
             # Manejar el error en la conversión a PDF
             return HttpResponse('Error al generar el PDF')
-
+        
+        
         
 
 
@@ -741,7 +770,7 @@ class Pay3(TemplateView):
                 type_pay='PSE'
             )
             transaction.save()
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
             notification = Notification(user=ptransaction.institution_donation,content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.institution_donation
@@ -761,7 +790,7 @@ class Pay3(TemplateView):
 
             transaction.save()
 
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            message = '¡Felicidades! Has recibido una donación de {} por ${}.'.format(ptransaction.donor_user.get_full_name(), ptransaction.amount)
             notification = Notification(user=ptransaction.scolarship_donation.id_user,content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
