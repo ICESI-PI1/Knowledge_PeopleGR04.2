@@ -10,7 +10,7 @@ from django.views.generic import TemplateView, ListView,DetailView
 from django.views.generic import TemplateView, ListView
 from django.shortcuts import redirect
 
-
+from django.http import HttpResponseRedirect
 
 from users.views import BeneficiaryUpdateView,NaturalDonorUpdateView,LegalDonorUpdateView,InstitutionUpdateView
 
@@ -19,7 +19,7 @@ class ShowMenu(View):
             if request.user.role == 4:
                 userInstitution = request.user
                 idInst = request.user.id
-                scholarshipList = Scholarship.objects.filter(institution = idInst, active = 'AC').order_by('-id')[:5]
+                scholarshipList = Scholarship.objects.filter(institution = idInst, active = 'AC').order_by('-id')[:3]
                 context = {
                     'userInstitution': userInstitution,
                     'scholarshipList':scholarshipList
@@ -600,6 +600,8 @@ class PaymentsPse(TemplateView):
         if ptransaction.scolarship_donation!=None:
             data = {'partialTransaction':ptransaction,'psetrue':True,'Ben':True}
             return render(request, 'lookpayments.html',data)
+    
+    
 
 
 from io import BytesIO
@@ -744,11 +746,12 @@ class Pay2(TemplateView):
             response = HttpResponse(content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="report.pdf"'
             response.write(pdf_data)
-            return response
+            return  response
         else:
             # Manejar el error en la conversión a PDF
             return HttpResponse('Error al generar el PDF')
-
+        
+        
         
 
 
