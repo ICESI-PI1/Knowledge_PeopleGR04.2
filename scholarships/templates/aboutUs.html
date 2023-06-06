@@ -1,0 +1,63 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Sobre nosotros{% endblock %}
+{% block content %}
+<link href="{% static 'aboutUs.css' %}" rel="stylesheet">
+<link href="{% static '_base.css' %}" rel="stylesheet">
+
+<section class="hero-section mt-3">
+    <div class="container">
+      <h1>Sobre Nosotros</h1>
+      
+      <p>Knowledge People es una plataforma que tiene como objetivo facilitar la financiación de la educación superior y fomentar la solidaridad entre donadores y beneficiarios. Como intermediarios, conectamos a aquellos que desean apoyar la educación con aquellos que necesitan ayuda para financiar sus estudios.</p>
+      
+      <p>Knowledge People es parte de Structum, un equipo de Consultoría de Negocio especializado en servicios y soluciones SAP. En Structum, estamos comprometidos con la transformación digital de nuestros clientes, ejecutando proyectos Pequeños, Rápidos, Repetibles con Calidad y satisfacción.</p>
+    </div>
+  </section>
+  
+  <section class="content-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Nuestra Misión</h2>
+          <p>Nuestra misión es promover el acceso a la educación superior a través de la colaboración y el apoyo mutuo. Buscamos eliminar las barreras económicas que impiden a muchos estudiantes alcanzar sus metas educativas y construir un futuro mejor.</p>
+        </div>
+        <div class="col-md-6">
+          <h2>Nuestro Equipo</h2>
+          <p>Contamos con un equipo dedicado y comprometido que trabaja en conjunto para hacer realidad la misión de Knowledge People. Nuestros expertos en educación y tecnología se esfuerzan por brindar una plataforma segura y eficiente que conecte a donadores y beneficiarios de manera transparente.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="../../media/images/team1.jpg" alt="Equipo 1">
+        </div>
+        <div class="col-md-6">
+          <img src="../../media/images/team2.jpg"  alt="Equipo 2">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="icon-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <img src="../../media/images/structum.png" alt="Logo Structum">
+          <h3>Structum</h3>
+          <p>Consultoría de Negocio especializado en servicios y soluciones SAP.</p>
+        </div>
+        <div class="col-md-4 text-center">
+          <img src="../../media/images/logoInicio.png" alt="Logo DreamsBank">
+          <h3>DreamsBank</h3>
+          <p>Plataforma para la financiación de la educación superior.</p>
+        </div>
+        <div class="col-md-4 text-center">
+          <img src="../../media/images/Logo_KnowledgePeople_SinFondo.png" alt="Logo Knowledge People">
+          <h3>Knowledge People</h3>
+          <p>Plataforma de intermediación para donadores y beneficiarios.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

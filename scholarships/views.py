@@ -1008,3 +1008,8 @@ class ContactView(FormView):
 
         return super().form_valid(form)
 
+##About us
+
+class AboutUsView(TemplateView):
+    template_name = 'aboutUs.html'
+

@@ -16,12 +16,17 @@
 
 
   {% block header %}
+  <link href="{% static '_base_menu.css' %}" rel="stylesheet" />
+
   <link href="{% static '/errorActiveScholar.css' %}" rel="stylesheet">
   {% endblock %}
 </head>
 
 <body>
   {% block content %}
+  <link href="{% static '_base_menu.css' %}" rel="stylesheet" />
+
+  <div class="container-fluid">
 
   <div class="row mb-3 flex-sm-row"
     style=" background-color: white; border-radius: 20px; padding: 1rem; margin-left: 0.15rem;">
@@ -36,6 +41,7 @@
 
 
   </div>
+</div>
 
 
   <!--<button id="create-solicitud-btn">Crear solicitud</button>-->
