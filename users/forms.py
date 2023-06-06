@@ -44,6 +44,10 @@ class CustomUserCreationForm(UserCreationForm):
         'autocomplete': 'current-password',
     }))
 
+    contact = forms.CharField(label='Número de contacto', widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Ingrese su número de contacto'
+    }))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -175,10 +179,12 @@ class CustomInstitutionForm(CustomUserCreationForm):
 
     role = forms.CharField(widget=forms.HiddenInput(), initial=User.INSTITUTION)
 
+   
+
     class Meta:
         model = Institution
         fields = ("name", "email", "password1", "password2", "idType", 'numID', 'profilePicture',
-                  'city', 'address', 'type_institution', 'description')
+                  'city', 'address', 'type_institution' ,'contact','description')
         
 
 
