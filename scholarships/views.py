@@ -632,11 +632,11 @@ class Pay1(TemplateView):
 
             notification = Notification(content=message,is_read=False,timestamp=datenow)
             notification.save()
-            usernot = ptransaction.scolarship_donation.id_user
+            usernot = ptransaction.institution_donation
             usernot.notifications.add(notification)
 
             message2 = '¡Aviso! Has relizado una donación de $ {}. El beneficiario es: {}. Gracias por ser una buena persona y apoyar el sueño de otro'.format(ptransaction.amount, 
-                        ptransaction.scolarship_donation.id_user)
+                        ptransaction.institution_donation.name)
             notification = Notification(content=message2,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.donor_user
