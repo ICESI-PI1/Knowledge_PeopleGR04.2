@@ -626,11 +626,18 @@ class Pay1(TemplateView):
             )
             transaction.save()
 
-            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
+            message = '¡Felicidades! Has recibido una donación de $ {}. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
 
             notification = Notification(content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
+            usernot.notifications.add(notification)
+
+            message2 = '¡Aviso! Has relizado una donación de $ {}. El beneficiario es: {}. Gracias por ser una buena persona y apoyar el sueño de otro'.format(ptransaction.amount, 
+                        ptransaction.scolarship_donation.id_user)
+            notification = Notification(content=message2,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.donor_user
             usernot.notifications.add(notification)
             
             data = {'Transaction': transaction, 'Institution': institution}
@@ -646,10 +653,17 @@ class Pay1(TemplateView):
             )
             transaction.save()
 
-            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
+            message = '¡Felicidades! Has recibido una donación de $ {}. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
             notification = Notification(content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
+            usernot.notifications.add(notification)
+
+            message2 = '¡Aviso! Has relizado una donación de $ {}. El beneficiario es: {}. Gracias por ser una buena persona y apoyar el sueño de otro'.format(ptransaction.amount, 
+                        ptransaction.scolarship_donation.id_user)
+            notification = Notification(content=message2,is_read=False,timestamp=datenow)
+            notification.save()
+            usernot = ptransaction.donor_user
             usernot.notifications.add(notification)
 
             data = {'Transaction': transaction, 'Scholarship': scholarship}
@@ -698,12 +712,17 @@ class Pay2(TemplateView):
                 type_pay='Cards'
             )
             transaction.save()
-            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
+            message = '¡Felicidades! Has recibido una donación de $ {}. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
             notification = Notification(user=ptransaction.institution_donation,content=message,is_read=False,timestamp=datenow)
             notification.save()
-
             usernot = ptransaction.institution_donation
             usernot.notifications.add(notification)
+
+            message2 = '¡Aviso! Has realizado una donación de $ {}. El beneficiario es: {}. Gracias por ser una buena persona y apoyar el sueño de otro'.format(ptransaction.amount, ptransaction.institution_donation)
+            notification2 = Notification(user=ptransaction.donor_user, content=message2, is_read=False, timestamp=datenow)
+            notification2.save()
+            usernot2 = ptransaction.donor_user
+            usernot2.notifications.add(notification2)
 
             data = {'Transaction': transaction, 'Institution': institution}
         elif ptransaction.scolarship_donation is not None:
@@ -718,11 +737,18 @@ class Pay2(TemplateView):
             )
             transaction.save()
 
-            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
+            message = '¡Felicidades! Has recibido una donación de $ {}. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
             notification = Notification(user=ptransaction.scolarship_donation.id_user,content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
             usernot.notifications.add(notification)
+
+            message2 = '¡Aviso! Has realizado una donación de $ {}. El beneficiario es: {}. Gracias por ser una buena persona y apoyar el sueño de otro'.format(ptransaction.amount, ptransaction.scolarship_donation.id_user)
+            notification2 = Notification(user=ptransaction.donor_user, content=message2, is_read=False, timestamp=datenow)
+            notification2.save()
+            usernot2 = ptransaction.donor_user
+            usernot2.notifications.add(notification2)
+            
 
             data = {'Transaction': transaction, 'Scholarship': scholarship}
         else:
@@ -767,11 +793,17 @@ class Pay3(TemplateView):
                 type_pay='PSE'
             )
             transaction.save()
-            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
+            message = '¡Felicidades! Has recibido una donación de $ {}. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
             notification = Notification(user=ptransaction.institution_donation,content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.institution_donation
             usernot.notifications.add(notification)
+
+            message2 = '¡Aviso! Has realizado una donación de $ {}. El beneficiario es: {}. Gracias por tu generosidad y apoyo'.format(ptransaction.amount, ptransaction.institution_donation)
+            notification2 = Notification(user=ptransaction.donor_user, content=message2, is_read=False, timestamp=datenow)
+            notification2.save()
+            usernot2 = ptransaction.donor_user
+            usernot2.notifications.add(notification2)
 
             data = {'Transaction': transaction, 'Institution': institution}
         elif ptransaction.scolarship_donation is not None:
@@ -792,6 +824,13 @@ class Pay3(TemplateView):
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
             usernot.notifications.add(notification)
+
+            message2 = '¡Aviso! Has realizado una donación de $ {}. El beneficiario es: {}. Gracias por tu generosidad y apoyo'.format(ptransaction.amount, ptransaction.scolarship_donation.id_user)
+            notification2 = Notification(user=ptransaction.donor_user, content=message2, is_read=False, timestamp=datenow)
+            notification2.save()
+            usernot2 = ptransaction.donor_user
+            usernot2.notifications.add(notification2)
+
 
             data = {'Transaction': transaction, 'Scholarship': scholarship}
         else:
