@@ -604,7 +604,7 @@ class Pay1(TemplateView):
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
             usernot.notifications.add(notification)
-
+            
             data = {'Transaction': transaction, 'Institution': institution}
         elif ptransaction.scolarship_donation is not None:
             scholarship = ptransaction.scolarship_donation
