@@ -129,6 +129,16 @@ class BeneficiaryUpdateForm(forms.ModelForm):
     class Meta:
         model = Beneficiary
         fields = ['email', 'name', 'idType', 'numID', 'birth_date', 'gender','profilePicture']
+        labels = {
+            'email': 'Correo electrónico',
+            'name': 'Nombre',
+            'idType': 'Tipo de identificación',
+            'numID': 'Número de identificación',
+            'birth_date': 'Fecha de nacimiento',
+            'gender': 'Género',
+            'profilePicture': 'Foto de perfil',
+        }
+
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -155,6 +165,14 @@ class NaturalDonorUpdateForm(forms.ModelForm):
     class Meta:
         model = NaturalDonor
         fields = ['email', 'name', 'idType', 'numID', 'profilePicture']
+        labels = {
+            'email': 'Correo electrónico',
+            'name': 'Nombre',
+            'idType': 'Tipo de identificación',
+            'numID': 'Número de identificación',
+            'profilePicture': 'Foto de perfil',
+        }
+
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -175,6 +193,14 @@ class LegalDonorUpdateForm(forms.ModelForm):
     class Meta:
         model = LegalDonor
         fields = ['email', 'name', 'idType', 'numID','description', 'profilePicture']
+        labels = {
+            'email': 'Correo electrónico',
+            'name': 'Nombre',
+            'idType': 'Tipo de identificación',
+            'numID': 'Número de identificación',
+            'description': 'Descripción',
+            'profilePicture': 'Foto de perfil',
+        }
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -197,6 +223,18 @@ class InstitutionUpdateForm(forms.ModelForm):
     class Meta:
         model = Institution
         fields = ['email', 'name', 'idType', 'numID','description', 'profilePicture']
+        labels = {
+            'email': 'Correo electrónico',
+            'name': 'Razón social',
+            'idType': 'Tipo de identificación',
+            'numID': 'Número de identificación',
+            'type_institution': 'Tipo de institución',
+            'city': 'Ciudad',
+            'address': 'Dirección',
+            'description': 'Descripción',
+            'profilePicture': 'Foto de perfil',
+        }
+
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
