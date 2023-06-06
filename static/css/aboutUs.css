@@ -1,0 +1,65 @@
+/* Estilos generales */
+body {
+    background-color: #F29F05;
+    color: black;
+    font-family: 'DM Sans', sans-serif;
+  }
+  
+  .container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  
+  h1, h2, h3 {
+    color: white;
+    font-family: 'Roboto Condensed', sans-serif;
+  }
+  
+  p {
+    color: black;
+    font-family: 'DM Sans', sans-serif;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  /* Estilos para la sección hero */
+  .hero-section {
+    background-color: #A4D955;
+    padding: 40px 0;
+  }
+  
+  /* Estilos para la sección de contenido */
+  .content-section {
+    padding: 40px 0;
+  }
+  
+  .content-section h2 {
+    margin-top: 0;
+  }
+  
+  .content-section img {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para la sección de iconos */
+  .icon-section {
+    background-color: white;
+    padding: 40px 0;
+  }
+  
+  .icon-section h3 {
+    margin-top: 20px;
+  }
+  
+  .icon-section p {
+    margin-bottom: 20px;
+  }
+  
+  .icon-section img {
+    width: 150px;
+    margin-bottom: 20px;
+  }
+  

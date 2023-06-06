@@ -163,6 +163,24 @@ li{
 
 }
 
+#profile .nav-link {
+    font-family: Arial, sans-serif;
+  }
+  
+  #profile img {
+    max-width: 4rem;
+    max-height: 4rem;
+    border-radius: 10px;
+    margin-right: 0.5rem;
+  }
+  
+  #profileDropdown .dropdown-item {
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+  }
+  
+
+
 
 
 
