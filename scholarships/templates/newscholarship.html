@@ -20,13 +20,6 @@
 <body>
 
   {% block content %}
-  <!-- Menú lateral -->
-
-
-  <!--<button class="btn btn-primary mb-3 d-block d-md-none float-end w-50" type="button" data-bs-toggle="collapse" data-bs-target="#rightbar">más</button>-->
-
-  <!-- Formulario en el centro -->
-
 
   <div class="row mb-3 flex-sm-row" id="contTitulo">
     <div class="col-md-8">
@@ -95,9 +88,11 @@
                 <option selected disabled value="">Seleccione</option>
                 {% if institutions %}
                 {% for x in institutions %}
+                {% if x.verificationState == 'A' %}
                 <option>
                   {{ x.name }}
                 </option>
+                {% endif %}
                 {% endfor %}
                 {% endif %}
               </select>
@@ -125,7 +120,7 @@
         <fieldset class="form-group">
           <div class="row mb-3">
             <div class="col-md-6" id="campo">
-              <label for="totalPeriodos"><strong>Número de periodos a cursar</strong></label>
+              <label for="totalPeriodos"><strong>Número de semestre totales</strong></label>
               <input type="number" class="form-control" name="totalPeriodos" id="totalPeriodos" min="1" max="20"
                 required>
             </div>
