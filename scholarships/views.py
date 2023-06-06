@@ -119,7 +119,15 @@ class InsertScholarship(View):
                                         program_adm=program,application_type=optionnew,state='P',
                                         total_periods=totalP,active='AC',date_application=now,id_user=ben,institution=institutionvalue)
                 scolarship.save()
+                
+                admin_us = User.objects.filter(role=User.ADMIN)
 
+                for admin_u in admin_us:
+                    message = '¡Nueva solicitud de beca recibida! Beneficiario: {}'.format(ben.get_full_name())
+                    notification = Notification(content=message, is_read=False)
+                    notification.save()
+
+                    admin_u.notifications.add(notification)
                 contexto = {
                     'solicitud_activa': scolarship,
                 }
@@ -131,12 +139,22 @@ class InsertScholarship(View):
                                         program_adm=program,application_type=optionnew,state='P',
                                         total_periods=totalP,active='IN',date_application=now,id_user=ben)
                 scolarship.save()
-  
+
+                admin_users = User.objects.filter(role=User.ADMIN)
+
+                for admin_user in admin_users:
+                    message = '¡Nueva solicitud de beca recibida! Beneficiario: {}'.format(ben.get_full_name())
+                    notification = Notification(content=message, is_read=False)
+                    notification.save()
+
+                    admin_user.notifications.add(notification)
+
                 contexto = {
                     'solicitud_activa': scolarship,
                 }
 
                 return render(request, 'menu.html', contexto)
+                
 
 class EditSolicitud(View):
     def get(self,request):
@@ -352,6 +370,15 @@ class LookInstitutions(ListView):
 
         if state_filter:
             institutions = institutions.filter(verificationState__startswith=state_filter)
+
+        user = User.objects.get(id=request.user.id)
+        notifications = user.notifications.all()
+
+        for notification in notifications:
+            if 'institución' in notification.content:
+                notification.is_read = True
+                notification.save()
+
         data = {'institutions':institutions,'cities':cities,'types':types, 'verificationStates':verificationStates, 'state_filter': state_filter}
         return render(request, 'lookinstitution.html',data)
     
@@ -599,7 +626,8 @@ class Pay1(TemplateView):
             )
             transaction.save()
 
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
+
             notification = Notification(content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
@@ -618,7 +646,7 @@ class Pay1(TemplateView):
             )
             transaction.save()
 
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
             notification = Notification(content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
@@ -670,7 +698,7 @@ class Pay2(TemplateView):
                 type_pay='Cards'
             )
             transaction.save()
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
             notification = Notification(user=ptransaction.institution_donation,content=message,is_read=False,timestamp=datenow)
             notification.save()
 
@@ -690,7 +718,7 @@ class Pay2(TemplateView):
             )
             transaction.save()
 
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
             notification = Notification(user=ptransaction.scolarship_donation.id_user,content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
@@ -739,7 +767,7 @@ class Pay3(TemplateView):
                 type_pay='PSE'
             )
             transaction.save()
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            message = '¡Felicidades! Has recibido una donación de {} USD. El donador es: {}'.format(ptransaction.amount, ptransaction.donor_user.get_full_name())
             notification = Notification(user=ptransaction.institution_donation,content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.institution_donation
@@ -759,7 +787,7 @@ class Pay3(TemplateView):
 
             transaction.save()
 
-            message = '¡Felicidades! Acabas de recibir una donación. Esto ayudará a tu causa.'
+            message = '¡Felicidades! Has recibido una donación de {} por ${}.'.format(ptransaction.donor_user.get_full_name(), ptransaction.amount)
             notification = Notification(user=ptransaction.scolarship_donation.id_user,content=message,is_read=False,timestamp=datenow)
             notification.save()
             usernot = ptransaction.scolarship_donation.id_user
